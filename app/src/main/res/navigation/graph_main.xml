@@ -1,0 +1,22 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/graph_main"
+    app:startDestination="@id/nav_start_up">
+
+    <!--    <action-->
+    <!--        android:id="@+id/globalToHome"-->
+    <!--        app:destination="@id/graph_home"-->
+    <!--        app:enterAnim="@anim/nav_enter_anim"-->
+    <!--        app:exitAnim="@anim/nav_exit_anim"-->
+    <!--        app:popEnterAnim="@anim/nav_enter_pop_anim"-->
+    <!--        app:popExitAnim="@anim/nav_exit_pop_anim" />-->
+
+    <fragment
+        android:id="@+id/nav_start_up"
+        android:name="com.pharmacy.manager.components.startUp.StartUpFragment"
+        android:label="StartUp"
+        tools:layout="@layout/fragment_startup">
+
+    </fragment>
+</navigation>
