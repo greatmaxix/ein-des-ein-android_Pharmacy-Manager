@@ -8,7 +8,9 @@ import com.pharmacy.manager.core.general.SingleLiveEvent
 import com.pharmacy.manager.core.network.Resource.*
 import com.pharmacy.manager.data.GeneralErrorHandler
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
 
@@ -34,4 +36,7 @@ abstract class BaseViewModel : ViewModel() {
             emit(Error(errorHandler.checkThrowable(e)))
         }
     }
+
+    fun launchIO(block: suspend CoroutineScope.() -> Unit) =
+        viewModelScope.launch(IO, block = block)
 }

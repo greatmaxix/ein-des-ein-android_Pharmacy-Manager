@@ -1,9 +1,12 @@
 package com.pharmacy.manager
 
 import android.app.Application
+import androidx.work.WorkManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.pharmacy.manager.components.devTools.devToolsModule
-import com.pharmacy.manager.components.startUp.startUpModule
+import com.pharmacy.manager.components.home.homeModule
+import com.pharmacy.manager.components.signIn.signInModule
+import com.pharmacy.manager.components.splash.splashModule
 import com.pharmacy.manager.data.local.DBManager
 import com.pharmacy.manager.data.local.SPManager
 import com.pharmacy.manager.data.rest.restModule
@@ -46,7 +49,9 @@ class App : Application() {
                 restModule,
                 managersModule,
                 devToolsModule,
-                startUpModule
+                splashModule,
+                signInModule,
+                homeModule
             )
         }
     }
@@ -54,5 +59,6 @@ class App : Application() {
     private val managersModule = module {
         single { SPManager(androidApplication()) }
         single { DBManager(androidApplication()) }
+        single { WorkManager.getInstance(androidApplication()) }
     }
 }

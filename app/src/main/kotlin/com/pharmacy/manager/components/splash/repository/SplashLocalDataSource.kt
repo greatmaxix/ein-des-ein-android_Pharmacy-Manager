@@ -1,8 +1,8 @@
-package com.pharmacy.manager.components.startUp.repository
+package com.pharmacy.manager.components.splash.repository
 
 import com.pharmacy.manager.data.local.SPManager
 
-class StartUpLocalDataSource(private val sp: SPManager) {
+class SplashLocalDataSource(private val sp: SPManager) {
 
     val isUserLoggedIn
         get() = sp.accessToken.isNotBlank()
