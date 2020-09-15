@@ -36,6 +36,6 @@ class SignInFragment(private val vm: SignInViewModel) : BaseMVVMFragment(R.layou
     }
 
     override fun onBindLiveData() {
-        observe(vm.directionLiveData) { navController.navigate(this) }
+        observe(vm.directionLiveData, navController::navigate)
     }
 }

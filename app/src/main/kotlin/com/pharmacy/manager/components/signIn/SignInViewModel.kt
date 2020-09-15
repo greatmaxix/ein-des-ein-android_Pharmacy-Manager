@@ -16,6 +16,7 @@ class SignInViewModel(private val repository: SignInRepository) : BaseViewModel(
     fun performSignIn(email: String, password: String) {
         launchIO {
             delay(1000) // TODO stub
+            repository.setUserLoggedIn()
             _directionLiveData.postValue(globalToHome())
         }
     }

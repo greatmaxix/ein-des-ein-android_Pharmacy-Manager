@@ -5,9 +5,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.ui.setupWithNavController
 import com.pharmacy.manager.R
 import com.pharmacy.manager.core.base.BaseActivity
-import com.pharmacy.manager.core.extensions.setTopRoundCornerBackground
-import com.pharmacy.manager.core.extensions.translateYDown
-import com.pharmacy.manager.core.extensions.translateYUp
+import com.pharmacy.manager.core.extensions.*
 import com.pharmacy.manager.core.general.behavior.MessagesBehavior
 import com.pharmacy.manager.core.general.behavior.ProgressViewBehavior
 import com.pharmacy.manager.core.general.interfaces.MessagesCallback
@@ -33,9 +31,6 @@ class MainActivity : BaseActivity(R.layout.activity_main), ProgressCallback, Mes
     private fun setupNavigation() = with(bottomNavMain) {
         bottomNavMain.setTopRoundCornerBackground()
         setupWithNavController(navController)
-        setOnNavigationItemSelectedListener {
-            true
-        }
         setOnNavigationItemReselectedListener {}
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.isTopLevelDestination) showNavViews() else hideNavViews()
@@ -62,6 +57,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), ProgressCallback, Mes
     }
 
     private fun showNavViews() {
+        ivChatMain.animateVisibleIfNot()
         bottomNavMain.translateYUp()
         ivChatMain.translateYUp()
     }
@@ -69,5 +65,6 @@ class MainActivity : BaseActivity(R.layout.activity_main), ProgressCallback, Mes
     private fun hideNavViews() {
         bottomNavMain.translateYDown()
         ivChatMain.translateYDown()
+        ivChatMain.animateGoneIfNot()
     }
 }

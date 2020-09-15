@@ -54,8 +54,24 @@ fun View.animateVisibleIfNot(duration: Long = 100) {
     }
 }
 
-inline fun View.onClick(crossinline f: () -> Unit) {
-    setOnClickListener { f.invoke() }
+fun View.visibleOrGone(visible: Boolean) {
+    if (visible) visible() else gone()
+}
+
+fun View.visible() {
+    if (visibility != VISIBLE) {
+        visibility = VISIBLE
+    }
+}
+
+fun View.gone() {
+    if (visibility != GONE) {
+        isGone = true
+    }
+}
+
+fun View.animateVisibleOrGoneIfNot(visible: Boolean, duration: Long = 100) {
+    if (visible) animateVisibleIfNot(duration) else animateGoneIfNot(duration)
 }
 
 fun View.hideKeyboard(needClearFocus: Boolean = true) =
@@ -162,3 +178,6 @@ fun View.setTopRoundCornerBackground(
 
     ViewCompat.setBackground(this, shape)
 }
+
+val View.isKeyboardNotOpen
+    get() = !isKeyboardOpen

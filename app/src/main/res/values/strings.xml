@@ -1,10 +1,18 @@
 <resources>
     <string name="app_name">Pharmacy-Manager</string>
 
+    <string name="common_closeButton">@android:string/cancel</string>
+    <string name="common_okButton">@android:string/ok</string>
+
+    <!-- Error -->
     <string name="error_network">Network error</string>
     <string name="error_unknown">Unknown error</string>
+
+    <!-- Main -->
     <string name="menuTitleMain">Главная</string>
     <string name="menuTitleProfile">Профиль</string>
+
+    <!-- Sign in -->
     <string name="welcomeBackAuth">С возвращением!</string>
     <string name="pleaseAuth">Что бы войти в систему, введите зарегестрированный адрес электронной почты</string>
     <string name="emailHintAuth">Email</string>
