@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/greyLight"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipChildren="true">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMessagesChat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/_12sdp" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/llMessageFieldChat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorGlobalWhite"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/_12sdp"
+        android:paddingTop="@dimen/_8sdp"
+        android:paddingEnd="@dimen/_20sdp"
+        android:paddingBottom="@dimen/_8sdp">
+
+        <ImageView
+            android:id="@+id/ivProductAttachment"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/background_default_ripple_selector_circle"
+            android:padding="@dimen/_6sdp"
+            android:src="@drawable/ic_grid"
+            android:tint="@color/selector_attachment_button" />
+
+        <ImageView
+            android:id="@+id/ivFileAttachment"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/background_default_ripple_selector_circle"
+            android:padding="@dimen/_6sdp"
+            android:src="@drawable/ic_attachment" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_32sdp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilMessageChat"
+                style="@style/TextInputStyle"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:gravity="center_vertical"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|top"
+                    android:hint="@string/chatMessageFieldHint"
+                    android:imeOptions="actionSend"
+                    android:inputType="textCapSentences"
+                    android:maxLines="10"
+                    android:paddingEnd="@dimen/_40sdp"
+                    android:textSize="@dimen/_11ssp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/ivButtonSendChat"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:background="@drawable/background_default_ripple_selector_circle"
+                android:padding="@dimen/_6sdp"
+                android:src="@drawable/ic_send"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llProductContainer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_240sdp"
+        android:background="@color/lightGrey"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <com.pharmacy.manager.widget.AppSearchView
+            android:id="@+id/searchViewChatList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_16sdp"
+            app:cardCornerRadius="@dimen/_16sdp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvProductChat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+</LinearLayout>

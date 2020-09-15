@@ -1,7 +1,7 @@
 object Versions {
 
     // kotlin
-    const val kotlinVersion = "1.4.0-rc"
+    const val kotlinVersion = "1.4.10"
 
     //desugaring
     const val desugaringJdk = "1.0.10"
@@ -14,9 +14,9 @@ object Versions {
     const val gradleBuildTools = "4.0.1"
     const val kotlinGradlePlugin = kotlinVersion
     const val navigationSafeArgsGradle = navigationFragment
-    const val crashlyticsPlugin = "2.2.0"
+    const val crashlyticsPlugin = "2.3.0"
     const val versionberg = "1.0.2"
-    const val versionsPlugin = "0.29.0"
+    const val versionsPlugin = "0.33.0"
     const val googleServices = "4.3.3"
 
     // lifecycle
@@ -30,13 +30,13 @@ object Versions {
     const val coroutinesAndroid = coroutinesCore
 
     // koin di
-    const val koin = "2.1.5"
+    const val koin = "2.2.0-beta-1"
 
     // networking
     const val gson = "2.8.6"
     const val retrofit = "2.9.0"
     const val converterGson = retrofit
-    const val okHttp = "4.8.1"
+    const val okHttp = "4.9.0"
     const val loggingInterceptor = "3.1.0"
 
     // database

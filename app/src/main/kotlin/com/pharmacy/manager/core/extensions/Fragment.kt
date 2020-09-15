@@ -3,11 +3,14 @@ package com.pharmacy.manager.core.extensions
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.pharmacy.manager.BuildConfig
+import com.pharmacy.manager.core.base.fragment.dialog.AlertDialogData
+import com.pharmacy.manager.core.base.fragment.dialog.AlertDialogDataRes
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -64,3 +67,14 @@ inline fun Fragment.debug(code: () -> Unit) {
         code()
     }
 }
+
+fun Fragment.alert(message: String, block: AlertDialogData.() -> Unit) = requireActivity().alert(message, block)
+
+fun Fragment.showAlert(message: String, block: AlertDialogData.() -> Unit) = requireActivity().showAlert(message, block)
+
+fun Fragment.showAlert(@StringRes resId: Int, block: AlertDialogData.() -> Unit) = requireActivity().showAlert(getString(resId), block)
+
+fun Fragment.showAlertRes(@StringRes resId: Int, block: AlertDialogDataRes.() -> Unit) =
+    requireActivity().showAlertRes(getString(resId), block)
+
+fun Fragment.showAlertRes(message: String, block: AlertDialogDataRes.() -> Unit) = requireActivity().showAlertRes(message, block)

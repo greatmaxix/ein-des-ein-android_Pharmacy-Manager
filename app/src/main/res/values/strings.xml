@@ -18,5 +18,18 @@
     <string name="emailHintAuth">Email</string>
     <string name="signIn">Войти</string>
     <string name="password">Password</string>
-    <string name="forgotPassword">Забыли пароль?</string>
+
+    <!-- Chat -->
+    <string name="chatMessageFieldHint">Что Вас волнует?</string>
+    <string name="readDateHolder">Прочитано %s</string>
+    <string name="sendPhotoGallery">Галерея</string>
+    <string name="sendPhotoCamera">Камера</string>
+    <string name="sendPhotoError">Произошла ошибка добавления изображения</string>
+    <string name="cameraPermissionRationaleMessageChat">Разрешение на доступ к камере необходимо для отправки изображений в чат</string>
+    <string name="cameraPermissionPermanentlyDenied">Доступ к камере запрещен. Пожалуйста, перейдите в настройки в раздел Разрешения и предоставьте приложению доступ к камере</string>
+    <string name="permissionDialogSettingsButton">Настройки</string>
+    <string name="permissionDialogCancel">Отмена</string>
+    <string name="cameraPermissionDenied">Доступ к камере запрещен</string>
+    <string name="cameraPermissionNoCameraOnDevice">На устройстве отсутствует камера</string>
+
 </resources>

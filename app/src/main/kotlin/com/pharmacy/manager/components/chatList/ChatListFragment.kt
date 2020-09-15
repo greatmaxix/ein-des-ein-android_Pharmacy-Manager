@@ -2,7 +2,6 @@ package com.pharmacy.manager.components.chatList
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,7 +38,7 @@ class ChatListFragment(private val vm: ChatListViewModel) : BaseMVVMFragment(R.l
         attachBackPressCallback {
             if (searchViewChatList.isVisible) {
                 searchViewChatList.animateGoneIfNot()
-                toolbar?.menu?.get(R.menu.search)?.isVisible = true
+                toolbar?.menu?.findItem(R.menu.search)?.isVisible = true
             } else {
                 navController.popBackStack()
             }

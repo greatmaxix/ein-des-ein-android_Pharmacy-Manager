@@ -31,5 +31,21 @@
             android:name="chat"
             app:argType="com.pharmacy.manager.components.chatList.model.TempChat" />
 
+
+        <action
+            android:id="@+id/fromChatToSendImageBottomSheet"
+            app:destination="@id/nav_send_image"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
     </fragment>
+
+    <dialog
+        android:id="@+id/nav_send_image"
+        android:name="com.pharmacy.manager.components.chat.dialog.SendBottomSheetDialogFragment"
+        android:label="SendBottomSheet"
+        tools:layout="@layout/dialog_send_photo_bottom_sheet" />
+
 </navigation>

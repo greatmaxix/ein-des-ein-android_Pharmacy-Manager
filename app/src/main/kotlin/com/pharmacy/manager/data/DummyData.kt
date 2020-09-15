@@ -1,5 +1,6 @@
 package com.pharmacy.manager.data
 
+import com.pharmacy.manager.components.chat.model.TempProduct
 import com.pharmacy.manager.components.chatList.model.TempChat
 
 object DummyData {
@@ -48,4 +49,22 @@ object DummyData {
             "12:29"
         )
     )
+
+    val userResponses = arrayListOf(
+        "Да, от лимона у меня краснеют щеки и от мяты глаза чешуться и слезяться иногда",
+        "Чихаю периодически",
+        "Горло красное и першит",
+        "В легких скопилась мокрота",
+        "Еще какой то странный текст с симптомами болезни"
+    )
+
+    val products = (1..15).map {
+        TempProduct(
+            "Рецепт 123",
+            "https://s3.eu-west-1.amazonaws.com/i.apteka24.ua/products/1d1909e2-b7ff-11ea-96c2-0635d0043582-medium.png",
+            "Название продукта $it",
+            "Таблетки шипучие, 24 шт",
+            "568 ₽"
+        )
+    }
 }

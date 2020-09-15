@@ -13,7 +13,7 @@ abstract class BaseMVVMActivity<out VM : BaseViewModel>(
     viewModelClass: KClass<VM>
 ) : BaseActivity(layoutResourceId) {
 
-    protected val viewModel: VM by lazy { getViewModel<VM>(viewModelClass) }
+    protected val viewModel: VM by lazy { getViewModel(clazz = viewModelClass) }
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
