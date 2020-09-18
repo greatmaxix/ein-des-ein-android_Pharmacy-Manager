@@ -10,7 +10,7 @@
         android:id="@+id/llToolbarContainerChatList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_bottom_right_corner"
+        android:background="@drawable/background_bottom_corners"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

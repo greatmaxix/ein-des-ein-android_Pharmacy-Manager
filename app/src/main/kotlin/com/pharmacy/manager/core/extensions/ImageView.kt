@@ -52,7 +52,7 @@ fun <T> ImageView.loadCircularImage(
         })
 }
 
-private fun Bitmap.createBitmapWithBorder(borderSize: Float, borderColor: Int): Bitmap {
+fun Bitmap.createBitmapWithBorder(borderSize: Float, borderColor: Int): Bitmap {
     val borderOffset = (borderSize * 2).toInt()
     val halfWidth = width / 2
     val halfHeight = height / 2

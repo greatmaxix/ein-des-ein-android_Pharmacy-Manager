@@ -15,7 +15,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/nav_profile"
+        android:id="@+id/graph_profile"
         android:icon="@drawable/ic_avatar_placeholder"
         android:title="@string/menuTitleProfile"
         app:showAsAction="ifRoom" />

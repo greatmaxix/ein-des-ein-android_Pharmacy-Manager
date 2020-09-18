@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGrey"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchPushNotifications"
+        style="@style/NotificationSwitch"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:text="@string/pushNotifications" />
+
+    <include layout="@layout/divider_notifications" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchEmailNotifications"
+        style="@style/NotificationSwitch"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:text="@string/emailDistribution" />
+
+    <include layout="@layout/divider_notifications" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchNewChatRequestNotifications"
+        style="@style/NotificationSwitch"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:text="@string/newChatRequest" />
+
+    <include layout="@layout/divider_notifications" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchRatingUpdateNotifications"
+        style="@style/NotificationSwitch"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:text="@string/ratingUpdate" />
+
+    <include layout="@layout/divider_notifications" />
+
+</LinearLayout>
