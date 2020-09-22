@@ -40,6 +40,7 @@
         android:layout_height="@dimen/match_constraint"
         android:clipToPadding="false"
         android:paddingHorizontal="@dimen/_8sdp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:paddingTop="@dimen/_12sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/llToolbarContainerChatList" />

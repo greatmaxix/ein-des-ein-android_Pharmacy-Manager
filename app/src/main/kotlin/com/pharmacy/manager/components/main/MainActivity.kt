@@ -3,6 +3,7 @@ package com.pharmacy.manager.components.main
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.navigation.NavDestination
@@ -44,6 +45,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), ProgressCallback, Mes
         setOnNavigationItemReselectedListener {}
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.isTopLevelDestination) showNavViews() else hideNavViews()
+            if (destination.isTopDestinationAndHome) window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS) else window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             changeIcons(destination)
         }
         translationZ = 1f

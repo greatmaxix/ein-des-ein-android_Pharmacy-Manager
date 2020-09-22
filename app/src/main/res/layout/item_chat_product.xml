@@ -61,15 +61,26 @@
                 tools:text="Название товара" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvPricePrefix"
+                style="@style/Text.CheckoutEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/from"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvChatProductPrice"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvChatProductPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4sdp"
                 android:textColor="@color/primaryBlue"
                 android:textSize="@dimen/_15ssp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="от 568 ₽" />
+                app:layout_constraintBottom_toBottomOf="@+id/tvPricePrefix"
+                app:layout_constraintStart_toEndOf="@+id/tvPricePrefix"
+                tools:text="568 ₽" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
