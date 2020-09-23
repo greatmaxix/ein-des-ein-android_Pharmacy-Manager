@@ -27,7 +27,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), ProgressCallback, Mes
 
     private val progressBehavior by lazy { attachBehavior(ProgressViewBehavior(progress)) }
     private val messagesBehavior by lazy { attachBehavior(MessagesBehavior(this)) }
-    private val topLevelDestinations = intArrayOf(R.id.nav_home, R.id.nav_profile) // TODO add destinations
+    private val topLevelDestinations = intArrayOf(R.id.nav_home, R.id.nav_categories, R.id.nav_chat_list, R.id.nav_profile) // TODO add destinations
     private val NavDestination.isTopLevelDestination
         get() = topLevelDestinations.contains(id)
     private val NavDestination.isTopDestinationAndHome
@@ -44,7 +44,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), ProgressCallback, Mes
         setupWithNavController(navController)
         setOnNavigationItemReselectedListener {}
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.isTopLevelDestination) showNavViews() else hideNavViews()
+            if (destination.isTopLevelDestination) bottomNavMain.translateYUp() else bottomNavMain.translateYDown()
             if (destination.isTopDestinationAndHome) window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS) else window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             changeIcons(destination)
         }
@@ -69,21 +69,13 @@ class MainActivity : BaseActivity(R.layout.activity_main), ProgressCallback, Mes
         } ?: super.onBackPressed()
     }
 
-    private fun showNavViews() {
-        ivChatMain.animateVisibleIfNot()
-        bottomNavMain.translateYUp()
-        ivChatMain.translateYUp()
-    }
-
-    private fun hideNavViews() {
-        bottomNavMain.translateYDown()
-        ivChatMain.translateYDown()
-        ivChatMain.animateGoneIfNot()
-    }
-
     private fun BottomNavigationView.changeIcons(destination: NavDestination) {
         bottomNavMain.menu.findItem(R.id.nav_home)?.icon =
             ContextCompat.getDrawable(context, if (destination.isTopDestinationAndHome) R.drawable.ic_home_blue else R.drawable.ic_home)
+        bottomNavMain.menu.findItem(R.id.nav_chat_list)?.icon =
+            ContextCompat.getDrawable(context, if (destination.id == R.id.nav_chat_list) R.drawable.ic_chat_blue else R.drawable.ic_chat)
+        bottomNavMain.menu.findItem(R.id.nav_categories)?.icon =
+            ContextCompat.getDrawable(context, if (destination.id == R.id.nav_categories) R.drawable.ic_category_blue else R.drawable.ic_category)
         val border = if (destination.id == R.id.nav_profile) resources.getDimensionPixelSize(R.dimen._2sdp).toFloat() else 0f
         Glide.with(context)
             .asBitmap()

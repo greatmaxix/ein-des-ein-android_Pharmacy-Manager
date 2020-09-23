@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.work.WorkManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.pharmacy.manager.components.aboutApp.aboutAppModule
+import com.pharmacy.manager.components.category.categoriesModule
 import com.pharmacy.manager.components.chat.chatModule
 import com.pharmacy.manager.components.chatList.chatListModule
 import com.pharmacy.manager.components.devTools.devToolsModule
@@ -73,7 +74,8 @@ class App : Application() {
                 textInfoModule,
                 codeScannerModule,
                 searchModule,
-                productCardModule
+                productCardModule,
+                categoriesModule
             )
         }
     }
