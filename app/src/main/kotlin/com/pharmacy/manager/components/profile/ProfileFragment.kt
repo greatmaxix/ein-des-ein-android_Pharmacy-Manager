@@ -3,6 +3,7 @@ package com.pharmacy.manager.components.profile
 import android.os.Bundle
 import android.view.View
 import com.pharmacy.manager.R
+import com.pharmacy.manager.components.profile.ProfileFragmentDirections.Companion.actionFromProfileToSplash
 import com.pharmacy.manager.components.profile.ProfileFragmentDirections.Companion.fromProfileToAboutApp
 import com.pharmacy.manager.components.profile.ProfileFragmentDirections.Companion.fromProfileToNeedHelp
 import com.pharmacy.manager.components.profile.ProfileFragmentDirections.Companion.fromProfileToNotifications
@@ -15,12 +16,6 @@ class ProfileFragment(private val vm: ProfileViewModel) : BaseMVVMFragment(R.lay
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // TODO set proper data
-        ivAvatarProfile.loadCircularImage("https://www.nj.com/resizer/h8MrN0-Nw5dB5FOmMVGMmfVKFJo=/450x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/SJGKVE5UNVESVCW7BBOHKQCZVE.jpg")
-        tvNameProfile.text = "Some user name"
-        tvEmailProfile.text = "some@user.email.com"
-        tvRatingProfile.text = getString(R.string.ratingHolder, 4.2)
 
 //        itemStatisticsProfile.setOnClick {
 //          TODO uncomment in future and set proper color in xml
@@ -42,9 +37,32 @@ class ProfileFragment(private val vm: ProfileViewModel) : BaseMVVMFragment(R.lay
                 getString(R.string.common_cancelButton)
             ).apply {
                 setNegativeListener { dialog, _ -> dialog.dismiss() }
-                setPositiveListener { _, _ -> vm.logout() }
+                setPositiveListener { _, _ -> performLogout() }
                 isCancelable = true
             }.show(childFragmentManager)
+        }
+    }
+
+    private fun performLogout() {
+        observeRestResult<Unit> {
+            liveData = vm.logout()
+            onEmmit = {
+                navController.navigate(actionFromProfileToSplash())
+            }
+        }
+    }
+
+    override fun onBindLiveData() {
+        super.onBindLiveData()
+
+        observe(vm.profileLiveData) {
+            val fullName = "$firstName $lastName"
+            tvNameProfile.text = fullName
+            tvEmailProfile.text = email
+
+            // TODO set proper data
+            ivAvatarProfile.loadCircularImage("https://www.nj.com/resizer/h8MrN0-Nw5dB5FOmMVGMmfVKFJo=/450x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/SJGKVE5UNVESVCW7BBOHKQCZVE.jpg")
+            tvRatingProfile.text = getString(R.string.ratingHolder, 4.2)
         }
     }
 }

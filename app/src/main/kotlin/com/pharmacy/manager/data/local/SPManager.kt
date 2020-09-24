@@ -14,6 +14,10 @@ class SPManager(context: Context) : BaseSharedPreferences(context), ManagerInter
         get() = get(Keys.ACCESS_TOKEN, "")
         set(value) = put(Keys.ACCESS_TOKEN, value)
 
+    var refreshToken: String
+        get() = get(Keys.REFRESH_TOKEN, "")
+        set(value) = put(Keys.REFRESH_TOKEN, value)
+
     var email: String
         get() = get(Keys.EMAIL, "")
         set(value) = put(Keys.EMAIL, value)
@@ -30,6 +34,7 @@ class SPManager(context: Context) : BaseSharedPreferences(context), ManagerInter
         PUSH_TOKEN,
         EMAIL,
         ACCESS_TOKEN,
+        REFRESH_TOKEN,
         QR_CODE_DESCRIPTION_SHOWN
     }
 }

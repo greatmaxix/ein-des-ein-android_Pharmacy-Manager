@@ -8,6 +8,7 @@ import com.pharmacy.manager.components.splash.repository.SplashLocalDataSource
 import com.pharmacy.manager.components.splash.repository.SplashRemoteDataSource
 import com.pharmacy.manager.components.splash.repository.SplashRepository
 import com.pharmacy.manager.components.splash.worker.UpdateProfileInfoWorker
+import com.pharmacy.manager.data.local.DBManager
 import org.koin.androidx.fragment.dsl.fragment
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -16,7 +17,7 @@ import org.koin.dsl.module
 val splashModule = module {
 
     single { SplashRepository(get(), get()) }
-    single { SplashLocalDataSource(get()) }
+    single { SplashLocalDataSource(get(), get<DBManager>().userDAO) }
     single { SplashRemoteDataSource(get()) }
 
     viewModel { SplashViewModel(get(), get()) }

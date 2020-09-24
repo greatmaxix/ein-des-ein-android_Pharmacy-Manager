@@ -35,6 +35,17 @@
             app:popEnterAnim="@anim/nav_enter_pop_anim"
             app:popExitAnim="@anim/nav_exit_pop_anim" />
 
+        <action
+            android:id="@+id/actionFromProfileToSplash"
+            app:destination="@id/nav_splash"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim"
+            app:popUpTo="@id/graph_main"
+            app:popUpToInclusive="true" />
+
     </fragment>
 
     <fragment

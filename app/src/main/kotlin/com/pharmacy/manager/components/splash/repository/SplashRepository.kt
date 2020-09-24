@@ -7,4 +7,8 @@ class SplashRepository(
 
     val isUserLoggedIn
         get() = lds.isUserLoggedIn
+
+    suspend fun fetchUser() = rds.fetchUser()
+        .dataOrThrow()
+        .apply { lds.saveUser(item) }
 }
