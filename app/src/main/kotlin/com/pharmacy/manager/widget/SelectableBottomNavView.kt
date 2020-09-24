@@ -4,19 +4,21 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.navigation.NavDestination
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pharmacy.manager.R
 import com.pharmacy.manager.core.extensions.compatColor
+import com.pharmacy.manager.core.extensions.compatDrawable
 import com.pharmacy.manager.core.extensions.createBitmapWithBorder
 
 class SelectableBottomNavView @JvmOverloads constructor(
@@ -33,30 +35,49 @@ class SelectableBottomNavView @JvmOverloads constructor(
         set(value) {
             field = value
             updateProfileIconState()
+            value.forEach {
+                setItemColor(it, defaultColor)
+            }
         }
+
+    private fun setItemColor(it: NavItem, @ColorInt color: Int) {
+        if (it.iconResId != null) {
+            menu.findItem(it.menuItemId)?.icon = context.compatDrawable(it.iconResId)?.apply {
+                DrawableCompat.setTint(this, color)
+            }
+        }
+    }
 
     private fun updateProfileIconState(selected: Boolean = false) {
         val item = navItems.firstOrNull { it.iconUrl != null }
         if (item != null) {
-            Glide.with(context)
-                .asBitmap()
-                .load(item.iconUrl)
-                .placeholder(R.drawable.ic_avatar_placeholder)
-                .apply(RequestOptions.circleCropTransform())
-                .into(object : CustomTarget<Bitmap>(AVATAR_SIZE, AVATAR_SIZE) {
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        menu.findItem(item.menuItemId)?.icon = resource.run {
-                            RoundedBitmapDrawableFactory.create(resources, if (selected) createBitmapWithBorder(selectedBorder, context.compatColor(R.color.primaryBlue)) else this)
-                                .apply {
+            if (item.iconUrl.isNullOrEmpty().not()) {
+                Glide.with(context)
+                    .asBitmap()
+                    .load(item.iconUrl)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .placeholder(R.drawable.ic_avatar_placeholder)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(object : CustomTarget<Bitmap>(AVATAR_SIZE, AVATAR_SIZE) {
+                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                            menu.findItem(item.menuItemId)?.icon = resource.run {
+                                RoundedBitmapDrawableFactory.create(
+                                    resources,
+                                    if (selected) createBitmapWithBorder(selectedBorder, selectedColor) else this
+                                ).apply {
                                     isCircular = true
                                 }
+                            }
                         }
-                    }
 
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                        // no op
-                    }
-                })
+                        override fun onLoadCleared(placeholder: Drawable?) {
+                            // no op
+                        }
+                    })
+            } else {
+                menu.findItem(item.menuItemId)?.icon = context.compatDrawable(R.drawable.ic_avatar_placeholder)
+            }
         }
     }
 
@@ -65,25 +86,15 @@ class SelectableBottomNavView @JvmOverloads constructor(
 
         val currentNavItem = navItems.find { it.navigationItemResId == destination.id }
         lastSelectedItem?.let {
-            if (it.iconUrl != null) {
-                updateProfileIconState(false)
-            } else {
-                if (it.iconResId != null) {
-                    menu.findItem(it.menuItemId)?.icon = ContextCompat.getDrawable(context, it.iconResId)?.apply {
-                        DrawableCompat.setTint(this, defaultColor)
-                    }
-                }
+            when {
+                it.iconUrl != null -> updateProfileIconState(false)
+                else -> setItemColor(it, defaultColor)
             }
         }
         currentNavItem?.let {
-            if (it.iconUrl != null) {
-                updateProfileIconState(true)
-            } else {
-                if (it.iconResId != null) {
-                    menu.findItem(destination.id)?.icon = ContextCompat.getDrawable(context, it.iconResId)?.apply {
-                        DrawableCompat.setTint(this, selectedColor)
-                    }
-                }
+            when {
+                it.iconUrl != null -> updateProfileIconState(true)
+                else -> setItemColor(it, selectedColor)
             }
         }
 

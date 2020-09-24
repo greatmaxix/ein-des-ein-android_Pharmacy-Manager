@@ -33,11 +33,11 @@ class MainActivity : BaseActivity(R.layout.activity_main), ProgressCallback, Mes
     }
 
     private fun setupNavigation() = with(bottomNavMain) {
-        bottomNavMain.setTopRoundCornerBackground()
-        bottomNavMain.itemIconTintList = null
+        setTopRoundCornerBackground()
+        itemIconTintList = null
         // TODO get avatar from profile
         val avatar = "https://www.nj.com/resizer/h8MrN0-Nw5dB5FOmMVGMmfVKFJo=/450x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/SJGKVE5UNVESVCW7BBOHKQCZVE.jpg"
-        bottomNavMain.navItems = listOf(
+        navItems = listOf(
             SelectableBottomNavView.NavItem(R.id.nav_home, R.id.nav_home, R.drawable.ic_home, null),
             SelectableBottomNavView.NavItem(R.id.nav_categories, R.id.nav_categories, R.drawable.ic_category, null),
             SelectableBottomNavView.NavItem(R.id.nav_chat_list, R.id.nav_chat_list, R.drawable.ic_chat, null),
