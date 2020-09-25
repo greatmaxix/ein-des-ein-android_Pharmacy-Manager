@@ -53,4 +53,48 @@
     <string name="cashback">Про кешбек</string>
     <string name="versionHolder">Версия %s</string>
 
+    <!-- Home -->
+    <string name="startSearching">Начните поиск</string>
+    <string name="searchHintHome">Ношпа</string>
+    <string name="recentlyRecommended">Вы недавно рекомендовали</string>
+    <string name="willBeSoon">Скоро будет</string>
+    <string name="newRequests">Новых запросов</string>
+
+    <!-- Code scanner -->
+    <string name="qrCodeLabel">Штрих код</string>
+    <string name="cameraPermissionRationaleMessage">Разрешение на доступ к камере необходимо для сканирования QR кода</string>
+    <string name="grantPermissionButton">Разрешить</string>
+    <string name="closeButton">Закрыть</string>
+    <string name="qrCodeDescription">Наведите камеру на штрих-код, что бы найти его в приложении</string>
+    <string name="understandScan">Понятно! Сканировать</string>
+    <string name="pointToBarcode">Наведите на штрих код</string>
+    <string name="qrCodeDescriptionTop">Наведите камеру на штрих-код так, что бы он оказалася внутри прямоугольной области.</string>
+    <string name="qrCodeDescriptionBottom">Сканер автоматически считает штрих-код и найдет товар, если он присутсвует в нашей сети.</string>
+    <string name="qrCodeScannerError">Произошла ошибка сканирования кода</string>
+    <string name="cameraIconContentDescription">Иконка камеры</string>
+    <string name="temporaryUnavailable">Временно не доступен</string>
+    <string name="to">до </string>
+    <string name="from">от </string>
+    <string name="price">%1$s ₸</string>
+    <string name="manufacture">Производитель, %1$s</string>
+
+    <string name="productDescription">Описание :</string>
+    <string name="instruction">Инструкция</string>
+    <string name="instructionAttention">Перед употреблением, рекомендуем проконсультироваться с врачом и изучить инструкцию.</string>
+    <string name="remainQuestions">Остались вопросы?</string>
+    <string name="askPharmacist">Спроси фармацевта!</string>
+    <string name="productImageDiffDescription">Внешний вид упаковки может отличаться от фотографии</string>
+    <string name="analoguesAndMain">Аналоги и основное действующее вещетсво</string>
+    <string name="productCategory">Категория</string>
+    <string name="findInPharmacies">Найти в аптеках</string>
+
+    <string name="expectSoonMock">Ожидайте в ближайшее время</string>
+    <string name="noGoodsFoundTitle">Ой, кажется такого товара\nнет в нашей базе</string>
+    <string name="noGoodsFoundSubtitle">Повторите поиск или попробуйте\nнайти другой препарат</string>
+    <string name="noGoodsFoundImageContentDescription">Товар не найден</string>
+    <string name="chooseDrugstoreCart">Выбрать аптеку</string>
+    <string name="scanDrugsContentDescription">Сканировать товар</string>
+    <string name="countProducts">Найдено %d товара(ов)</string>
+    <string name="sort">Сортировать</string>
+
 </resources>

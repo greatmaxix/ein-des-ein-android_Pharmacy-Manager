@@ -9,6 +9,7 @@ import com.pharmacy.manager.core.adapter.BaseViewHolder
 import com.pharmacy.manager.core.extensions.inflate
 import com.pharmacy.manager.core.extensions.load
 import com.pharmacy.manager.core.extensions.resources
+import com.pharmacy.manager.core.extensions.setTextHtml
 import kotlinx.android.synthetic.main.item_chat_product.view.*
 
 class ProductViewHolder(itemView: View) : BaseViewHolder<ChatMessage>(itemView) {
@@ -24,13 +25,19 @@ class ProductViewHolder(itemView: View) : BaseViewHolder<ChatMessage>(itemView) 
             .build()
     }
 
-    override fun bind(item: ChatMessage) = with(itemView) {
-        val productMessage = item.asProduct()
-        tvChatProductRecipe.text = productMessage.product.recipeTitle
-        tvChatProductDescription.text = productMessage.product.description
-        tvChatProductPrice.text = productMessage.product.price
-        tvChatProductTitle.text = productMessage.product.name
-        ivChatProduct.load(productMessage.product.imageUrl)
+    override fun bind(item: ChatMessage) {
+        with(itemView) {
+            val productMessage = item.asProduct()
+            tvChatProductRecipe.text = "Рецепт" // TODO
+            tvChatProductDescription.text = productMessage.product.description
+            productMessage.product.aggregation?.let {
+                tvChatProductPrice.text = context.getString(R.string.price, it.minPrice.toString())
+            }
+            tvChatProductTitle.setTextHtml(productMessage.product.rusName)
+            productMessage.product.pictures.firstOrNull()?.let {
+                ivChatProduct.load(it.url)
+            }
+        }
     }
 
     companion object {

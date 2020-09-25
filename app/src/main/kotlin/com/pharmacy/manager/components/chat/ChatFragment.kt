@@ -145,7 +145,7 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
 
         searchViewChatList.setSearchListener { text ->
             viewLifecycleOwner.lifecycleScope.launch {
-                productAdapter.filter { it.name.contains(text, true).falseIfNull() || it.description.contains(text, true).falseIfNull() }
+                productAdapter.filter { it.rusName.contains(text, true).falseIfNull() || it.description.contains(text, true).falseIfNull() }
             }
         }
     }

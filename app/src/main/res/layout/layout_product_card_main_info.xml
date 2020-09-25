@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:clipToPadding="false"
+    android:paddingStart="@dimen/_12sdp"
+    android:paddingEnd="@dimen/_12sdp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/darkBlue"
+        android:textSize="@dimen/_18ssp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="АЛЛОПУРИНОЛ-ЭГИС, 40 мг" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvSubTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/darkBlue"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        tools:text="Таблетки шипучие, 24 шт" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvManufacture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:textColor="@color/greyText"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSubTitle"
+        tools:text="Chinoin Pharmaceutical and Chemical Works Co.  Венгрия" />
+
+    <TextView
+        android:id="@+id/tvPriceUnavailable"
+        style="@style/Text.CheckoutEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/temporaryUnavailable"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:textColor="@color/greyText"
+        android:textSize="@dimen/_13ssp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvManufacture"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tvPriceFromPrefix"
+        style="@style/Text.CheckoutEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:text="@string/from"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvManufacture" />
+
+    <TextView
+        android:id="@+id/tvPriceFrom"
+        style="@style/Text.CheckoutEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_4sdp"
+        android:textSize="@dimen/_18ssp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvPriceFromPrefix"
+        app:layout_constraintStart_toEndOf="@+id/tvPriceFromPrefix"
+        tools:text="580 ₸" />
+
+    <TextView
+        android:id="@+id/tvPriceToPrefix"
+        style="@style/Text.CheckoutEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_4sdp"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:text="@string/to"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintStart_toEndOf="@+id/tvPriceFrom"
+        app:layout_constraintTop_toBottomOf="@+id/tvManufacture" />
+
+    <TextView
+        android:id="@+id/tvPriceTo"
+        style="@style/Text.CheckoutEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_4sdp"
+        android:textSize="@dimen/_18ssp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvPriceToPrefix"
+        app:layout_constraintStart_toEndOf="@+id/tvPriceToPrefix"
+        tools:text="580 ₸" />
+
+    <include
+        android:id="@+id/productMainDivider"
+        layout="@layout/view_product_card_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/_12sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_goneMarginTop="@dimen/_48sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPriceFromPrefix" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcvAnalog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        app:cardBackgroundColor="@color/purple"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="0dp"
+        app:contentPadding="@dimen/_12sdp"
+        app:layout_constraintTop_toBottomOf="@+id/productMainDivider"
+        app:rippleColor="@color/colorRippleBlue">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtvAnalogTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/analoguesAndMain"
+                android:textColor="@color/colorGlobalWhite"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintEnd_toStartOf="@id/ivArrow"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvAnalog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:textColor="@color/colorGlobalWhite"
+                android:textSize="@dimen/_16ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ivArrow"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mtvAnalogTitle"
+                tools:text="Дротаверин" />
+
+            <ImageView
+                android:id="@+id/ivArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_arrow_right"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcvCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        app:cardBackgroundColor="@color/colorGlobalWhite"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:contentPadding="@dimen/_8sdp"
+        app:layout_constraintTop_toBottomOf="@+id/mcvAnalog"
+        app:rippleColor="@color/colorRippleBlue">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- TODO add corners when need -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivCategory"
+                android:layout_width="@dimen/_48sdp"
+                android:layout_height="@dimen/_48sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_logo_stub" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvCategoryTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:text="@string/productCategory"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintStart_toEndOf="@+id/ivCategory"
+                app:layout_constraintTop_toTopOf="@+id/ivCategory" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvCategoryDes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/primaryBlue"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/ivCategory"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvCategoryTitle"
+                tools:text="Противогрибковый" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupPriceFields"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="tvPriceFromPrefix, tvPriceFrom, tvPriceToPrefix, tvPriceTo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

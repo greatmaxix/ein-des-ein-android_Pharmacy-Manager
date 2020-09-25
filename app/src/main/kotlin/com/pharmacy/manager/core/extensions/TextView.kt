@@ -7,3 +7,5 @@ fun TextView.clearText() {
 }
 
 fun TextView.text(): String = text.toString()
+
+fun TextView.setTextHtml(text: String?) = setText(text?.wrapHtml, TextView.BufferType.SPANNABLE)

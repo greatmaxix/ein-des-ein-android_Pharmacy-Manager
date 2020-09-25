@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavDirections
 import com.pharmacy.manager.components.chat.model.ChatMessage
-import com.pharmacy.manager.components.chat.model.TempProduct
 import com.pharmacy.manager.components.chat.repository.ChatRepository
 import com.pharmacy.manager.components.chatList.model.TempChat
+import com.pharmacy.manager.components.product.model.Product
 import com.pharmacy.manager.core.base.mvvm.BaseViewModel
 import com.pharmacy.manager.core.general.SingleLiveEvent
 import com.pharmacy.manager.data.DummyData
@@ -52,7 +52,7 @@ class ChatViewModel(
     }
 
 
-    fun sendProduct(product: TempProduct) {
+    fun sendProduct(product: Product) {
         // TODO send message to server
 
         addMessageToChatList(product = product)
@@ -64,7 +64,7 @@ class ChatViewModel(
         Timber.e(uriList.toString())
     }
 
-    private fun addMessageToChatList(message: String? = null, images: MutableList<String>? = null, product: TempProduct? = null) {
+    private fun addMessageToChatList(message: String? = null, images: MutableList<String>? = null, product: Product? = null) {
         val list = chatMessagesLiveData.value ?: arrayListOf()
         if (list.isEmpty()) list.add(0, ChatMessage.DateHeader(LocalDateTime.now()))
         if (!message.isNullOrBlank()) {
@@ -72,7 +72,7 @@ class ChatViewModel(
         } else if (!images.isNullOrEmpty()) {
             list.add(0, ChatMessage.Attachment(images))
         } else if (product != null) {
-            list.add(0, ChatMessage.Product(product))
+            list.add(0, ChatMessage.ChatProduct(product))
         }
 
         _chatMessagesLiveData.value = list

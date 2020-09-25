@@ -18,6 +18,10 @@ class SPManager(context: Context) : BaseSharedPreferences(context), ManagerInter
         get() = get(Keys.EMAIL, "")
         set(value) = put(Keys.EMAIL, value)
 
+    var qrCodeDescriptionShown: Boolean?
+        get() = get(Keys.QR_CODE_DESCRIPTION_SHOWN)
+        set(value) = put(Keys.QR_CODE_DESCRIPTION_SHOWN, value)
+
     override fun clear() {
         clearAll()
     }
@@ -25,6 +29,7 @@ class SPManager(context: Context) : BaseSharedPreferences(context), ManagerInter
     private enum class Keys {
         PUSH_TOKEN,
         EMAIL,
-        ACCESS_TOKEN
+        ACCESS_TOKEN,
+        QR_CODE_DESCRIPTION_SHOWN
     }
 }

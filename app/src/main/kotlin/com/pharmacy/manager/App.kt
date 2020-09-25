@@ -10,7 +10,10 @@ import com.pharmacy.manager.components.devTools.devToolsModule
 import com.pharmacy.manager.components.home.homeModule
 import com.pharmacy.manager.components.needHelp.needHelpModule
 import com.pharmacy.manager.components.notifications.notificationsModule
+import com.pharmacy.manager.components.product.productCardModule
 import com.pharmacy.manager.components.profile.profileModule
+import com.pharmacy.manager.components.scanner.codeScannerModule
+import com.pharmacy.manager.components.search.searchModule
 import com.pharmacy.manager.components.signIn.signInModule
 import com.pharmacy.manager.components.splash.splashModule
 import com.pharmacy.manager.components.textInfo.textInfoModule
@@ -26,12 +29,14 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.dsl.module
 import timber.log.Timber
+import java.util.*
 
 class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
 
+        initCountryCodeMapping()
         initLogger()
         initCrashlytics()
         initKoin()
@@ -65,7 +70,10 @@ class App : Application() {
                 notificationsModule,
                 aboutAppModule,
                 needHelpModule,
-                textInfoModule
+                textInfoModule,
+                codeScannerModule,
+                searchModule,
+                productCardModule
             )
         }
     }
@@ -74,5 +82,21 @@ class App : Application() {
         single { SPManager(androidApplication()) }
         single { DBManager(androidApplication()) }
         single { WorkManager.getInstance(androidApplication()) }
+    }
+
+    //TODO Find better solution to get country name from ISO3
+    companion object {
+
+        var localeMap: MutableMap<String, Locale> = hashMapOf()
+            private set
+
+        private fun initCountryCodeMapping() {
+            val countries = Locale.getISOCountries()
+            localeMap = HashMap(countries.size)
+            for (country in countries) {
+                val locale = Locale("", country)
+                (localeMap as HashMap<String, Locale>)[locale.isO3Country.toUpperCase()] = locale
+            }
+        }
     }
 }

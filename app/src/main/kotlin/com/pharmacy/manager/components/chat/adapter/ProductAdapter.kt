@@ -4,42 +4,47 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.pharmacy.manager.R
-import com.pharmacy.manager.components.chat.model.TempProduct
+import com.pharmacy.manager.components.product.model.Product
 import com.pharmacy.manager.core.adapter.BaseFilterRecyclerAdapter
 import com.pharmacy.manager.core.adapter.BaseViewHolder
 import com.pharmacy.manager.core.extensions.inflate
 import com.pharmacy.manager.core.extensions.load
 import com.pharmacy.manager.core.extensions.setDebounceOnClickListener
-import kotlinx.android.synthetic.main.item_product.view.*
+import com.pharmacy.manager.core.extensions.setTextHtml
+import kotlinx.android.synthetic.main.item_product_short.view.*
 
-class ProductAdapter(private val itemClick: (TempProduct) -> Unit) : BaseFilterRecyclerAdapter<TempProduct, BaseViewHolder<TempProduct>>() {
+class ProductAdapter(private val itemClick: (Product) -> Unit) : BaseFilterRecyclerAdapter<Product, BaseViewHolder<Product>>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<TempProduct> = ProductViewHolder.newInstance(parent, itemClick)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Product> = ProductViewHolder.newInstance(parent, itemClick)
 
-    override fun diffResult(origin: List<TempProduct>, new: List<TempProduct>): DiffUtil.Callback = ProductDiff(origin, new)
+    override fun diffResult(origin: List<Product>, new: List<Product>): DiffUtil.Callback = ProductDiff(origin, new)
 
-    class ProductViewHolder(itemView: View, itemClick: (TempProduct) -> Unit) : BaseViewHolder<TempProduct>(itemView) {
+    class ProductViewHolder(itemView: View, itemClick: (Product) -> Unit) : BaseViewHolder<Product>(itemView) {
 
         init {
             itemView.setDebounceOnClickListener {
-                itemClick.invoke(tag as TempProduct)
+                itemClick.invoke(tag as Product)
             }
         }
 
-        override fun bind(item: TempProduct) {
+        override fun bind(item: Product) {
             itemView.tag = item
             with(itemView) {
-                tvRecipe.text = item.recipeTitle
+                tvRecipe.text = "Рецепт" // TODO
                 tvProductDescription.text = item.description
-                tvProductPrice.text = item.price
-                tvProductTitle.text = item.name
-                ivProductImage.load(item.imageUrl)
+                item.aggregation?.let {
+                    tvProductPrice.text = context.getString(R.string.price, it.minPrice.toString())
+                }
+                tvProductTitle.setTextHtml(item.rusName)
+                item.pictures.firstOrNull()?.let {
+                    ivProductImage.load(it.url)
+                }
             }
         }
 
         companion object {
 
-            fun newInstance(parent: ViewGroup, itemClick: (TempProduct) -> Unit) = ProductViewHolder(parent.inflate(R.layout.item_product), itemClick)
+            fun newInstance(parent: ViewGroup, itemClick: (Product) -> Unit) = ProductViewHolder(parent.inflate(R.layout.item_product_short), itemClick)
         }
     }
 }

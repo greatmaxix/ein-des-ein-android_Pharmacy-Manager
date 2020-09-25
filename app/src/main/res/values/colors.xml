@@ -19,6 +19,7 @@
     <color name="darkBlue">#000A63</color>
     <color name="primaryBlue">#2566F9</color>
     <color name="blueLight">#1A2566F9</color>
+    <color name="primaryBlue20">#0D2566F9</color>
 
     <color name="primaryBlueLight20">#CCDAFA</color>
     <color name="greyText">#64738C</color>
@@ -41,6 +42,9 @@
     <color name="colorSearch">@color/darkBlue</color>
     <color name="profileIconBackground">#EDEFF5</color>
     <color name="profileIconBackgroundRed">#33FF0000</color>
+    <color name="qrCodeScannerMask">#668492B7</color>
+    <color name="qrCodeDescriptionBackground">#8492B7</color>
+    <color name="colorSearchBackground">#F3F6F9</color>
     <color name="rippleSearch">#25393b4b</color>
 
 </resources>

@@ -12,6 +12,7 @@ import com.pharmacy.manager.BuildConfig
 import com.pharmacy.manager.core.base.fragment.dialog.AlertDialogData
 import com.pharmacy.manager.core.base.fragment.dialog.AlertDialogDataRes
 import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.getKoin
@@ -78,3 +79,12 @@ fun Fragment.showAlertRes(@StringRes resId: Int, block: AlertDialogDataRes.() ->
     requireActivity().showAlertRes(getString(resId), block)
 
 fun Fragment.showAlertRes(message: String, block: AlertDialogDataRes.() -> Unit) = requireActivity().showAlertRes(message, block)
+
+fun Fragment.doWithDelay(delay: Long, action: () -> Unit) {
+    viewLifecycleOwner.lifecycleScope.launch {
+        delay(delay)
+        action()
+    }
+}
+
+fun Fragment.doWithDelay(delay: Int, action: () -> Unit) = doWithDelay(delay.toLong(), action)

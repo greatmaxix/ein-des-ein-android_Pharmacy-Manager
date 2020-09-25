@@ -66,4 +66,6 @@ object Versions {
     const val inputMask = "6.0.0"
     const val handlePathOz = "1.0.7"
     const val flowBinding = "1.0.0-alpha04"
+    const val qrCodeScanner = "2.1.0"
+    const val paging = "3.0.0-alpha06"
 }

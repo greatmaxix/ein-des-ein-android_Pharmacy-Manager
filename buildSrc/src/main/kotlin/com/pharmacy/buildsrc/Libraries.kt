@@ -137,6 +137,8 @@ object Libraries {
     private const val inputMask = "com.redmadrobot:input-mask-android:${Versions.inputMask}"
     private const val handlePathOz = "com.github.onimur:handle-path-oz:${Versions.handlePathOz}"
     private const val flowBinding = "io.github.reactivecircus.flowbinding:flowbinding-android:${Versions.flowBinding}"
+    private const val qrCodeScanner = "com.budiyev.android:code-scanner:${Versions.qrCodeScanner}"
+    private const val paging = "androidx.paging:paging-runtime-ktx:${Versions.paging}"
 
     fun DependencyHandler.implementCoreUtils() {
         add(implementation, crashlytics)
@@ -153,5 +155,7 @@ object Libraries {
         add(implementation, inputMask)
         add(implementation, handlePathOz)
         add(implementation, flowBinding)
+        add(implementation, qrCodeScanner)
+        add(implementation, paging)
     }
 }
