@@ -24,15 +24,13 @@ class ProductViewHolder(itemView: View) : BaseViewHolder<ChatMessage>(itemView) 
             .build()
     }
 
-    override fun bind(item: ChatMessage) {
-        with(itemView) {
-            val productMessage = item.asProduct()
-            tvChatProductRecipe.text = productMessage.product.recipeTitle
-            tvChatProductDescription.text = productMessage.product.description
-            tvChatProductPrice.text = productMessage.product.price
-            tvChatProductTitle.text = productMessage.product.name
-            ivChatProduct.load(productMessage.product.imageUrl)
-        }
+    override fun bind(item: ChatMessage) = with(itemView) {
+        val productMessage = item.asProduct()
+        tvChatProductRecipe.text = productMessage.product.recipeTitle
+        tvChatProductDescription.text = productMessage.product.description
+        tvChatProductPrice.text = productMessage.product.price
+        tvChatProductTitle.text = productMessage.product.name
+        ivChatProduct.load(productMessage.product.imageUrl)
     }
 
     companion object {
