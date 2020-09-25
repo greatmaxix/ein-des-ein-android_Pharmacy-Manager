@@ -11,7 +11,7 @@ import com.pharmacy.manager.core.extensions.load
 
 class ProductsImageAdapter(items: List<Picture>) : BaseRecyclerAdapter<Picture, ProductsImageAdapter.ImageViewHolder>(items) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder = ImageViewHolder.newInstance(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ImageViewHolder.newInstance(parent)
 
     class ImageViewHolder(view: View) : BaseViewHolder<Picture>(view) {
 

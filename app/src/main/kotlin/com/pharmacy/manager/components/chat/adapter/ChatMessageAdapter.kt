@@ -12,7 +12,7 @@ class ChatMessageAdapter : BaseRecyclerAdapter<ChatMessage, BaseViewHolder<ChatM
         items = list
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<ChatMessage> =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         when (viewType) {
             TYPE_MESSAGE_USER -> PharmacyMessageViewHolder.newInstance(parent)
             TYPE_MESSAGE_PHARMACY -> UserMessageViewHolder.newInstance(parent)
@@ -21,7 +21,7 @@ class ChatMessageAdapter : BaseRecyclerAdapter<ChatMessage, BaseViewHolder<ChatM
             else -> ProductViewHolder.newInstance(parent)
         }
 
-    override fun getItemViewType(position: Int): Int = items[position].itemType
+    override fun getItemViewType(position: Int) = items[position].itemType
 
     companion object {
 

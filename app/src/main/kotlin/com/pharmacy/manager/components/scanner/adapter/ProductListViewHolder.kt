@@ -29,7 +29,6 @@ class ProductListViewHolder(override val containerView: View) : BaseViewHolder<P
         aggregation?.let { itemView.tvProductPrice.text = stringRes(R.string.price, it.minPrice) }
         itemView.tvPricePrefix.visibleOrGone(aggregation != null)
         itemView.tvPriceUnavailable.visibleOrGone(aggregation == null)
-
     }
 
     companion object {

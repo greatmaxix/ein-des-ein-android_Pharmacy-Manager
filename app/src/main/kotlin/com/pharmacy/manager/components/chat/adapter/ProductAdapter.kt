@@ -2,7 +2,6 @@ package com.pharmacy.manager.components.chat.adapter
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import com.pharmacy.manager.R
 import com.pharmacy.manager.components.product.model.Product
 import com.pharmacy.manager.core.adapter.BaseFilterRecyclerAdapter
@@ -15,9 +14,9 @@ import kotlinx.android.synthetic.main.item_product_short.view.*
 
 class ProductAdapter(private val itemClick: (Product) -> Unit) : BaseFilterRecyclerAdapter<Product, BaseViewHolder<Product>>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Product> = ProductViewHolder.newInstance(parent, itemClick)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ProductViewHolder.newInstance(parent, itemClick)
 
-    override fun diffResult(origin: List<Product>, new: List<Product>): DiffUtil.Callback = ProductDiff(origin, new)
+    override fun diffResult(origin: List<Product>, new: List<Product>) = ProductDiff(origin, new)
 
     class ProductViewHolder(itemView: View, itemClick: (Product) -> Unit) : BaseViewHolder<Product>(itemView) {
 
@@ -36,9 +35,7 @@ class ProductAdapter(private val itemClick: (Product) -> Unit) : BaseFilterRecyc
                     tvProductPrice.text = context.getString(R.string.price, it.minPrice.toString())
                 }
                 tvProductTitle.setTextHtml(item.rusName)
-                item.pictures.firstOrNull()?.let {
-                    ivProductImage.load(it.url)
-                }
+                item.pictures.firstOrNull()?.url?.let(ivProductImage::load)
             }
         }
 
