@@ -22,12 +22,12 @@ class SignInFragment(private val vm: SignInViewModel) : BaseMVVMFragment(R.layou
             updateSignInButtonState(isEmailAccepted && isPasswordAccepted)
         }
         etPasswordSignIn.doAfterTextChanged {
-            val isPasswordValid = it.toString().isPasswordLength()
+            val isPasswordValid = it.toString().isPasswordLength
             isPasswordAccepted = tilPasswordSignIn.changeFieldState(isPasswordAccepted, isPasswordValid, null)
             updateSignInButtonState(isEmailAccepted && isPasswordAccepted)
         }
         llButtonContainer.setDebounceOnClickListener {
-            vm.performSignIn(etEmailSignIn.text?.toTrimString().orEmpty(), etPasswordSignIn.text?.toTrimString().orEmpty())
+            vm.performSignIn(etEmailSignIn.text?.toTrim.orEmpty(), etPasswordSignIn.text?.toTrim.orEmpty())
         }
     }
 
