@@ -5,19 +5,46 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     tools:context=".components.main.MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/navHost"
+        android:id="@+id/navHostMain"
         android:name="com.pharmacy.manager.components.main.extra.MainNavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
         app:navGraph="@navigation/graph_main" />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavMain"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottomNavHeight"
+        android:layout_gravity="bottom"
+        android:translationY="@dimen/bottomNavHeight"
+        app:itemIconTint="@color/selector_navigation_item"
+        app:itemTextColor="@color/selector_navigation_item"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_navigation"
+        tools:translationY="0dp" />
+
+    <ImageView
+        android:id="@+id/ivChatMain"
+        android:layout_width="@dimen/_36sdp"
+        android:layout_height="@dimen/_36sdp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/background_chat_button"
+        android:foreground="@drawable/background_default_ripple_selector_circle"
+        android:padding="@dimen/_10sdp"
+        android:src="@drawable/ic_message"
+        android:translationY="@dimen/bottomNavHeight"
+        android:translationZ="@dimen/_50sdp"
+        tools:translationY="0dp" />
+
     <include
         layout="@layout/layout_progress"
         tools:visibility="gone" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

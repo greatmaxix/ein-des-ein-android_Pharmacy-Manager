@@ -2,6 +2,7 @@ package com.pharmacy.manager.core.extensions
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.graphics.Paint
 import android.graphics.Rect
 import android.os.Build
 import android.os.SystemClock
@@ -10,14 +11,20 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewTreeObserver
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.MenuRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.core.animation.doOnEnd
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.isEmpty
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.pharmacy.manager.R
 
 fun View.animateVisible(duration: Long = 100) {
@@ -132,4 +139,26 @@ fun View.onGlobalLayout(block: () -> Unit) {
             viewTreeObserver.removeOnGlobalLayoutListener(this)
         }
     })
+}
+
+fun View.setTopRoundCornerBackground(
+    radius: Float = resources.getDimension(R.dimen._10sdp),
+    elevation: Float = resources.getDimension(R.dimen._4sdp),
+    @ColorInt tintColor: Int = ContextCompat.getColor(context, R.color.colorGlobalWhite)
+) {
+    val appearanceModel = ShapeAppearanceModel()
+        .toBuilder()
+        .setTopRightCorner(CornerFamily.ROUNDED, radius)
+        .setTopLeftCorner(CornerFamily.ROUNDED, radius)
+        .build()
+
+    val shape = MaterialShapeDrawable(appearanceModel)
+        .apply {
+            shadowCompatibilityMode = MaterialShapeDrawable.SHADOW_COMPAT_MODE_ALWAYS
+            this.elevation = elevation
+            setTint(tintColor)
+            paintStyle = Paint.Style.FILL
+        }
+
+    ViewCompat.setBackground(this, shape)
 }

@@ -1,28 +1,30 @@
-package com.pharmacy.manager.components.startUp
+package com.pharmacy.manager.components.splash
 
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import androidx.core.content.ContextCompat
 import com.pharmacy.manager.R
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
+import com.pharmacy.manager.core.extensions.animateVisible
+import kotlinx.android.synthetic.main.fragment_splash.*
 
-class StartUpFragment(private val vm: StartUpViewModel) :
-    BaseMVVMFragment(R.layout.fragment_startup) {
+class SplashFragment(private val vm: SplashViewModel) :
+    BaseMVVMFragment(R.layout.fragment_splash) {
 
-    override fun onBindLiveData() {
-        observe(vm.isUserLoggedInLiveData, ::isUserLoggedIn)
+    private val duration by lazy { resources.getInteger(R.integer.animation_time).toLong() }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        vm.checkAuthentication()
+        ivLogo.animateVisible(duration)
+        setupMainBackground()
     }
 
-    private fun isUserLoggedIn(isLoggedIn: Boolean) {
-        setupMainBackground()
-
-        // TODO fill
-//        if (isLoggedIn) {
-//            navController.navigate(globalToHome())
-//        } else {
-//            mlRootStartUp.setTransition(R.id.transitionWelcome)
-//            mlRootStartUp.transitionToEnd()
-//        }
+    override fun onBindLiveData() {
+        super.onBindLiveData()
+        observe(vm.directionLiveData, navController::navigate)
     }
 
     // App theme have image background, will change after Splash screen to main background color
