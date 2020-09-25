@@ -30,6 +30,7 @@ class ChatListFragment(private val vm: ChatListViewModel) : BaseMVVMFragment(R.l
         initMenu(R.menu.search) {
             it.isVisible = false
             searchViewChatList.animateVisibleIfNot()
+            searchViewChatList.requestFocus()
             true
         }
         initChatList()
@@ -37,7 +38,7 @@ class ChatListFragment(private val vm: ChatListViewModel) : BaseMVVMFragment(R.l
         attachBackPressCallback {
             if (searchViewChatList.isVisible) {
                 searchViewChatList.animateGoneIfNot()
-                toolbar?.menu?.findItem(R.menu.search)?.isVisible = true
+                toolbar?.menu?.findItem(R.id.search)?.isVisible = true
             } else {
                 navController.popBackStack()
             }

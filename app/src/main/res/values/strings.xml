@@ -3,6 +3,7 @@
 
     <string name="common_closeButton">@android:string/cancel</string>
     <string name="common_okButton">@android:string/ok</string>
+    <string name="common_cancelButton">Отмена</string>
 
     <!-- Error -->
     <string name="error_network">Network error</string>
@@ -31,5 +32,25 @@
     <string name="permissionDialogCancel">Отмена</string>
     <string name="cameraPermissionDenied">Доступ к камере запрещен</string>
     <string name="cameraPermissionNoCameraOnDevice">На устройстве отсутствует камера</string>
+
+    <!-- Profile -->
+    <string name="statisticTitle">Статистика</string>
+    <string name="notificationTitle">Уведомления</string>
+    <string name="aboutAppTitle">О приложении</string>
+    <string name="helpTitle">Нужна помощь?</string>
+    <string name="accountLogoutTitle">Выйти из аккаунта</string>
+    <string name="areYouSureWantExit">Вы уверены, что хотите выйти из приложения?</string>
+    <string name="logoutDescription">"до тех пор пока не авторизирутесь снова"</string>
+    <string name="logout">Выйти</string>
+    <string name="ratingHolder">%.2f ⭐</string>
+    <string name="pushNotifications">Push уведомления</string>
+    <string name="emailDistribution">Email рассылка</string>
+    <string name="newChatRequest">Новый запрос в чате</string>
+    <string name="ratingUpdate">Обновление рейтинга</string>
+    <string name="userAgreement">Пользовательское соглашение</string>
+    <string name="privacyPolicy">О Персональных данных</string>
+    <string name="termsAndConditions">Условия использования данных</string>
+    <string name="cashback">Про кешбек</string>
+    <string name="versionHolder">Версия %s</string>
 
 </resources>

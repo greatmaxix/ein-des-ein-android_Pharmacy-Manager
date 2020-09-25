@@ -1,8 +1,17 @@
 package com.pharmacy.manager.components.main
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.navigation.NavDestination
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pharmacy.manager.R
 import com.pharmacy.manager.core.base.BaseActivity
 import com.pharmacy.manager.core.extensions.*
@@ -17,7 +26,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), ProgressCallback, Mes
 
     private val progressBehavior by lazy { attachBehavior(ProgressViewBehavior(progress)) }
     private val messagesBehavior by lazy { attachBehavior(MessagesBehavior(this)) }
-    private val topLevelDestinations = intArrayOf(R.id.nav_home) // TODO add destinations
+    private val topLevelDestinations = intArrayOf(R.id.nav_home, R.id.nav_profile) // TODO add destinations
     private val NavDestination.isTopLevelDestination
         get() = topLevelDestinations.contains(id)
     private val NavDestination.isTopDestinationAndHome
@@ -30,10 +39,12 @@ class MainActivity : BaseActivity(R.layout.activity_main), ProgressCallback, Mes
 
     private fun setupNavigation() = with(bottomNavMain) {
         bottomNavMain.setTopRoundCornerBackground()
+        bottomNavMain.itemIconTintList = null
         setupWithNavController(navController)
         setOnNavigationItemReselectedListener {}
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.isTopLevelDestination) showNavViews() else hideNavViews()
+            changeIcons(destination)
         }
         translationZ = 1f
     }
@@ -66,5 +77,34 @@ class MainActivity : BaseActivity(R.layout.activity_main), ProgressCallback, Mes
         bottomNavMain.translateYDown()
         ivChatMain.translateYDown()
         ivChatMain.animateGoneIfNot()
+    }
+
+    private fun BottomNavigationView.changeIcons(destination: NavDestination) {
+        bottomNavMain.menu.findItem(R.id.nav_home)?.icon =
+            ContextCompat.getDrawable(context, if (destination.isTopDestinationAndHome) R.drawable.ic_home_blue else R.drawable.ic_home)
+        val border = if (destination.id == R.id.nav_profile) resources.getDimensionPixelSize(R.dimen._2sdp).toFloat() else 0f
+        Glide.with(context)
+            .asBitmap()
+            .load("https://www.nj.com/resizer/h8MrN0-Nw5dB5FOmMVGMmfVKFJo=/450x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/SJGKVE5UNVESVCW7BBOHKQCZVE.jpg") // TODO set image from profile
+            .apply(RequestOptions.circleCropTransform())
+            .into(object : CustomTarget<Bitmap>(128, 128) {
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    bottomNavMain.menu.findItem(R.id.graph_profile)?.icon = resource.run {
+                        RoundedBitmapDrawableFactory.create(
+                            resources, if (border > 0) {
+                                createBitmapWithBorder(border, context.compatColor(R.color.primaryBlue))
+                            } else {
+                                this
+                            }
+                        ).apply {
+                            isCircular = true
+                        }
+                    }
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    // no op
+                }
+            })
     }
 }

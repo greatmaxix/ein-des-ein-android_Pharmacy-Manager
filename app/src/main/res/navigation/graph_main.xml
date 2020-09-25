@@ -5,6 +5,7 @@
     app:startDestination="@id/nav_splash">
 
     <include app:graph="@navigation/graph_chat" />
+    <include app:graph="@navigation/graph_profile" />
 
     <action
         android:id="@+id/globalToHome"

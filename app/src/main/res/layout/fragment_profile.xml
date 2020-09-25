@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGrey"
+    android:fitsSystemWindows="true">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ImageView
+        android:id="@+id/ivAvatarProfile"
+        android:layout_width="@dimen/_64sdp"
+        android:layout_height="@dimen/_64sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:src="@drawable/ic_avatar_placeholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvNameProfile"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:fontFamily="@font/open_sans_bold"
+        android:textColor="@color/darkBlue"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintBottom_toTopOf="@+id/tvEmailProfile"
+        app:layout_constraintEnd_toStartOf="@+id/tvRatingProfile"
+        app:layout_constraintStart_toEndOf="@+id/ivAvatarProfile"
+        app:layout_constraintTop_toTopOf="@+id/ivAvatarProfile"
+        tools:text="Тимофей Лекарь" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvEmailProfile"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:fontFamily="@font/open_sans"
+        android:textColor="@color/darkBlue"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivAvatarProfile"
+        app:layout_constraintEnd_toStartOf="@+id/tvRatingProfile"
+        app:layout_constraintStart_toEndOf="@+id/ivAvatarProfile"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameProfile"
+        tools:text="medpharm23@gmail.com" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvRatingProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_21sdp"
+        android:fontFamily="@font/open_sans_semibold"
+        android:textColor="@color/darkBlue"
+        android:textSize="@dimen/_22ssp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivAvatarProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivAvatarProfile"
+        tools:text="4.9 ⭐" />
+
+    <com.pharmacy.manager.widget.ProfileItemView
+        android:id="@+id/itemStatisticsProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        app:arrowVisibilityProfile="true"
+        app:iconProfile="@drawable/ic_statistic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvEmailProfile"
+        app:mainColorProfile="@color/grey"
+        app:titleProfile="@string/statisticTitle" />
+
+    <com.pharmacy.manager.widget.ProfileItemView
+        android:id="@+id/itemNotificationsProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        app:arrowVisibilityProfile="true"
+        app:iconProfile="@drawable/ic_notification"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemStatisticsProfile"
+        app:titleProfile="@string/notificationTitle" />
+
+    <com.pharmacy.manager.widget.ProfileItemView
+        android:id="@+id/itemAboutAppProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_32sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        app:arrowVisibilityProfile="true"
+        app:iconProfile="@drawable/ic_exclamation_point"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemNotificationsProfile"
+        app:titleProfile="@string/aboutAppTitle" />
+
+    <com.pharmacy.manager.widget.ProfileItemView
+        android:id="@+id/itemHelpProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        app:arrowVisibilityProfile="true"
+        app:iconProfile="@drawable/ic_question"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemAboutAppProfile"
+        app:titleProfile="@string/helpTitle" />
+
+    <com.pharmacy.manager.widget.ProfileItemView
+        android:id="@+id/itemLogoutProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_32sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        app:arrowVisibilityProfile="false"
+        app:iconProfile="@drawable/ic_logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemHelpProfile"
+        app:mainColorProfile="@color/red"
+        app:secondaryColorProfile="@color/profileIconBackgroundRed"
+        app:titleProfile="@string/accountLogoutTitle" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

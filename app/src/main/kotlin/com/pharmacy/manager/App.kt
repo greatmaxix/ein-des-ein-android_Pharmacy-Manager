@@ -3,12 +3,17 @@ package com.pharmacy.manager
 import android.app.Application
 import androidx.work.WorkManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.pharmacy.manager.components.aboutApp.aboutAppModule
 import com.pharmacy.manager.components.chat.chatModule
 import com.pharmacy.manager.components.chatList.chatListModule
 import com.pharmacy.manager.components.devTools.devToolsModule
 import com.pharmacy.manager.components.home.homeModule
+import com.pharmacy.manager.components.needHelp.needHelpModule
+import com.pharmacy.manager.components.notifications.notificationsModule
+import com.pharmacy.manager.components.profile.profileModule
 import com.pharmacy.manager.components.signIn.signInModule
 import com.pharmacy.manager.components.splash.splashModule
+import com.pharmacy.manager.components.textInfo.textInfoModule
 import com.pharmacy.manager.data.local.DBManager
 import com.pharmacy.manager.data.local.SPManager
 import com.pharmacy.manager.data.rest.restModule
@@ -55,7 +60,12 @@ class App : Application() {
                 signInModule,
                 homeModule,
                 chatListModule,
-                chatModule
+                chatModule,
+                profileModule,
+                notificationsModule,
+                aboutAppModule,
+                needHelpModule,
+                textInfoModule
             )
         }
     }

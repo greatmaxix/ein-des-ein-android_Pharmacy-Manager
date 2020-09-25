@@ -1,6 +1,7 @@
 package com.pharmacy.manager.widget
 
 import android.content.Context
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View.OnClickListener
 import androidx.cardview.widget.CardView
@@ -129,5 +130,14 @@ class AppSearchView @JvmOverloads constructor(
             etSearch.setTextWithCursorToEndAndOpen(value)
             ivClose.setOnClickListener(closeClick)
         }
+    }
+
+    override fun requestFocus(direction: Int, previouslyFocusedRect: Rect?): Boolean {
+        return etSearch.requestFocus(direction, previouslyFocusedRect)
+    }
+
+    override fun clearFocus() {
+        super.clearFocus()
+        etSearch.clearFocus()
     }
 }
