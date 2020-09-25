@@ -37,5 +37,8 @@
     <color name="colorRippleWhiteSemiTransparent">#50FFFFFF</color>
     <color name="colorControlHighlight">@color/colorRippleBlue</color>
     <color name="colorProgressBackground">#a0000000</color>
+    <color name="colorSearchHint">#80333333</color>
+    <color name="colorSearch">@color/darkBlue</color>
+    <color name="rippleSearch">#25393b4b</color>
 
 </resources>

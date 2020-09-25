@@ -4,6 +4,8 @@
     android:id="@+id/graph_main"
     app:startDestination="@id/nav_splash">
 
+    <include app:graph="@navigation/graph_chat" />
+
     <action
         android:id="@+id/globalToHome"
         app:destination="@id/nav_home"

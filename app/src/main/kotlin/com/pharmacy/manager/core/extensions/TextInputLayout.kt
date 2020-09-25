@@ -1,8 +1,10 @@
 package com.pharmacy.manager.core.extensions
 
+import android.annotation.SuppressLint
 import com.google.android.material.textfield.TextInputLayout
 import com.pharmacy.manager.R
 
+@SuppressLint("PrivateResource")
 fun TextInputLayout.changeFieldState(lastState: Boolean, isValid: Boolean, error: String?): Boolean {
     return when {
         isValid && !lastState -> {
@@ -23,6 +25,6 @@ fun TextInputLayout.changeFieldState(lastState: Boolean, isValid: Boolean, error
             post { endIconMode = TextInputLayout.END_ICON_CLEAR_TEXT }
             false
         }
-        else -> false
+        else -> isValid && lastState
     }
 }

@@ -9,7 +9,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/nav_chat"
+        android:id="@+id/graph_chat"
         android:title="@null"
         android:icon="@null"
         app:showAsAction="ifRoom" />

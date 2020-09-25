@@ -135,6 +135,8 @@ object Libraries {
     private const val androidSdp = "com.intuit.sdp:sdp-android:${Versions.androidScalableDimens}"
     private const val androidSsp = "com.intuit.ssp:ssp-android:${Versions.androidScalableDimens}"
     private const val inputMask = "com.redmadrobot:input-mask-android:${Versions.inputMask}"
+    private const val handlePathOz = "com.github.onimur:handle-path-oz:${Versions.handlePathOz}"
+    private const val flowBinding = "io.github.reactivecircus.flowbinding:flowbinding-android:${Versions.flowBinding}"
 
     fun DependencyHandler.implementCoreUtils() {
         add(implementation, crashlytics)
@@ -149,5 +151,7 @@ object Libraries {
         add(implementation, androidSdp)
         add(implementation, androidSsp)
         add(implementation, inputMask)
+        add(implementation, handlePathOz)
+        add(implementation, flowBinding)
     }
 }

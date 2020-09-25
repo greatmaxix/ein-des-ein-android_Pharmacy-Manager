@@ -2,13 +2,13 @@ package com.pharmacy.manager.core.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseRecyclerAdapter<T, VH : BaseViewHolder<T>>(
-    list: List<T> = mutableListOf(),
+abstract class BaseRecyclerAdapter<Type, ViewHolder : BaseViewHolder<Type>>(
+    list: List<Type> = mutableListOf(),
     private val needNotifyList: Boolean = true
-) : RecyclerView.Adapter<VH>() {
+) : RecyclerView.Adapter<ViewHolder>() {
 
-    protected var items: MutableList<T> = list.toMutableList()
-        set(value) {
+    open var items: MutableList<Type> = list.toMutableList()
+        protected set(value) {
             field = value
             if (needNotifyList) {
                 notifyDataSetChanged()
@@ -22,28 +22,19 @@ abstract class BaseRecyclerAdapter<T, VH : BaseViewHolder<T>>(
         this.recyclerView = recyclerView
     }
 
-    override fun onBindViewHolder(holder: VH, position: Int) = holder.bind(items[position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(items[position])
 
     override fun getItemCount() = items.size
 
     fun getItem(position: Int) = items[position]
 
-    fun setItem(position: Int, item: T) {
+    fun setItem(position: Int, item: Type) {
         items[position] = item
     }
 
-    fun setItem(item: T) {
-        items[getItemPosition(item)] = item
+    fun isEmpty() = itemCount == 0
+
+    protected fun scrollTop() {
+        recyclerView?.scrollToPosition(0)
     }
-
-    fun setItemNotify(item: T) {
-        val position = getItemPosition(item)
-        items[position] = item
-        notifyItemChanged(position)
-    }
-
-    fun getItemPosition(item: T) = items.indexOf(item)
-
-    val isEmpty
-        get() = itemCount == 0
 }
