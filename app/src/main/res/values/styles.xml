@@ -93,4 +93,9 @@
         <item name="android:textColor">@color/primaryBlue</item>
     </style>
 
+    <style name="Recycler">
+        <item name="android:scrollbars">none</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:splitMotionEvents">false</item>
+    </style>
 </resources>

@@ -44,7 +44,7 @@ object Versions {
 
     // androidUi
     const val appcompat = "1.3.0-alpha02"
-    const val coreKtx = "1.5.0-alpha02"
+    const val coreKtx = "1.5.0-alpha03"
     const val activity = "1.2.0-alpha08"
     const val fragment = "1.3.0-alpha08"
     const val navigationUi = navigationFragment
@@ -61,7 +61,7 @@ object Versions {
     const val firebaseAnalytics = "17.5.0"
     const val firebaseMessaging = "20.2.4"
     const val glide = "4.11.0"
-    const val workManager = "2.5.0-alpha01"
+    const val workManager = "2.5.0-alpha02"
     const val androidScalableDimens = "1.0.6"
     const val inputMask = "6.0.0"
     const val handlePathOz = "1.0.7"

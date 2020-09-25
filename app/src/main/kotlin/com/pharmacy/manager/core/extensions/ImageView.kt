@@ -4,16 +4,22 @@ import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.BitmapImageViewTarget
+import com.pharmacy.manager.R
+import com.pharmacy.manager.components.product.model.ProductLite
+import com.pharmacy.manager.util.ColorFilterUtil
 
 val ImageView.createGlide
     get() = Glide.with(this)
 
-fun ImageView.load(url: String, block: (RequestBuilder<Drawable>.() -> Unit)? = null) {
+fun ImageView.load(url: String?, block: (RequestBuilder<Drawable>.() -> Unit)? = null) {
     val glide = createGlide.load(url)
     block?.let { glide.apply(it).into(this) } ?: glide.into(this)
 }
@@ -84,4 +90,14 @@ fun Bitmap.createBitmapWithBorder(borderSize: Float, borderColor: Int): Bitmap {
     paint.strokeWidth = borderSize
     canvas.drawCircle(centerX, centerY, circleRadius, paint)
     return newBitmap
+}
+
+fun ImageView.setProductImage(product: ProductLite) {
+    load(product.pictures.firstOrNull()?.url) {
+        transform(CenterCrop(), RoundedCorners(resources.getDimensionPixelSize(R.dimen._8sdp)))
+        error(R.drawable.default_product_image)
+    }
+    val hasPictures = product.pictures.isNotEmpty()
+    setBackgroundColor(if (hasPictures) 0 else ContextCompat.getColor(context, R.color.mediumGrey50))
+    colorFilter = (if (product.aggregation == null && !hasPictures) ColorFilterUtil.blackWhiteFilter else null)
 }

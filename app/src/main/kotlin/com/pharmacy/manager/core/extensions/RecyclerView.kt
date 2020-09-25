@@ -3,6 +3,8 @@ package com.pharmacy.manager.core.extensions
 import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.pharmacy.manager.R
+import com.pharmacy.manager.core.adapter.GridSpacingItemDecoration
 
 fun RecyclerView.addDrawableItemDivider(
     @DrawableRes drawableRes: Int,
@@ -44,3 +46,5 @@ fun RecyclerView.addAutoKeyboardCloser() {
         }
     }
 }
+
+fun RecyclerView.addGridItemDecorator() = addItemDecoration(GridSpacingItemDecoration(spacing = context.resources.getDimensionPixelSize(R.dimen._8sdp)))

@@ -11,6 +11,8 @@
 
     <!-- Main -->
     <string name="menuTitleMain">Главная</string>
+    <string name="menuTitleCategories">Каталог</string>
+    <string name="menuTitleChat">Чат</string>
     <string name="menuTitleProfile">Профиль</string>
 
     <!-- Sign in -->
@@ -96,5 +98,7 @@
     <string name="scanDrugsContentDescription">Сканировать товар</string>
     <string name="countProducts">Найдено %d товара(ов)</string>
     <string name="sort">Сортировать</string>
+
+    <string name="analyzeTitleContentDescriptionHome">Анализы и диагностика</string>
 
 </resources>

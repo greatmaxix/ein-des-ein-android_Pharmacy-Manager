@@ -9,9 +9,15 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/nav_categories"
+        android:title="@string/menuTitleCategories"
+        android:icon="@drawable/ic_category"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/nav_chat_list"
-        android:title="@null"
-        android:icon="@null"
+        android:title="@string/menuTitleChat"
+        android:icon="@drawable/ic_chat"
         app:showAsAction="ifRoom" />
 
     <item
