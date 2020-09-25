@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.pharmacy.manager.R
 import com.pharmacy.manager.components.category.adapter.CategoriesAdapter
+import com.pharmacy.manager.components.category.model.Category
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import com.pharmacy.manager.core.extensions.*
 import kotlinx.android.synthetic.main.fragment_categories.*
@@ -59,18 +60,15 @@ class CategoriesFragment(private val viewModel: CategoriesViewModel) : BaseMVVMF
                 toolbar?.title = this?.name ?: getString(R.string.menuTitleCategories)
             }
         }
-        observe(viewModel.parentCategoriesLiveData) {
-            rvCategories.adapter = CategoriesAdapter(this.toMutableList(), clickAction)
-            rvCategories.layoutManager = GridLayoutManager(requireContext(), 2)
-            clearItemDecoration()
-            rvCategories.addGridItemDecorator()
-        }
-        observe(viewModel.nestedCategoriesLiveData) {
-            rvCategories.adapter = CategoriesAdapter(this.toMutableList(), clickAction) // todo temp
-            rvCategories.layoutManager = GridLayoutManager(requireContext(), 2)
-            clearItemDecoration()
-            rvCategories.addGridItemDecorator()
-        }
+        observe(viewModel.parentCategoriesLiveData, ::setAdapter)
+        observe(viewModel.nestedCategoriesLiveData, ::setAdapter)
+    }
+
+    private fun setAdapter(list: List<Category>) {
+        rvCategories.adapter = CategoriesAdapter(list.toMutableList(), clickAction)
+        rvCategories.layoutManager = GridLayoutManager(requireContext(), 2)
+        clearItemDecoration()
+        rvCategories.addGridItemDecorator()
     }
 
     private fun clearItemDecoration() {

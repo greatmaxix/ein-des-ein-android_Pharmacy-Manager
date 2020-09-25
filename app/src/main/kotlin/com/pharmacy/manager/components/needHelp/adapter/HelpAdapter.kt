@@ -3,7 +3,6 @@ package com.pharmacy.manager.components.needHelp.adapter
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.DiffUtil
 import com.pharmacy.manager.R
 import com.pharmacy.manager.components.needHelp.model.HelpItem
 import com.pharmacy.manager.core.adapter.BaseFilterRecyclerAdapter
@@ -14,9 +13,9 @@ import kotlinx.android.synthetic.main.item_help.view.*
 
 class HelpAdapter : BaseFilterRecyclerAdapter<HelpItem, HelpAdapter.HelpViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HelpViewHolder = HelpViewHolder.newInstance(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = HelpViewHolder.newInstance(parent)
 
-    override fun diffResult(origin: List<HelpItem>, new: List<HelpItem>): DiffUtil.Callback = HelpDiff(origin, new)
+    override fun diffResult(origin: List<HelpItem>, new: List<HelpItem>) = HelpDiff(origin, new)
 
     class HelpViewHolder(view: View) : BaseViewHolder<HelpItem>(view) {
 
@@ -29,15 +28,13 @@ class HelpAdapter : BaseFilterRecyclerAdapter<HelpItem, HelpAdapter.HelpViewHold
             }
         }
 
-        override fun bind(item: HelpItem) {
-            itemView.tag = item
-            with(itemView) {
-                itemHeaderNeedHelp.icon = item.icon
-                itemHeaderNeedHelp.title = item.title
-                tvTextNeedHelp.text = item.text
-                tvTextNeedHelp.isVisible = item.isExpanded
-                itemHeaderNeedHelp.isSelected = item.isExpanded
-            }
+        override fun bind(item: HelpItem) = with(itemView) {
+            tag = item
+            itemHeaderNeedHelp.icon = item.icon
+            itemHeaderNeedHelp.title = item.title
+            tvTextNeedHelp.text = item.text
+            tvTextNeedHelp.isVisible = item.isExpanded
+            itemHeaderNeedHelp.isSelected = item.isExpanded
         }
 
         companion object {

@@ -34,9 +34,7 @@ class ProductViewHolder(itemView: View) : BaseViewHolder<ChatMessage>(itemView) 
                 tvChatProductPrice.text = context.getString(R.string.price, it.minPrice.toString())
             }
             tvChatProductTitle.setTextHtml(productMessage.product.rusName)
-            productMessage.product.pictures.firstOrNull()?.let {
-                ivChatProduct.load(it.url)
-            }
+            productMessage.product.pictures.firstOrNull()?.url?.let(ivChatProduct::load)
         }
     }
 

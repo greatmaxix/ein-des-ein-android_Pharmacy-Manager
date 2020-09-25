@@ -2,7 +2,6 @@ package com.pharmacy.manager.components.chatList.adapter
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import com.pharmacy.manager.R
 import com.pharmacy.manager.components.chatList.model.TempChat
 import com.pharmacy.manager.core.adapter.BaseFilterRecyclerAdapter
@@ -12,9 +11,9 @@ import kotlinx.android.synthetic.main.item_chat.view.*
 
 class ChatAdapter(private val itemClick: (TempChat) -> Unit) : BaseFilterRecyclerAdapter<TempChat, ChatAdapter.ChatViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder = ChatViewHolder.newInstance(parent, itemClick)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ChatViewHolder.newInstance(parent, itemClick)
 
-    override fun diffResult(origin: List<TempChat>, new: List<TempChat>): DiffUtil.Callback = ChatDiff(origin, new)
+    override fun diffResult(origin: List<TempChat>, new: List<TempChat>) = ChatDiff(origin, new)
 
     class ChatViewHolder(view: View, listener: (TempChat) -> Unit) : BaseViewHolder<TempChat>(view) {
 
@@ -24,16 +23,14 @@ class ChatAdapter(private val itemClick: (TempChat) -> Unit) : BaseFilterRecycle
             itemView.setDebounceOnClickListener { listener.invoke(itemView.tag as TempChat) }
         }
 
-        override fun bind(item: TempChat) {
-            itemView.tag = item
-            with(itemView) {
-                ivAvatarChatUser.loadCircularImage(item.avatar, borderWidth, context.compatColor(R.color.green))
-                tvCounterChatUser.text = item.messagesCount.toString()
-                tvCounterChatUser.visibleOrGone(item.messagesCount != 0)
-                tvNameChatUser.text = item.name
-                tvMessageChatUser.text = item.lastMessage
-                tvTimeChatUser.text = item.time
-            }
+        override fun bind(item: TempChat) = with(itemView) {
+            tag = item
+            ivAvatarChatUser.loadCircularImage(item.avatar, borderWidth, context.compatColor(R.color.green))
+            tvCounterChatUser.text = item.messagesCount.toString()
+            tvCounterChatUser.visibleOrGone(item.messagesCount != 0)
+            tvNameChatUser.text = item.name
+            tvMessageChatUser.text = item.lastMessage
+            tvTimeChatUser.text = item.time
         }
 
         companion object {
