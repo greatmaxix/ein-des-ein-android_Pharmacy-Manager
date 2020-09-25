@@ -45,5 +45,6 @@
     <color name="qrCodeScannerMask">#668492B7</color>
     <color name="qrCodeDescriptionBackground">#8492B7</color>
     <color name="colorSearchBackground">#F3F6F9</color>
+    <color name="rippleSearch">#25393b4b</color>
 
 </resources>

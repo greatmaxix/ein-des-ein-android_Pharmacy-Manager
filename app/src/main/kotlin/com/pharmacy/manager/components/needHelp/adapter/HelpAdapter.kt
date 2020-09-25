@@ -29,15 +29,13 @@ class HelpAdapter : BaseFilterRecyclerAdapter<HelpItem, HelpAdapter.HelpViewHold
             }
         }
 
-        override fun bind(item: HelpItem) {
-            itemView.tag = item
-            with(itemView) {
-                itemHeaderNeedHelp.icon = item.icon
-                itemHeaderNeedHelp.title = item.title
-                tvTextNeedHelp.text = item.text
-                tvTextNeedHelp.isVisible = item.isExpanded
-                itemHeaderNeedHelp.isSelected = item.isExpanded
-            }
+        override fun bind(item: HelpItem) = with(itemView) {
+            tag = item
+            itemHeaderNeedHelp.icon = item.icon
+            itemHeaderNeedHelp.title = item.title
+            tvTextNeedHelp.text = item.text
+            tvTextNeedHelp.isVisible = item.isExpanded
+            itemHeaderNeedHelp.isSelected = item.isExpanded
         }
 
         companion object {
