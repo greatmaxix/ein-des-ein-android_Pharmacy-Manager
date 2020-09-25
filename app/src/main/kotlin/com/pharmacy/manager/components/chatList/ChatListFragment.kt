@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.pharmacy.manager.R
 import com.pharmacy.manager.components.chatList.ChatListFragmentDirections.Companion.fromChatListToChat
 import com.pharmacy.manager.components.chatList.adapter.ChatAdapter
@@ -62,7 +61,6 @@ class ChatListFragment(private val vm: ChatListViewModel) : BaseMVVMFragment(R.l
 
     private fun initChatList() {
         rvChatList.adapter = chatAdapter
-        rvChatList.layoutManager = LinearLayoutManager(requireContext())
         rvChatList.setHasFixedSize(true)
     }
 }

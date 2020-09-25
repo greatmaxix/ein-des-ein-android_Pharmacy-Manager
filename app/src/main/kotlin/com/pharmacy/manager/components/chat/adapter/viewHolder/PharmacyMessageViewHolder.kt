@@ -13,13 +13,11 @@ import java.time.format.DateTimeFormatter
 
 class PharmacyMessageViewHolder(itemView: View) : BaseViewHolder<ChatMessage>(itemView) {
 
-    override fun bind(item: ChatMessage) {
-        with(itemView) {
-            val message = item.asUserMessage()
-            tvMessageChat.text = message.message
-            tvReadTimeChat.text = message.readDate?.toReadDate()
-            tvReadTimeChat.visibleOrGone(message.readDate != null)
-        }
+    override fun bind(item: ChatMessage) = with(itemView) {
+        val message = item.asUserMessage()
+        tvMessageChat.text = message.message
+        tvReadTimeChat.text = message.readDate?.toReadDate()
+        tvReadTimeChat.visibleOrGone(message.readDate != null)
     }
 
     private fun LocalDateTime.toReadDate() = itemView.context.getString(R.string.readDateHolder, DateTimeFormatter.ofPattern("HH:mm").format(this))

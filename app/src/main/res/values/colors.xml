@@ -41,5 +41,6 @@
     <color name="colorSearch">@color/darkBlue</color>
     <color name="profileIconBackground">#EDEFF5</color>
     <color name="profileIconBackgroundRed">#33FF0000</color>
+    <color name="rippleSearch">#25393b4b</color>
 
 </resources>

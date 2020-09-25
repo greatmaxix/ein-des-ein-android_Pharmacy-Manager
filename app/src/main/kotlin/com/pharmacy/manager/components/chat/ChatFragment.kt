@@ -12,15 +12,13 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import br.com.onimur.handlepathoz.HandlePathOz
 import br.com.onimur.handlepathoz.HandlePathOzListener
 import br.com.onimur.handlepathoz.model.PathOz
@@ -58,8 +56,8 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
     private val vm: ChatViewModel by viewModel(parameters = { parametersOf(ChatFragmentArgs.fromBundle(requireArguments())) })
 
     @FlowPreview
-    private val choosePhotoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { handlePathOz.getListRealPath(it.data.getListUri()) }
-    private val takePhotoLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { vm.sendPhotos(listOf(uri)) }
+    private lateinit var choosePhotoLauncher: ActivityResultLauncher<Intent>
+    private lateinit var takePhotoLauncher: ActivityResultLauncher<Uri>
     private val handlePathOz by lazy { HandlePathOz(requireContext(), listener) }
     private val listener = object : HandlePathOzListener.MultipleUri {
         override fun onRequestHandlePathOz(listPathOz: List<PathOz>, tr: Throwable?) {
@@ -93,6 +91,9 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
         }
         initChatList()
         initProductList()
+
+        choosePhotoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { handlePathOz.getListRealPath(it.data.getListUri()) }
+        takePhotoLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { vm.sendPhotos(listOf(uri)) }
 
         tilMessageChat.editText?.doAfterTextChanged {
             ivButtonSendChat.animateVisibleOrGoneIfNot(!it.isNullOrBlank())
@@ -138,7 +139,6 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
 
     private fun initProductList() {
         rvProductChat.adapter = productAdapter
-        rvProductChat.layoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
         rvProductChat.setHasFixedSize(true)
 
         productAdapter.notifyDataSet(DummyData.products)
@@ -240,7 +240,6 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
 
     private fun initChatList() {
         rvMessagesChat.adapter = chatAdapter
-        rvMessagesChat.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, true)
         rvMessagesChat.setHasFixedSize(true)
     }
 }

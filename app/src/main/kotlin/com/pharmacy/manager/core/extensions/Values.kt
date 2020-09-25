@@ -6,9 +6,11 @@ import java.text.DecimalFormat
 
 fun String.isEmail(): Boolean = Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
-fun String.isPasswordLength(): Boolean = this.length >= 6
+val String.isPasswordLength: Boolean
+    get() = length in 6..31
 
-fun Editable?.toTrimString(): String = this?.trim().toString()
+val Editable?.toTrim: String
+    get() = if (this == null) "" else trim().toString()
 
 fun Boolean?.falseIfNull() = this ?: false
 
