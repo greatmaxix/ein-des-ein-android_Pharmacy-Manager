@@ -11,9 +11,9 @@ import kotlinx.android.synthetic.main.item_category_tile.view.*
 
 class CategoryTileViewHolder(view: View, val click: (Category) -> Unit) : BaseViewHolder<Category>(view) {
 
-    override fun bind(item: Category) {
-        itemView.tvCategoryNameTile.text = item.name
-        itemView.mcvCategoryTile.setDebounceOnClickListener { click(item) }
+    override fun bind(item: Category) = with(itemView) {
+        tvCategoryNameTile.text = item.name
+        mcvCategoryTile.setDebounceOnClickListener { click(item) }
     }
 
     companion object {
