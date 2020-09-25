@@ -24,16 +24,14 @@ class ChatAdapter(private val itemClick: (TempChat) -> Unit) : BaseFilterRecycle
             itemView.setDebounceOnClickListener { listener.invoke(itemView.tag as TempChat) }
         }
 
-        override fun bind(item: TempChat) {
-            itemView.tag = item
-            with(itemView) {
-                ivAvatarChatUser.loadCircularImage(item.avatar, borderWidth, context.compatColor(R.color.green))
-                tvCounterChatUser.text = item.messagesCount.toString()
-                tvCounterChatUser.visibleOrGone(item.messagesCount != 0)
-                tvNameChatUser.text = item.name
-                tvMessageChatUser.text = item.lastMessage
-                tvTimeChatUser.text = item.time
-            }
+        override fun bind(item: TempChat) = with(itemView) {
+            tag = item
+            ivAvatarChatUser.loadCircularImage(item.avatar, borderWidth, context.compatColor(R.color.green))
+            tvCounterChatUser.text = item.messagesCount.toString()
+            tvCounterChatUser.visibleOrGone(item.messagesCount != 0)
+            tvNameChatUser.text = item.name
+            tvMessageChatUser.text = item.lastMessage
+            tvTimeChatUser.text = item.time
         }
 
         companion object {

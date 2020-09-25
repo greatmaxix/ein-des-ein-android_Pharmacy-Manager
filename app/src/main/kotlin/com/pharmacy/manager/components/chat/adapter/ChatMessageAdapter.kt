@@ -21,9 +21,7 @@ class ChatMessageAdapter : BaseRecyclerAdapter<ChatMessage, BaseViewHolder<ChatM
             else -> ProductViewHolder.newInstance(parent)
         }
 
-    override fun getItemViewType(position: Int): Int {
-        return items[position].itemType
-    }
+    override fun getItemViewType(position: Int): Int = items[position].itemType
 
     companion object {
 
