@@ -40,7 +40,7 @@ class SignInFragment(private val vm: SignInViewModel) : BaseMVVMFragment(R.layou
 
         debug {
             // TODO Test data - pharmacist1@example.com - pharmacist3@example.com (pw1234)
-            etEmailSignIn.setText("pharmacist1@example.com")
+            etEmailSignIn.setText("pharmacist2@example.com")
             etPasswordSignIn.setText("pw1234")
         }
     }

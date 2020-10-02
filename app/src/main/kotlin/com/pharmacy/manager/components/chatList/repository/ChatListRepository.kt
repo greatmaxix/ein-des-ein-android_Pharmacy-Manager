@@ -1,6 +1,6 @@
 package com.pharmacy.manager.components.chatList.repository
 
-class ChatListRepository(
-    private val rds: ChatListRemoteDataSource,
-    private val lds: ChatListLocalDataSource
-)
+class ChatListRepository(private val rds: ChatListRemoteDataSource) {
+
+    suspend fun chatList(page: Int, pageSize: Int) = rds.chatList(page, pageSize)
+}

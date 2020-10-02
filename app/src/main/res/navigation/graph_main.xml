@@ -168,7 +168,7 @@
 
         <argument
             android:name="chat"
-            app:argType="com.pharmacy.manager.components.chatList.model.TempChat" />
+            app:argType="com.pharmacy.manager.components.chatList.model.ChatItem" />
 
         <action
             android:id="@+id/fromChatToSendImageBottomSheet"

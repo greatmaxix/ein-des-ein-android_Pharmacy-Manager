@@ -19,6 +19,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import br.com.onimur.handlepathoz.HandlePathOz
 import br.com.onimur.handlepathoz.HandlePathOzListener
 import br.com.onimur.handlepathoz.model.PathOz
@@ -204,6 +205,7 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
         vm.sendMessage(message)
     }
 
+    @ExperimentalPagingApi
     override fun onBindLiveData() {
         super.onBindLiveData()
 
@@ -214,10 +216,10 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
         llMessageFieldChat.visible()
 
         observe(vm.chatLiveData) {
-            toolbar?.title = name
+            toolbar?.title = user.name
             Glide.with(requireContext())
                 .asBitmap()
-                .load(avatar)
+                .load(user.avatar?.url)
                 .placeholder(R.drawable.ic_avatar_placeholder)
                 .apply(RequestOptions.circleCropTransform())
                 .into(object : CustomTarget<Bitmap>() {
@@ -231,7 +233,7 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
                 })
         }
         observe(vm.chatMessagesLiveData) {
-            chatAdapter.setList(this)
+            chatAdapter.submitData(lifecycle, this)
             rvMessagesChat.postDelayed({
                 rvMessagesChat.smoothScrollToPosition(0)
             }, 100)

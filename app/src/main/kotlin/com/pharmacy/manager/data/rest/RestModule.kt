@@ -32,6 +32,8 @@ val restModule = module {
             .build()
     }
 
+    single { HeaderInterceptor(get()) }
+
     fun makeLoggingInterceptor() = LoggingInterceptor.Builder()
         .setLevel(Level.BASIC)
         .log(Platform.INFO)
@@ -45,7 +47,7 @@ val restModule = module {
             writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
 
             with(interceptors()) {
-                add(HeaderInterceptor())
+                add(get<HeaderInterceptor>())
                 if (BuildConfig.DEBUG) {
                     add(makeLoggingInterceptor())
                 }

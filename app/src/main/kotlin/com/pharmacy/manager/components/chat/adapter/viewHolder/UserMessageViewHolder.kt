@@ -3,15 +3,15 @@ package com.pharmacy.manager.components.chat.adapter.viewHolder
 import android.view.View
 import android.view.ViewGroup
 import com.pharmacy.manager.R
-import com.pharmacy.manager.components.chat.model.ChatMessage
+import com.pharmacy.manager.components.chat.model.message.MessageItem
 import com.pharmacy.manager.core.adapter.BaseViewHolder
 import com.pharmacy.manager.core.extensions.inflate
 import kotlinx.android.synthetic.main.item_chat_message_pharmacy.view.*
 
-class UserMessageViewHolder(itemView: View) : BaseViewHolder<ChatMessage>(itemView) {
+class UserMessageViewHolder(itemView: View) : BaseViewHolder<MessageItem>(itemView) {
 
-    override fun bind(item: ChatMessage) {
-        itemView.tvMessageChat.text = item.asPharmacyMessage().message
+    override fun bind(item: MessageItem) {
+        itemView.tvMessageChat.text = item.text
     }
 
     companion object {

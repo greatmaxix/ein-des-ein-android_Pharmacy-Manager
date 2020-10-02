@@ -1,15 +1,11 @@
 package com.pharmacy.manager.components.chatList.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.pharmacy.manager.components.chatList.model.TempChat
+import com.pharmacy.manager.components.chatList.model.ChatItem
 
-class ChatDiff(private val oldList: List<TempChat>, private val newList: List<TempChat>) : DiffUtil.Callback() {
+object ChatDiff : DiffUtil.ItemCallback<ChatItem>() {
 
-    override fun getOldListSize() = oldList.size
+    override fun areItemsTheSame(oldItem: ChatItem, newItem: ChatItem) = oldItem.id == newItem.id
 
-    override fun getNewListSize() = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) = oldList[oldItemPosition].name == newList[newItemPosition].name // TODO id maybe
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) = true
+    override fun areContentsTheSame(oldItem: ChatItem, newItem: ChatItem) = true
 }

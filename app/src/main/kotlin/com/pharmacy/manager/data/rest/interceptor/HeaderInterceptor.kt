@@ -3,12 +3,8 @@ package com.pharmacy.manager.data.rest.interceptor
 import com.pharmacy.manager.data.local.SPManager
 import okhttp3.Interceptor
 import okhttp3.Response
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 
-class HeaderInterceptor : Interceptor, KoinComponent {
-
-    val sp: SPManager by inject()
+class HeaderInterceptor(private val sp: SPManager) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()

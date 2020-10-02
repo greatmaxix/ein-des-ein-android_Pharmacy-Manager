@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
 
-    private val errorHandler by lazy { GeneralErrorHandler() }
+    protected val errorHandler by lazy { GeneralErrorHandler() }
 
     protected fun <R> requestSingleLiveData(
         needLoading: Boolean = true,

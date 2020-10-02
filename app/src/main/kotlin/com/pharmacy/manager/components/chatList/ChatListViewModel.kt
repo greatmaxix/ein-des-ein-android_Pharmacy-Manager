@@ -1,18 +1,21 @@
 package com.pharmacy.manager.components.chatList
 
-import androidx.lifecycle.LiveData
-import com.pharmacy.manager.components.chatList.model.TempChat
-import com.pharmacy.manager.components.devTools.repository.DevToolsRepository
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import com.pharmacy.manager.components.chatList.repository.ChatListPagingSource
+import com.pharmacy.manager.components.chatList.repository.ChatListRepository
 import com.pharmacy.manager.core.base.mvvm.BaseViewModel
-import com.pharmacy.manager.core.general.SingleLiveEvent
-import com.pharmacy.manager.data.DummyData
+import com.pharmacy.manager.util.Constants.Companion.INIT_LOAD_SIZE
+import com.pharmacy.manager.util.Constants.Companion.PAGE_SIZE
 
-class ChatListViewModel(private val repository: DevToolsRepository) : BaseViewModel() {
+class ChatListViewModel(private val repository: ChatListRepository) : BaseViewModel() {
 
-    private val _chatListLiveData by lazy { SingleLiveEvent<ArrayList<TempChat>>() }
-    val chatListLiveData: LiveData<ArrayList<TempChat>> by lazy { _chatListLiveData }
-
-    init {
-        _chatListLiveData.value = DummyData.chatList
+    val chatListLiveData by lazy {
+        Pager(PagingConfig(PAGE_SIZE, initialLoadSize = INIT_LOAD_SIZE)) { ChatListPagingSource() }.flow
+            .cachedIn(viewModelScope)
+            .asLiveData()
     }
 }

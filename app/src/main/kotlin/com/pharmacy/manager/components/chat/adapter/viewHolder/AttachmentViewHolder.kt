@@ -11,7 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.pharmacy.manager.R
-import com.pharmacy.manager.components.chat.model.ChatMessage
+import com.pharmacy.manager.components.chat.model.message.MessageItem
 import com.pharmacy.manager.core.adapter.BaseViewHolder
 import com.pharmacy.manager.core.extensions.createGlide
 import com.pharmacy.manager.core.extensions.inflate
@@ -19,7 +19,7 @@ import com.pharmacy.manager.core.extensions.resources
 import com.pharmacy.manager.core.extensions.visibleOrGone
 import kotlinx.android.synthetic.main.item_chat_attachment.view.*
 
-class AttachmentViewHolder(itemView: View) : BaseViewHolder<ChatMessage>(itemView) {
+class AttachmentViewHolder(itemView: View) : BaseViewHolder<MessageItem>(itemView) {
 
     private val radius = resources.getDimension(R.dimen._8sdp).toInt()
     private val options = RequestOptions()
@@ -41,12 +41,12 @@ class AttachmentViewHolder(itemView: View) : BaseViewHolder<ChatMessage>(itemVie
         }
     }
 
-    override fun bind(item: ChatMessage) {
-        val items = item.asAttachment().items
-        items.forEachIndexed { index, url ->
+    override fun bind(item: MessageItem) {
+        val items = item.applications
+        items.forEachIndexed { index, application ->
             imageViewList.getOrNull(index)?.let {
                 it.createGlide
-                    .load(url)
+                    .load(application.file)
                     .apply(options)
                     .into(it)
             }

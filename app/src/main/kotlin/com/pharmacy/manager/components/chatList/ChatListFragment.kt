@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import com.pharmacy.manager.R
 import com.pharmacy.manager.components.chatList.ChatListFragmentDirections.Companion.fromChatListToChat
 import com.pharmacy.manager.components.chatList.adapter.ChatAdapter
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import com.pharmacy.manager.core.extensions.animateGoneIfNot
 import com.pharmacy.manager.core.extensions.animateVisibleIfNot
-import com.pharmacy.manager.core.extensions.falseIfNull
 import kotlinx.android.synthetic.main.fragment_chat_list.*
 import kotlinx.coroutines.launch
 
@@ -46,17 +46,20 @@ class ChatListFragment(private val vm: ChatListViewModel) : BaseMVVMFragment(R.l
 
         searchViewChatList.setSearchListener { text ->
             viewLifecycleOwner.lifecycleScope.launch {
-                chatAdapter.filter {
-                    it.name.contains(text, true).falseIfNull() || it.lastMessage.contains(text, true).falseIfNull()
-                }
+                // TODO filter
+//                chatAdapter.filter {
+//                    it.name.contains(text, true).falseIfNull() || it.lastMessage.contains(text, true).falseIfNull()
+//                }
             }
         }
+
+        chatAdapter.addLoadStateListener { progressCallback?.setInProgress(it.refresh is LoadState.Loading || it.append is LoadState.Loading) }
     }
 
     override fun onBindLiveData() {
         super.onBindLiveData()
 
-        observe(vm.chatListLiveData, chatAdapter::notifyDataSet)
+        observe(vm.chatListLiveData) { chatAdapter.submitData(lifecycle, this) }
     }
 
     private fun initChatList() {

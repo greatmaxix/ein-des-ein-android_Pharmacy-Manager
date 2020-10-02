@@ -1,15 +1,15 @@
 package com.pharmacy.manager.components.chat.adapter
 
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import com.pharmacy.manager.components.chat.adapter.viewHolder.*
-import com.pharmacy.manager.components.chat.model.ChatMessage
-import com.pharmacy.manager.core.adapter.BaseRecyclerAdapter
+import com.pharmacy.manager.components.chat.model.message.MessageItem
 import com.pharmacy.manager.core.adapter.BaseViewHolder
 
-class ChatMessageAdapter : BaseRecyclerAdapter<ChatMessage, BaseViewHolder<ChatMessage>>() {
+class ChatMessageAdapter : PagingDataAdapter<MessageItem, BaseViewHolder<MessageItem>>(ChatMessagesDiff) {
 
-    fun setList(list: MutableList<ChatMessage>) {
-        items = list
+    override fun onBindViewHolder(holder: BaseViewHolder<MessageItem>, position: Int) {
+        getItem(position)?.let { holder.bind(it) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -21,7 +21,7 @@ class ChatMessageAdapter : BaseRecyclerAdapter<ChatMessage, BaseViewHolder<ChatM
             else -> ProductViewHolder.newInstance(parent)
         }
 
-    override fun getItemViewType(position: Int) = items[position].itemType
+    override fun getItemViewType(position: Int) = getItem(position)?.messageType ?: -1
 
     companion object {
 

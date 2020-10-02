@@ -12,6 +12,7 @@ import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.fro
 import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.fromHomeToSearch
 import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.globalToProductCard
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
+import com.pharmacy.manager.core.extensions.animateVisibleOrGoneIfNot
 import com.pharmacy.manager.core.extensions.compatColor
 import com.pharmacy.manager.core.extensions.loadCircularImage
 import com.pharmacy.manager.core.extensions.setDebounceOnClickListener
@@ -28,7 +29,7 @@ class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fr
         cardScanHome.setDebounceOnClickListener { navController.navigate(fromHomeToScanner()) }
         cardSearchHome.setDebounceOnClickListener { navController.navigate(fromHomeToSearch()) } // todo
         tvChatRequestsCounterHome.text = 12.toString()
-        tvSoonCounterHome.text = 64.toString()
+        tvSoonCounterHome.text = "∞"
 
         initChatList()
         initProductList()
@@ -44,13 +45,17 @@ class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fr
     override fun onBindLiveData() {
         super.onBindLiveData()
 
-        observe(vm.chatListLiveData, chatAdapter::notifyDataSet)
+        observe(vm.chatListLiveData) { chatAdapter.submitData(lifecycle, this) }
         observe(vm.recentProductListLiveData, productAdapter::notifyDataSet)
     }
 
     private fun initChatList() {
         rvChatListHome.adapter = chatAdapter
         rvChatListHome.setHasFixedSize(true)
+        chatAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeRemoved(position: Int, count: Int) = rvChatListHome.animateVisibleOrGoneIfNot(chatAdapter.itemCount != 1)
+            override fun onItemRangeInserted(position: Int, count: Int) = rvChatListHome.animateVisibleOrGoneIfNot(count != 0)
+        })
     }
 
     private fun initProductList() {
