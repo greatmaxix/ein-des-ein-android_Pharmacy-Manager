@@ -54,7 +54,7 @@ class ChatViewModel(
 
     fun sendProduct(product: ProductLite) {
         // TODO send message to server
-
+        saveRecentlyRecommended(product)
         addMessageToChatList(product = product)
     }
 

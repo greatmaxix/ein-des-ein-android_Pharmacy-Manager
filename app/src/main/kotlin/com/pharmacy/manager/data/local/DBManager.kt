@@ -3,7 +3,7 @@ package com.pharmacy.manager.data.local
 import android.content.Context
 import androidx.room.*
 import com.pharmacy.manager.components.product.model.Picture
-import com.pharmacy.manager.components.product.model.Product
+import com.pharmacy.manager.components.product.model.ProductLite
 import com.pharmacy.manager.components.product.model.RecentlyRecommendedDAO
 import com.pharmacy.manager.components.signIn.model.User
 import com.pharmacy.manager.components.signIn.model.UserDAO
@@ -30,7 +30,7 @@ class DBManager(context: Context) : ManagerInterface {
         recentlyViewedDAO.clear()
     }
 
-    @Database(entities = [User::class, Product::class], version = VERSION, exportSchema = false)
+    @Database(entities = [User::class, ProductLite::class], version = VERSION, exportSchema = false)
     @TypeConverters(StringListConverter::class, PicturesListConverter::class)
     abstract class LocalDB : RoomDatabase() {
 

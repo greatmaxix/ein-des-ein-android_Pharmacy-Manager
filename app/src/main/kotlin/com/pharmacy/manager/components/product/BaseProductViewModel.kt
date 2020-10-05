@@ -1,5 +1,6 @@
 package com.pharmacy.manager.components.product
 
+import com.pharmacy.manager.components.product.model.ProductLite
 import com.pharmacy.manager.components.product.repository.ProductRepository
 import com.pharmacy.manager.core.base.mvvm.BaseViewModel
 import org.koin.core.KoinComponent
@@ -10,8 +11,12 @@ abstract class BaseProductViewModel : BaseViewModel(), KoinComponent {
     private val repositoryProduct by inject<ProductRepository>()
 
     fun requestProductInfo(globalProductId: Int) = requestLiveData {
-        repositoryProduct.productById(globalProductId).apply {
-            repositoryProduct.saveRecentlyViewed(this)
+        repositoryProduct.productById(globalProductId)
+    }
+
+    fun saveRecentlyRecommended(product: ProductLite) {
+        launchIO {
+            repositoryProduct.saveRecentlyRecommended(product)
         }
     }
 

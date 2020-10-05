@@ -1,9 +1,9 @@
 package com.pharmacy.manager.components.home.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.pharmacy.manager.components.product.model.Product
+import com.pharmacy.manager.components.product.model.ProductLite
 
-class ProductDiff(private val oldList: List<Product>, private val newList: List<Product>) : DiffUtil.Callback() {
+class ProductDiff(private val oldList: List<ProductLite>, private val newList: List<ProductLite>) : DiffUtil.Callback() {
 
     override fun getOldListSize() = oldList.size
 

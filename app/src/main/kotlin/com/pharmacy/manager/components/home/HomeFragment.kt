@@ -9,6 +9,7 @@ import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.fro
 import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.fromHomeToSearch
 import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.globalToProductCard
 import com.pharmacy.manager.components.home.adapter.ProductAdapter
+import com.pharmacy.manager.components.product.model.Product
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import com.pharmacy.manager.core.extensions.animateVisibleOrGoneIfNot
 import com.pharmacy.manager.core.extensions.compatColor
@@ -19,7 +20,15 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fragment_home) {
 
     private val chatAdapter by lazy { ChatAdapter { navController.navigate(fromHomeToChat(it)) } }
-    private val productAdapter by lazy { ProductAdapter { navController.navigate(globalToProductCard(it)) } }
+    private val productAdapter by lazy {
+        ProductAdapter {
+            observeRestResult<Product> {
+                liveData = vm.requestProductInfo(it.globalProductId)
+                onEmmit = { navController.navigate(globalToProductCard(this)) }
+
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
