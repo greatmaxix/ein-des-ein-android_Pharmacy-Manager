@@ -51,6 +51,9 @@ class ChatListFragment(private val vm: ChatListViewModel) : BaseMVVMFragment(R.l
                 }
             }
         }
+        searchViewChatList.onBackClick = {
+            requireActivity().onBackPressed()
+        }
     }
 
     override fun onBindLiveData() {

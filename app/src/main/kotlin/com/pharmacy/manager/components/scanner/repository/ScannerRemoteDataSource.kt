@@ -4,7 +4,7 @@ import com.pharmacy.manager.data.rest.RestApi
 
 class ScannerRemoteDataSource(private val ra: RestApi) {
 
-//    suspend fun searchBarcode(barCode: String) = ra.productSearch(PAGE, PAGE_SIZE, barCode, "") TODO
+    suspend fun searchBarcode(barCode: String) = ra.productSearch(PAGE, PAGE_SIZE, barCode = barCode)
 
     companion object {
         private const val PAGE = 1

@@ -1,4 +1,4 @@
-package com.pharmacy.manager.components.chat.adapter
+package com.pharmacy.manager.components.home.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.pharmacy.manager.components.product.model.Product

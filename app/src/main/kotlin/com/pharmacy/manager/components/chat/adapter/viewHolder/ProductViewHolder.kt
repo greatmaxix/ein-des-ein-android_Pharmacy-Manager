@@ -29,7 +29,7 @@ class ProductViewHolder(itemView: View) : BaseViewHolder<ChatMessage>(itemView) 
         with(itemView) {
             val productMessage = item.asProduct()
             tvChatProductRecipe.text = "Рецепт" // TODO
-            tvChatProductDescription.text = productMessage.product.description
+            tvChatProductDescription.text = productMessage.product.releaseForm
             productMessage.product.aggregation?.let {
                 tvChatProductPrice.text = context.getString(R.string.price, it.minPrice.toString())
             }

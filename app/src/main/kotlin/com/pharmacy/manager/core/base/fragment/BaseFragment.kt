@@ -118,6 +118,10 @@ abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutR
         navigation?.let { toolbar?.setNavigationOnClickListener(it::invoke) }
     }
 
+    protected fun hideBackButton() {
+        toolbar?.navigationIcon = null
+    }
+
     protected fun changeNavigationIcon(@DrawableRes drawable: Int) {
         asyncWithContext(
             { ContextCompat.getDrawable(requireContext(), drawable) },

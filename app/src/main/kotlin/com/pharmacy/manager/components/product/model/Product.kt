@@ -1,10 +1,12 @@
 package com.pharmacy.manager.components.product.model
 
 import android.os.Parcelable
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
+@Entity
 class Product(
     @SerializedName("description") val description: String,
     @SerializedName("category") val category: String,
@@ -16,5 +18,4 @@ class Product(
 
     val getFullManufacture
         get() = "${manufacture.producer} , $productLocale"
-
 }

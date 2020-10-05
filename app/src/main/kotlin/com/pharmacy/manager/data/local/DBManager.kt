@@ -2,6 +2,9 @@ package com.pharmacy.manager.data.local
 
 import android.content.Context
 import androidx.room.*
+import com.pharmacy.manager.components.product.model.Picture
+import com.pharmacy.manager.components.product.model.Product
+import com.pharmacy.manager.components.product.model.RecentlyRecommendedDAO
 import com.pharmacy.manager.components.signIn.model.User
 import com.pharmacy.manager.components.signIn.model.UserDAO
 import com.pharmacy.manager.core.general.interfaces.ManagerInterface
@@ -20,15 +23,20 @@ class DBManager(context: Context) : ManagerInterface {
     val userDAO
         get() = db.userDAO()
 
-    override fun clear() {
+    val recentlyViewedDAO
+        get() = db.recentlyViewedDAO()
 
+    override fun clear() {
+        recentlyViewedDAO.clear()
     }
 
-    @Database(entities = [User::class], version = VERSION, exportSchema = false)
-    @TypeConverters(StringListConverter::class)
+    @Database(entities = [User::class, Product::class], version = VERSION, exportSchema = false)
+    @TypeConverters(StringListConverter::class, PicturesListConverter::class)
     abstract class LocalDB : RoomDatabase() {
 
         abstract fun userDAO(): UserDAO
+
+        abstract fun recentlyViewedDAO(): RecentlyRecommendedDAO
     }
 
     class StringListConverter {
@@ -37,5 +45,13 @@ class DBManager(context: Context) : ManagerInterface {
 
         @TypeConverter
         fun fromList(list: List<String>) = list.joinToString("|")
+    }
+
+    class PicturesListConverter {
+        @TypeConverter
+        fun toList(value: String) = value.split("|").filter { it.isNotEmpty() }.map { Picture(it) }
+
+        @TypeConverter
+        fun fromList(list: List<Picture>) = list.joinToString("|") { it.url }
     }
 }

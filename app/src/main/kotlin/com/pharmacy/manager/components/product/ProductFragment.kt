@@ -7,7 +7,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.pharmacy.manager.R
 import com.pharmacy.manager.components.product.adapter.ProductsImageAdapter
 import com.pharmacy.manager.core.extensions.*
-import kotlinx.android.synthetic.main.fragment_product.*
+import com.pharmacy.manager.util.ColorFilterUtil.blackWhiteFilter
 import kotlinx.android.synthetic.main.layout_product_card_additional_info.*
 import kotlinx.android.synthetic.main.layout_product_card_image_pager.*
 import kotlinx.android.synthetic.main.layout_product_card_main_info.*
@@ -31,7 +31,6 @@ class ProductFragment(private val viewModel: ProductViewModel) : BaseProductFrag
         mcvAnalog.setDebounceOnClickListener { onAnalog() }
         mcvCategory.setDebounceOnClickListener { onCategory() }
         mcvInstruction.setDebounceOnClickListener { onInstruction() }
-        bottomLayout.setTopRoundCornerBackground()
     }
 
     private fun onAnalog() = requireContext().toast(getString(R.string.expectSoonMock))
@@ -44,14 +43,17 @@ class ProductFragment(private val viewModel: ProductViewModel) : BaseProductFrag
         tvTitle.setTextHtml(rusName)
         tvSubTitle.setTextHtml(releaseForm)
         tvManufacture.text = getFullManufacture
+
         aggregation?.let {
-            tvPriceTo.text = getString(R.string.price, aggregation.maxPrice.toString())
-            tvPriceFrom.text = getString(R.string.price, aggregation.minPrice.toString())
+            tvPriceTo.text = getString(R.string.price, aggregation?.maxPrice?.formatPrice())
+            tvPriceFrom.text = getString(R.string.price, aggregation?.minPrice?.formatPrice())
+        } ?: run {
+            ivProductDetailAbsent.colorFilter = blackWhiteFilter
         }
         groupPriceFields.visibleOrGone(aggregation != null)
         tvPriceUnavailable.visibleOrGone(aggregation == null)
 
-//        tvAnalog.text = substance TODO
+        tvAnalog.text = substance
 
         ivCategory.setImageResource(R.drawable.ic_vaccine)
         tvCategoryDes.text = category

@@ -5,7 +5,7 @@ import com.pharmacy.manager.components.chat.adapter.ChatMessageAdapter.Companion
 import com.pharmacy.manager.components.chat.adapter.ChatMessageAdapter.Companion.TYPE_MESSAGE_PHARMACY
 import com.pharmacy.manager.components.chat.adapter.ChatMessageAdapter.Companion.TYPE_MESSAGE_USER
 import com.pharmacy.manager.components.chat.adapter.ChatMessageAdapter.Companion.TYPE_PRODUCT
-import com.pharmacy.manager.components.product.model.Product
+import com.pharmacy.manager.components.product.model.ProductLite
 import java.time.LocalDateTime
 
 sealed class ChatMessage(val itemType: Int) {
@@ -36,7 +36,7 @@ sealed class ChatMessage(val itemType: Int) {
     fun asAttachment() = this as Attachment
 
     class ChatProduct(
-        val product: Product
+        val product: ProductLite
     ) : ChatMessage(TYPE_PRODUCT)
 
     fun asProduct() = this as ChatProduct

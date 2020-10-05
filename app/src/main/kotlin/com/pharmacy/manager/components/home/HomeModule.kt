@@ -13,7 +13,7 @@ val homeModule = module {
     single { HomeLocalDataSource(get()) }
     single { HomeRemoteDataSource(get()) }
 
-    viewModel { HomeViewModel(get()) }
+    viewModel { HomeViewModel(get(), get()) }
 
     fragment { HomeFragment(get()) }
 }

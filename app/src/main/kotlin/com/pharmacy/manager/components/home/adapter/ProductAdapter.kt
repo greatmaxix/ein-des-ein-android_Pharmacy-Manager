@@ -1,4 +1,4 @@
-package com.pharmacy.manager.components.chat.adapter
+package com.pharmacy.manager.components.home.adapter
 
 import android.view.View
 import android.view.ViewGroup

@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.text.style.StyleSpan
 import android.util.Patterns
 import java.text.DecimalFormat
+import java.util.*
 import kotlin.math.abs
 import kotlin.math.log10
 
@@ -38,3 +39,5 @@ fun Int.length() = when (this) {
     0 -> 1
     else -> log10(abs(toDouble())).toInt() + 1
 }
+
+fun Double.formatPrice(digits: Int = 2): String = String.format(Locale.US, "%.${digits}f", this)

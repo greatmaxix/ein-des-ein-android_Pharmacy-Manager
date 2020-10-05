@@ -11,7 +11,7 @@ import org.koin.dsl.module
 val profileModule = module {
 
     single { ProfileRepository(get(), get()) }
-    single { ProfileLocalDataSource(get(), get<DBManager>().userDAO) }
+    single { ProfileLocalDataSource(get(), get<DBManager>().userDAO, get<DBManager>().recentlyViewedDAO) }
     single { ProfileRemoteDataSource(get()) }
 
     viewModel { ProfileViewModel(get()) }
