@@ -8,6 +8,9 @@ import com.pharmacy.manager.components.chat.model.message.MessageDAO
 import com.pharmacy.manager.components.chat.model.message.MessageItem
 import com.pharmacy.manager.components.chat.model.remoteKeys.RemoteKeys
 import com.pharmacy.manager.components.chat.model.remoteKeys.RemoteKeysDAO
+import com.pharmacy.manager.components.product.model.Picture
+import com.pharmacy.manager.components.product.model.ProductLite
+import com.pharmacy.manager.components.product.model.RecentlyRecommendedDAO
 import com.pharmacy.manager.components.signIn.model.User
 import com.pharmacy.manager.components.signIn.model.UserDAO
 import com.pharmacy.manager.core.general.interfaces.ManagerInterface
@@ -32,12 +35,15 @@ class DBManager(context: Context) : ManagerInterface {
     val remoteKeysDAO
         get() = db.remoteKeysDAO()
 
-    override fun clear() {
+    val recentlyViewedDAO
+        get() = db.recentlyViewedDAO()
 
+    override fun clear() {
+        recentlyViewedDAO.clear()
     }
 
-    @Database(entities = [User::class, MessageItem::class, RemoteKeys::class], version = VERSION, exportSchema = false)
-    @TypeConverters(StringListConverter::class, ApplicationsListConverter::class)
+    @Database(entities = [User::class, MessageItem::class, RemoteKeys::class, ProductLite::class], version = VERSION, exportSchema = false)
+    @TypeConverters(StringListConverter::class, ApplicationsListConverter::class, PicturesListConverter::class)
     abstract class LocalDB : RoomDatabase() {
 
         abstract fun userDAO(): UserDAO
@@ -45,6 +51,8 @@ class DBManager(context: Context) : ManagerInterface {
         abstract fun messageDAO(): MessageDAO
 
         abstract fun remoteKeysDAO(): RemoteKeysDAO
+
+        abstract fun recentlyViewedDAO(): RecentlyRecommendedDAO
     }
 
     class StringListConverter {
@@ -62,5 +70,13 @@ class DBManager(context: Context) : ManagerInterface {
 
         @TypeConverter
         fun fromList(list: List<Application>) = list.joinToString("|") { Gson().toJson(it) }
+    }
+
+    class PicturesListConverter {
+        @TypeConverter
+        fun toList(value: String) = value.split("|").filter { it.isNotEmpty() }.map { Picture(it) }
+
+        @TypeConverter
+        fun fromList(list: List<Picture>) = list.joinToString("|") { it.url }
     }
 }

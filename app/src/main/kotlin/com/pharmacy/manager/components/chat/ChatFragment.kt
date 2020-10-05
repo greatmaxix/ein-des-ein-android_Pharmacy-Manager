@@ -18,7 +18,6 @@ import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.setFragmentResultListener
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
 import br.com.onimur.handlepathoz.HandlePathOz
 import br.com.onimur.handlepathoz.HandlePathOzListener
@@ -38,16 +37,14 @@ import com.pharmacy.manager.BuildConfig
 import com.pharmacy.manager.R
 import com.pharmacy.manager.components.chat.ChatFragmentDirections.Companion.fromChatToSendImageBottomSheet
 import com.pharmacy.manager.components.chat.adapter.ChatMessageAdapter
-import com.pharmacy.manager.components.chat.adapter.ProductAdapter
+import com.pharmacy.manager.components.chat.adapter.ProductAttachSearchAdapter
 import com.pharmacy.manager.components.chat.dialog.SendBottomSheetDialogFragment
 import com.pharmacy.manager.components.chat.dialog.SendBottomSheetDialogFragment.Companion.RESULT_BUTTON_EXTRA_KEY
 import com.pharmacy.manager.components.chat.dialog.SendBottomSheetDialogFragment.Companion.SEND_PHOTO_KEY
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import com.pharmacy.manager.core.extensions.*
-import com.pharmacy.manager.data.DummyData
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -72,7 +69,7 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
 
     private val chatAdapter by lazy { ChatMessageAdapter() }
     private val productAdapter by lazy {
-        ProductAdapter {
+        ProductAttachSearchAdapter {
             vm.sendProduct(it)
             searchViewChatList.setText("")
             hideProducts()
@@ -112,8 +109,12 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
             navController.navigate(fromChatToSendImageBottomSheet())
         }
         ivProductAttachment.setDebounceOnClickListener {
-            llProductContainer.animateVisibleIfNot()
-            ivProductAttachment.isSelected = true
+            if (llProductContainer.isVisible) {
+                hideProducts()
+            } else {
+                llProductContainer.animateVisibleIfNot()
+                ivProductAttachment.isSelected = true
+            }
         }
         llMessageFieldChat.setTopRoundCornerBackground()
 
@@ -124,13 +125,16 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
                 navController.popBackStack()
             }
         }
-
+        searchViewChatList.setSearchListener { text ->
+            vm.doSearch(text.toString())
+        }
         setFragmentResultListener(SEND_PHOTO_KEY) { _, bundle ->
             when (bundle.getString(RESULT_BUTTON_EXTRA_KEY)) {
                 SendBottomSheetDialogFragment.Button.GALLERY.name -> requestPickPhoto()
                 SendBottomSheetDialogFragment.Button.CAMERA.name -> requestTakePhoto()
             }
         }
+        llMessageFieldChat.visible()
     }
 
     private fun hideProducts() {
@@ -141,14 +145,6 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
     private fun initProductList() {
         rvProductChat.adapter = productAdapter
         rvProductChat.setHasFixedSize(true)
-
-        productAdapter.notifyDataSet(DummyData.products)
-
-        searchViewChatList.setSearchListener { text ->
-            viewLifecycleOwner.lifecycleScope.launch {
-                productAdapter.filter { it.rusName.contains(text, true).falseIfNull() || it.description.contains(text, true).falseIfNull() }
-            }
-        }
     }
 
     @FlowPreview
@@ -212,9 +208,6 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
         observe(vm.directionLiveData, navController::navigate)
         observe(vm.errorLiveData) { messageCallback?.showError(this) }
         observe(vm.progressLiveData) { progressCallback?.setInProgress(this) }
-
-        llMessageFieldChat.visible()
-
         observe(vm.chatLiveData) {
             toolbar?.title = user.name
             Glide.with(requireContext())
@@ -238,6 +231,7 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
                 rvMessagesChat.smoothScrollToPosition(0)
             }, 100)
         }
+        observe(vm.pagedSearchLiveData) { productAdapter.submitData(lifecycle, this) }
     }
 
     private fun initChatList() {

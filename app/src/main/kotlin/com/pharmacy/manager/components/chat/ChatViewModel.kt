@@ -14,8 +14,8 @@ import androidx.paging.cachedIn
 import com.pharmacy.manager.components.chat.repository.ChatMessagesRemoteMediator
 import com.pharmacy.manager.components.chat.repository.ChatRepository
 import com.pharmacy.manager.components.chatList.model.ChatItem
-import com.pharmacy.manager.components.product.model.Product
-import com.pharmacy.manager.core.base.mvvm.BaseViewModel
+import com.pharmacy.manager.components.product.model.ProductLite
+import com.pharmacy.manager.components.search.SearchViewModel
 import com.pharmacy.manager.core.general.SingleLiveEvent
 import com.pharmacy.manager.util.Constants
 import timber.log.Timber
@@ -25,7 +25,7 @@ class ChatViewModel(
     private val context: Context,
     private val repository: ChatRepository,
     args: ChatFragmentArgs
-) : BaseViewModel() {
+) : SearchViewModel() {
 
     private val _errorLiveData by lazy { SingleLiveEvent<String>() }
     val errorLiveData: LiveData<String> by lazy { _errorLiveData }
@@ -64,9 +64,9 @@ class ChatViewModel(
     }
 
 
-    fun sendProduct(product: Product) {
+    fun sendProduct(product: ProductLite) {
         // TODO send message to server
-
+        saveRecentlyRecommended(product)
         addMessageToChatList(product = product)
     }
 
@@ -76,7 +76,7 @@ class ChatViewModel(
         Timber.e(uriList.toString())
     }
 
-    private fun addMessageToChatList(message: String? = null, images: MutableList<String>? = null, product: Product? = null) {
+    private fun addMessageToChatList(message: String? = null, images: MutableList<String>? = null, product: ProductLite? = null) {
         // TODO
 //        val list = chatMessagesLiveData.value ?: arrayListOf()
 //        if (list.isEmpty()) list.add(0, ChatMessage.DateHeader(LocalDateTime.now()))

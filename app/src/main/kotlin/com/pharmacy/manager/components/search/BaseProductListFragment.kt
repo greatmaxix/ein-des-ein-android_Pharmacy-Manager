@@ -17,7 +17,7 @@ import com.pharmacy.manager.core.extensions.addAutoKeyboardCloser
 abstract class BaseProductListFragment<VM : BaseProductViewModel>(@LayoutRes private val layoutResourceId: Int, private val viewModel: VM) :
     BaseProductFragment<VM>(layoutResourceId, viewModel) {
 
-    protected val productAdapter = ProductListAdapter(viewModel::getProductInfo)
+    protected val productAdapter = ProductListAdapter(::performProductInfoRequest)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

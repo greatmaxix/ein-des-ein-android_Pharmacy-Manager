@@ -31,13 +31,14 @@
             android:id="@+id/searchView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_6sdp"
             android:layout_marginEnd="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_6sdp"
-            android:layout_gravity="center"
             android:layout_weight="1"
-            app:cardCornerRadius="@dimen/_16sdp" />
+            app:cardCornerRadius="@dimen/_16sdp"
+            app:withBackButton="true" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/mcvScanSearch"

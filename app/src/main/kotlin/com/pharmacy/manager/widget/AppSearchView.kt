@@ -29,6 +29,11 @@ class AppSearchView @JvmOverloads constructor(
     private var debounce = 500f
     private var notifyJob: Job? = null
     private var animationDuration = 400L
+    private var withBackButton = false
+        set(value) {
+            field = value
+            ivBack.visibleOrGone(value)
+        }
 
     private var notify: ((CharSequence) -> Unit)? = null
     private var editor: ((String) -> Boolean)? = null
@@ -38,6 +43,8 @@ class AppSearchView @JvmOverloads constructor(
 
     override val containerView = inflate(R.layout.layout_search, true)
 
+    var onBackClick: (() -> Unit)? = null
+
     init {
         attrs?.let {
             context.theme.obtainStyledAttributes(it, R.styleable.AppSearchView, defStyleAttr, -1)
@@ -45,6 +52,7 @@ class AppSearchView @JvmOverloads constructor(
                     hint = getResourceId(R.styleable.AppSearchView_hintText, -1)
                     debounce = getFloat(R.styleable.AppSearchView_debounce, 200f)
                     animationDuration = getFloat(R.styleable.AppSearchView_debounce, 400f).toLong()
+                    withBackButton = getBoolean(R.styleable.AppSearchView_withBackButton, false)
                 }
         }
     }
@@ -62,7 +70,6 @@ class AppSearchView @JvmOverloads constructor(
                 notifySearchListener(it)
                 val isContainsText = it.isNotEmpty()
                 tvHint.isGone = isContainsText
-                ivSearch.isGone = isContainsText
                 if (isContainsText) ivClose.animateVisibleIfNot(animationDuration) else ivClose.animateGoneIfNot(animationDuration)
                 if (!ivClose.hasOnClickListeners()) {
                     ivClose.setOnClickListener(closeClick)
@@ -82,8 +89,11 @@ class AppSearchView @JvmOverloads constructor(
         etSearch
             .editorActionEvents { hideKeyboard(editor?.invoke(etSearch.text()) ?: false) }
             .launchIn(viewScope)
-    }
 
+        ivBack.setDebounceOnClickListener {
+            onBackClick?.invoke()
+        }
+    }
 
     private val closeClick = OnClickListener {
         ivClose.setOnClickListener(null)

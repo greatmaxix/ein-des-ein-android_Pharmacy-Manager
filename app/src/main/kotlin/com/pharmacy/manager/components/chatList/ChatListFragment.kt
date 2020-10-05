@@ -54,6 +54,9 @@ class ChatListFragment(private val vm: ChatListViewModel) : BaseMVVMFragment(R.l
         }
 
         chatAdapter.addLoadStateListener { progressCallback?.setInProgress(it.refresh is LoadState.Loading || it.append is LoadState.Loading) }
+        searchViewChatList.onBackClick = {
+            requireActivity().onBackPressed()
+        }
     }
 
     override fun onBindLiveData() {

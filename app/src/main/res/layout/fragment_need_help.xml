@@ -28,7 +28,8 @@
             android:layout_marginBottom="@dimen/_16sdp"
             android:layout_weight="1"
             android:visibility="gone"
-            app:cardCornerRadius="@dimen/_16sdp" />
+            app:cardCornerRadius="@dimen/_16sdp"
+            app:withBackButton="true" />
 
     </LinearLayout>
 

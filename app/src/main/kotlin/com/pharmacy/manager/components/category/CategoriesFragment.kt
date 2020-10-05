@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import com.pharmacy.manager.R
 import com.pharmacy.manager.components.category.adapter.CategoriesAdapter
 import com.pharmacy.manager.components.category.model.Category
@@ -26,13 +25,21 @@ class CategoriesFragment(private val viewModel: CategoriesViewModel) : BaseMVVMF
             toolbar?.title = null
             searchViewCategories.animateVisibleIfNot()
             searchViewCategories.requestFocus()
+            hideBackButton()
             true
         }
         searchViewCategories.setSearchListener { text ->
             viewLifecycleOwner.lifecycleScope.launch {
+                if (rvCategories.adapter == null) return@launch
                 val adapter = rvCategories.adapter as CategoriesAdapter
                 adapter.filter { it.name.contains(text, true).falseIfNull() }
             }
+        }
+        searchViewCategories.onBackClick = {
+            navigationBack()
+        }
+        observeRestResult<List<Category>> {
+            liveData = viewModel.baseCategoriesLiveData
         }
     }
 
@@ -42,16 +49,14 @@ class CategoriesFragment(private val viewModel: CategoriesViewModel) : BaseMVVMF
             searchViewCategories.animateGoneIfNot()
             toolbar?.menu?.findItem(R.id.search)?.isVisible = true
             toolbar?.title = viewModel.selectedCategoryLiveData.value?.name ?: getString(R.string.menuTitleCategories)
+            showBackButton()
         } else {
             viewModel.handleBackPress()
         }
     }
 
     override fun onBindLiveData() {
-        observe(viewModel.errorLiveData) { messageCallback?.showError(this) }
-        observe(viewModel.progressLiveData) { progressCallback?.setInProgress(this) }
         observe(viewModel.directionLiveData, navController::navigate)
-
         observe(viewModel.navigateBackLiveData) { navController.popBackStack() }
         observeNullable(viewModel.selectedCategoryLiveData) {
             if (searchViewCategories.isVisible) {
@@ -66,7 +71,6 @@ class CategoriesFragment(private val viewModel: CategoriesViewModel) : BaseMVVMF
 
     private fun setAdapter(list: List<Category>) {
         rvCategories.adapter = CategoriesAdapter(list.toMutableList(), clickAction)
-        rvCategories.layoutManager = GridLayoutManager(requireContext(), 2)
         clearItemDecoration()
         rvCategories.addGridItemDecorator()
     }

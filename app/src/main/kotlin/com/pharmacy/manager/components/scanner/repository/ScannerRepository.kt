@@ -12,5 +12,7 @@ class ScannerRepository(
         lds.setDescriptionShown()
     }
 
-//    suspend fun searchQrCode(code: String) = rds.searchBarcode(barCode = code) TODO
+    suspend fun searchBarcode(code: String) = rds.searchBarcode(barCode = code)
+        .dataOrThrow()
+        .items
 }

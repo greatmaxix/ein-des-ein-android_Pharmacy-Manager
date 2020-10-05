@@ -44,6 +44,9 @@ class NeedHelpFragment(private val vm: NeedHelpViewModel) : BaseMVVMFragment(R.l
                 helpAdapter.filter { it.title.contains(text, true).falseIfNull() || it.text.contains(text, true).falseIfNull() }
             }
         }
+        searchViewNeedHelp.onBackClick = {
+            requireActivity().onBackPressed()
+        }
 
         initHelpList()
     }

@@ -13,7 +13,7 @@ class ScannerListFragment(private val viewModel: ProductViewModel) : BaseProduct
 
     private val args by navArgs<ScannerListFragmentArgs>()
 
-    private val adapter by lazy { ProductListScannerAdapter(viewModel::getProductInfo, args.products.toMutableList()) }
+    private val adapter by lazy { ProductListScannerAdapter(::performProductInfoRequest, args.products.toMutableList()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

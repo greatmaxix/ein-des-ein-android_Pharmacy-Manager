@@ -2,15 +2,15 @@ package com.pharmacy.manager.components.home
 
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pharmacy.manager.R
-import com.pharmacy.manager.components.chat.adapter.ProductAdapter
 import com.pharmacy.manager.components.chatList.adapter.ChatAdapter
 import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.fromHomeToChat
 import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.fromHomeToScanner
 import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.fromHomeToSearch
 import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.globalToProductCard
+import com.pharmacy.manager.components.home.adapter.ProductAdapter
+import com.pharmacy.manager.components.product.model.Product
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import com.pharmacy.manager.core.extensions.animateVisibleOrGoneIfNot
 import com.pharmacy.manager.core.extensions.compatColor
@@ -21,13 +21,21 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fragment_home) {
 
     private val chatAdapter by lazy { ChatAdapter { navController.navigate(fromHomeToChat(it)) } }
-    private val productAdapter by lazy { ProductAdapter { navController.navigate(globalToProductCard(it)) } }
+    private val productAdapter by lazy {
+        ProductAdapter {
+            observeRestResult<Product> {
+                liveData = vm.requestProductInfo(it.globalProductId)
+                onEmmit = { navController.navigate(globalToProductCard(this)) }
+
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         cardScanHome.setDebounceOnClickListener { navController.navigate(fromHomeToScanner()) }
-        cardSearchHome.setDebounceOnClickListener { navController.navigate(fromHomeToSearch()) } // todo
+        cardSearchHome.setDebounceOnClickListener { navController.navigate(fromHomeToSearch()) }
         tvChatRequestsCounterHome.text = 12.toString()
         tvSoonCounterHome.text = "∞"
 
@@ -40,13 +48,19 @@ class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fr
         ivAvatar3Home.loadCircularImage(avatarAddress, resources.getDimensionPixelSize(R.dimen._2sdp).toFloat(), requireContext().compatColor(R.color.colorGlobalWhite))
         ivAvatar2Home.loadCircularImage(avatarAddress, resources.getDimensionPixelSize(R.dimen._2sdp).toFloat(), requireContext().compatColor(R.color.colorGlobalWhite))
         ivAvatar1Home.loadCircularImage(avatarAddress, resources.getDimensionPixelSize(R.dimen._2sdp).toFloat(), requireContext().compatColor(R.color.colorGlobalWhite))
+
+        vm.getRecentProductList()
     }
 
     override fun onBindLiveData() {
         super.onBindLiveData()
 
         observe(vm.chatListLiveData) { chatAdapter.submitData(lifecycle, this) }
-        observe(vm.recentProductListLiveData, productAdapter::notifyDataSet)
+        observe(vm.recentProductListLiveData) {
+            productAdapter.notifyDataSet(this)
+            tvRecommendedHome.animateVisibleOrGoneIfNot(!productAdapter.isEmpty())
+            rvProductsHome.animateVisibleOrGoneIfNot(!productAdapter.isEmpty())
+        }
     }
 
     private fun initChatList() {
@@ -60,7 +74,6 @@ class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fr
 
     private fun initProductList() {
         rvProductsHome.adapter = productAdapter
-        rvProductsHome.layoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
         rvProductsHome.setHasFixedSize(true)
     }
 }
