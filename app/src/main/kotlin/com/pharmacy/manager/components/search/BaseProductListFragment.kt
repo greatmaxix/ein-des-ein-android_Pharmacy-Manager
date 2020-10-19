@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.lifecycle.LiveData
-import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.RecyclerView
 import com.pharmacy.manager.R
@@ -13,7 +12,10 @@ import com.pharmacy.manager.components.product.BaseProductViewModel
 import com.pharmacy.manager.components.product.model.ProductLite
 import com.pharmacy.manager.components.search.adapter.ProductListAdapter
 import com.pharmacy.manager.core.extensions.addAutoKeyboardCloser
+import com.pharmacy.manager.core.extensions.addStateListener
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 abstract class BaseProductListFragment<VM : BaseProductViewModel>(@LayoutRes private val layoutResourceId: Int, private val viewModel: VM) :
     BaseProductFragment<VM>(layoutResourceId, viewModel) {
 
@@ -27,7 +29,7 @@ abstract class BaseProductListFragment<VM : BaseProductViewModel>(@LayoutRes pri
             addAutoKeyboardCloser()
         }
 
-        productAdapter.addLoadStateListener { progressCallback?.setInProgress(it.refresh is LoadState.Loading || it.append is LoadState.Loading) }
+        productAdapter.addStateListener { progressCallback?.setInProgress(it) }
     }
 
     abstract val productLiveData: LiveData<PagingData<ProductLite>>

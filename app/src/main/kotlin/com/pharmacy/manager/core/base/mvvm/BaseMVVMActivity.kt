@@ -6,8 +6,10 @@ import androidx.annotation.LayoutRes
 import androidx.lifecycle.LiveData
 import com.pharmacy.manager.core.base.BaseActivity
 import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.core.component.KoinApiExtension
 import kotlin.reflect.KClass
 
+@KoinApiExtension
 abstract class BaseMVVMActivity<out VM : BaseViewModel>(
     @LayoutRes layoutResourceId: Int,
     viewModelClass: KClass<VM>

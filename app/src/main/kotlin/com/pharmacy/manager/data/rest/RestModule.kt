@@ -5,13 +5,15 @@ import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
 import com.pharmacy.manager.BuildConfig
 import com.pharmacy.manager.core.network.FlowCallAdapterFactory
-import com.pharmacy.manager.data.rest.deserializer.StringDeserializer
 import com.pharmacy.manager.data.rest.interceptor.HeaderInterceptor
+import com.pharmacy.manager.data.rest.serializer.DateTimeSerializer
+import com.pharmacy.manager.data.rest.serializer.StringDeserializer
 import okhttp3.OkHttpClient
 import okhttp3.internal.platform.Platform
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 
 private const val BASE_URL = "https://api.pharmacies.fmc-dev.com" /* "https://api.pharmacies.release.fmc-dev.com" */ // TODO change to release in future
@@ -59,6 +61,7 @@ val restModule = module {
         GsonBuilder().apply {
             setLenient()
             registerTypeAdapter(String::class.java, StringDeserializer())
+            registerTypeAdapter(LocalDateTime::class.java, DateTimeSerializer())
         }.create()
     }
 }

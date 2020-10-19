@@ -2,14 +2,16 @@ package com.pharmacy.manager.data
 
 import com.google.gson.Gson
 import com.pharmacy.manager.R
-import org.koin.core.KoinComponent
-import org.koin.core.get
+import org.koin.core.component.KoinApiExtension
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 import retrofit2.HttpException
 import timber.log.Timber
 import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
+@KoinApiExtension
 class GeneralErrorHandler : KoinComponent {
 
     fun checkThrowable(throwable: Throwable) = when (throwable) {

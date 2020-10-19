@@ -1,6 +1,7 @@
 package com.pharmacy.manager
 
 import android.app.Application
+import androidx.paging.ExperimentalPagingApi
 import androidx.work.WorkManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.pharmacy.manager.components.aboutApp.aboutAppModule
@@ -9,6 +10,7 @@ import com.pharmacy.manager.components.chat.chatModule
 import com.pharmacy.manager.components.chatList.chatListModule
 import com.pharmacy.manager.components.devTools.devToolsModule
 import com.pharmacy.manager.components.home.homeModule
+import com.pharmacy.manager.components.mercureService.mercureModule
 import com.pharmacy.manager.components.needHelp.needHelpModule
 import com.pharmacy.manager.components.notifications.notificationsModule
 import com.pharmacy.manager.components.product.productCardModule
@@ -22,16 +24,22 @@ import com.pharmacy.manager.data.local.DBManager
 import com.pharmacy.manager.data.local.SPManager
 import com.pharmacy.manager.data.rest.restModule
 import com.pharmacy.manager.util.CrashlyticsCrashReportingTree
+import com.pharmacy.manager.util.HyperlinkedDebugTree
+import kotlinx.coroutines.FlowPreview
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.fragment.koin.fragmentFactory
+import org.koin.core.KoinExperimentalAPI
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.dsl.module
 import timber.log.Timber
 import java.util.*
 
+@KoinExperimentalAPI
+@ExperimentalPagingApi
+@FlowPreview
 class App : Application() {
 
     override fun onCreate() {
@@ -49,7 +57,7 @@ class App : Application() {
 
     private fun initLogger() {
         Timber.plant(
-            if (BuildConfig.DEBUG) Timber.DebugTree() else CrashlyticsCrashReportingTree()
+            if (BuildConfig.DEBUG) HyperlinkedDebugTree() else CrashlyticsCrashReportingTree()
         )
     }
 
@@ -75,7 +83,8 @@ class App : Application() {
                 codeScannerModule,
                 searchModule,
                 productCardModule,
-                categoriesModule
+                categoriesModule,
+                mercureModule
             )
         }
     }

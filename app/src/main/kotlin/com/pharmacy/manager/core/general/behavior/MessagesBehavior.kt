@@ -34,7 +34,7 @@ class MessagesBehavior private constructor() : IMessagesBehavior {
     }
 
     override fun showError(@StringRes strResId: Int, positiveAction: (() -> Unit)?) {
-        if (strResId != 0) {
+        if (strResId != 0 && strResId != -1) {
             context?.getString(strResId)?.let { showError(it, positiveAction) }
         }
     }

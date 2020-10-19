@@ -37,6 +37,7 @@ fun <T> ImageView.loadCircularImage(
     Glide.with(context)
         .asBitmap()
         .load(model)
+        .placeholder(R.drawable.ic_avatar_placeholder)
         .apply(RequestOptions.circleCropTransform())
         .into(object : BitmapImageViewTarget(this) {
             override fun setResource(resource: Bitmap?) {

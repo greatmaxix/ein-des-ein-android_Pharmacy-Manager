@@ -11,9 +11,11 @@ import com.pharmacy.manager.components.splash.worker.UpdateProfileInfoWorker
 import com.pharmacy.manager.data.local.DBManager
 import org.koin.androidx.fragment.dsl.fragment
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.component.KoinApiExtension
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
+@OptIn(KoinApiExtension::class)
 val splashModule = module {
 
     single { SplashRepository(get(), get()) }

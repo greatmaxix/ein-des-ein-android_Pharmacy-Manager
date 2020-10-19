@@ -9,7 +9,9 @@ import com.pharmacy.manager.core.extensions.setDebounceOnClickListener
 import com.pharmacy.manager.core.extensions.spanSearchCount
 import com.pharmacy.manager.core.extensions.visibleOrGone
 import kotlinx.android.synthetic.main.fragment_search.*
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class SearchFragment(private val viewModel: SearchViewModel) : BaseProductListFragment<SearchViewModel>(R.layout.fragment_search, viewModel) {
 
     private val args by navArgs<SearchFragmentArgs>()

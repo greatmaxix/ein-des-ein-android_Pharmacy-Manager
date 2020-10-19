@@ -2,15 +2,13 @@ object BuildPlugins {
 
     const val versionsPlugin = "com.github.ben-manes.versions"
 
-    const val androidGradlePluginClasspath =
-        "com.android.tools.build:gradle:${Versions.gradleBuildTools}"
+    const val androidGradlePluginClasspath = "com.android.tools.build:gradle:${Versions.gradleBuildTools}"
     const val kotlinGradlePluginClasspath = "gradle-plugin"
-    const val crashlyticsClasspath =
-        "com.google.firebase:firebase-crashlytics-gradle:${Versions.crashlyticsPlugin}"
-    const val safeargsClasspath =
-        "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigationSafeArgsGradle}"
+    const val crashlyticsClasspath = "com.google.firebase:firebase-crashlytics-gradle:${Versions.crashlyticsPlugin}"
+    const val safeargsClasspath = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigationSafeArgsGradle}"
     const val versionbergClasspath = "io.github.rockerhieu:versionberg:${Versions.versionberg}"
     const val googleServicesClasspath = "com.google.gms:google-services:${Versions.googleServices}"
+    const val koinClasspath = "org.koin:koin-gradle-plugin:${Versions.koin}"
 
     const val androidApplicationPlugin = "com.android.application"
     const val kotlinAndroidPlugin = "android"

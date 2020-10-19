@@ -6,8 +6,10 @@ import com.pharmacy.manager.R
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import kotlinx.android.synthetic.main.fragment_text_info.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.component.KoinApiExtension
 import org.koin.core.parameter.parametersOf
 
+@KoinApiExtension
 class TextInfoFragment : BaseMVVMFragment(R.layout.fragment_text_info) {
 
     private val vm: TextInfoViewModel by viewModel(parameters = { parametersOf(TextInfoFragmentArgs.fromBundle(requireArguments())) })

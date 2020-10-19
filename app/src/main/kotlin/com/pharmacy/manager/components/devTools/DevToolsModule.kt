@@ -5,8 +5,10 @@ import com.pharmacy.manager.components.devTools.repository.DevToolsRemoteDataSou
 import com.pharmacy.manager.components.devTools.repository.DevToolsRepository
 import org.koin.androidx.fragment.dsl.fragment
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.component.KoinApiExtension
 import org.koin.dsl.module
 
+@OptIn(KoinApiExtension::class)
 val devToolsModule = module {
 
     single { DevToolsRepository(get(), get()) }

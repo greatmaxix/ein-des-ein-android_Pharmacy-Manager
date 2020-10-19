@@ -2,9 +2,11 @@ package com.pharmacy.manager.data.rest
 
 import androidx.annotation.WorkerThread
 import com.pharmacy.manager.components.category.model.Category
+import com.pharmacy.manager.components.chat.model.ChatActionResponse
 import com.pharmacy.manager.components.chat.model.SendMessageBody
 import com.pharmacy.manager.components.chat.model.message.MessageItem
-import com.pharmacy.manager.components.chatList.model.ChatItem
+import com.pharmacy.manager.components.chatList.model.AvatarShort
+import com.pharmacy.manager.components.chatList.model.chat.ChatItem
 import com.pharmacy.manager.components.product.model.Product
 import com.pharmacy.manager.components.product.model.ProductLite
 import com.pharmacy.manager.components.signIn.model.User
@@ -12,6 +14,7 @@ import com.pharmacy.manager.data.rest.interceptor.HeaderInterceptor.Companion.HE
 import com.pharmacy.manager.data.rest.request.LogInRequest
 import com.pharmacy.manager.data.rest.request.LogOutRequest
 import com.pharmacy.manager.data.rest.response.*
+import okhttp3.MultipartBody
 import retrofit2.http.*
 
 interface RestApi {
@@ -29,7 +32,6 @@ interface RestApi {
     @POST("${API_PATH}/user/logout")
     suspend fun logout(@Body body: LogOutRequest): BaseDataResponse<Unit>
 
-
     @WorkerThread
     @GET("${API_PATH}/chat/chats")
     suspend fun chatList(
@@ -41,14 +43,24 @@ interface RestApi {
     @GET("${API_PATH}/chat/chat/{chatId}/messages")
     suspend fun messagesList(
         @Path("chatId") chatId: Int,
-        @Query("page") page: Int? = null,
-        @Query("per_page") pageSize: Int? = null
+        @Query("per_page") pageSize: Int? = null,
+        @Query("afterMessageNumber") afterMessageNumber: Int? = null,
+        @Query("beforeMessageNumber") beforeMessageNumber: Int? = null
     ): BaseDataResponse<PaginationModel<MessageItem>>
 
     @WorkerThread
     @POST("${API_PATH}/chat/chat/{chatId}/message")
     suspend fun sendMessage(@Path("chatId") chatId: Int, @Body body: SendMessageBody): BaseDataResponse<SingleItemModel<MessageItem>>
 
+    @WorkerThread
+    @POST("${API_PATH}/chat/chat/{chatId}/global-product/{product_id}")
+    suspend fun sendProductMessage(@Path("chatId") chatId: Int, @Path("product_id") globalProductId: Int): BaseDataResponse<SingleItemModel<MessageItem>>
+
+    @WorkerThread
+    @POST("${API_PATH}/chat/chat/{chatId}/application/{imageUuid}")
+    suspend fun sendImageMessage(@Path("chatId") chatId: Int, @Path("imageUuid") imageUuid: String): BaseDataResponse<SingleItemModel<MessageItem>>
+
+    @WorkerThread
     @GET("${API_PATH}/public/products/search")
     suspend fun productSearch(
         @Query("page") page: Int? = null,
@@ -59,11 +71,21 @@ interface RestApi {
         @Query("name") name: String? = null
     ): BaseDataResponse<PaginationModel<ProductLite>>
 
+    @WorkerThread
     @GET("${API_PATH}/public/products/global-product/{id}")
     suspend fun getProductById(@Path("id") globalProductId: Int): BaseDataResponse<SingleItemModel<Product>>
 
+    @WorkerThread
     @GET("/api/v1/public/categories")
     suspend fun categories(): BaseDataResponse<ListItemsModel<Category>>
+
+    @WorkerThread
+    @Multipart
+    @POST("${API_PATH}/user/image")
+    suspend fun uploadImage(@Part file: MultipartBody.Part): BaseDataResponse<SingleItemModel<AvatarShort>>
+
+    @PATCH("${API_PATH}/user/chat/{chatId}/close")
+    suspend fun closeChat(@Path("chatId") chatId: Int): BaseDataResponse<SingleItemModel<ChatActionResponse>>
 
     companion object {
 

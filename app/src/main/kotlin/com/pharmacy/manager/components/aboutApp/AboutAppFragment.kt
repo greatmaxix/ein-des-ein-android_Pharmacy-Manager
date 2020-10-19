@@ -8,7 +8,9 @@ import com.pharmacy.manager.components.aboutApp.AboutAppFragmentDirections.Compa
 import com.pharmacy.manager.components.textInfo.TextInfoFragment
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import kotlinx.android.synthetic.main.fragment_about_app.*
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class AboutAppFragment(private val vm: AboutAppViewModel) : BaseMVVMFragment(R.layout.fragment_about_app) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

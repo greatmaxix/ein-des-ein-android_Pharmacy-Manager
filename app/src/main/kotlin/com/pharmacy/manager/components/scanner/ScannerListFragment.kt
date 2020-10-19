@@ -8,7 +8,9 @@ import com.pharmacy.manager.components.product.BaseProductFragment
 import com.pharmacy.manager.components.product.ProductViewModel
 import com.pharmacy.manager.components.scanner.adapter.ProductListScannerAdapter
 import kotlinx.android.synthetic.main.fragment_scanner_result.*
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class ScannerListFragment(private val viewModel: ProductViewModel) : BaseProductFragment<ProductViewModel>(R.layout.fragment_scanner_result, viewModel) {
 
     private val args by navArgs<ScannerListFragmentArgs>()

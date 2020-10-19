@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import com.pharmacy.manager.components.notifications.model.NotificationState
 import com.pharmacy.manager.components.notifications.repository.NotificationsRepository
 import com.pharmacy.manager.core.base.mvvm.BaseViewModel
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class NotificationsViewModel(private val repository: NotificationsRepository) : BaseViewModel() {
 
     private var notificationState: NotificationState =

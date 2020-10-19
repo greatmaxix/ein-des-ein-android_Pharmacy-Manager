@@ -52,7 +52,7 @@ inline fun <reified VM : ViewModel> Fragment.sharedGraphViewModel(
     noinline parameters: ParametersDefinition? = null
 ) = lazy {
     val store = findNavController().getViewModelStoreOwner(navGraphId).viewModelStore
-    getKoin().getViewModel(ViewModelParameter(VM::class, qualifier, parameters, null, store, null))
+    getKoin().getViewModel(ViewModelParameter(VM::class, qualifier, parameters, Bundle(), store, null))
 }
 
 val Fragment.isKeyboardOpen

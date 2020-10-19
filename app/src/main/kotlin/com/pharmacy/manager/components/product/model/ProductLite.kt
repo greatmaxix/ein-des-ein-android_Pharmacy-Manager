@@ -1,6 +1,7 @@
 package com.pharmacy.manager.components.product.model
 
 import android.os.Parcelable
+import androidx.paging.ExperimentalPagingApi
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -8,6 +9,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.pharmacy.manager.App
 import kotlinx.android.parcel.Parcelize
+import org.koin.core.KoinExperimentalAPI
 import java.util.*
 
 @Parcelize
@@ -27,6 +29,8 @@ open class ProductLite(
 ) : Parcelable {
 
     //TODO Create global "Local helper"
+    @KoinExperimentalAPI
+    @ExperimentalPagingApi
     val productLocale: String?
         get() = App.localeMap[manufacture.isoCode]?.getDisplayCountry(Locale("RU"))
 

@@ -10,10 +10,12 @@ import com.pharmacy.manager.components.splash.repository.SplashRepository
 import com.pharmacy.manager.core.base.mvvm.BaseViewModel
 import com.pharmacy.manager.core.general.SingleLiveEvent
 import kotlinx.coroutines.delay
-import org.koin.core.KoinComponent
-import org.koin.core.get
+import org.koin.core.component.KoinApiExtension
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 import org.koin.core.qualifier.named
 
+@KoinApiExtension
 class SplashViewModel(
     private val repository: SplashRepository,
     private val workManager: WorkManager

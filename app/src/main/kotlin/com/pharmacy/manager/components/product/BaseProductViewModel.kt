@@ -3,9 +3,11 @@ package com.pharmacy.manager.components.product
 import com.pharmacy.manager.components.product.model.ProductLite
 import com.pharmacy.manager.components.product.repository.ProductRepository
 import com.pharmacy.manager.core.base.mvvm.BaseViewModel
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinApiExtension
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
+@KoinApiExtension
 abstract class BaseProductViewModel : BaseViewModel(), KoinComponent {
 
     private val repositoryProduct by inject<ProductRepository>()

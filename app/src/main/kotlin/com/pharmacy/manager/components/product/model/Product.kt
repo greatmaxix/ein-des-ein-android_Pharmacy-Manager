@@ -1,6 +1,7 @@
 package com.pharmacy.manager.components.product.model
 
 import android.os.Parcelable
+import androidx.paging.ExperimentalPagingApi
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -14,6 +15,7 @@ class Product(
     val substance
         get() = substances.first()
 
+    @ExperimentalPagingApi
     val getFullManufacture
         get() = "${manufacture.producer} , $productLocale"
 }

@@ -4,8 +4,10 @@ import com.pharmacy.manager.components.category.repository.CategoriesRemoteDataS
 import com.pharmacy.manager.components.category.repository.CategoriesRepository
 import org.koin.androidx.fragment.dsl.fragment
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.component.KoinApiExtension
 import org.koin.dsl.module
 
+@OptIn(KoinApiExtension::class)
 val categoriesModule = module {
 
     single { CategoriesRepository(get()) }

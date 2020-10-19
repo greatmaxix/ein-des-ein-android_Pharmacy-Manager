@@ -3,6 +3,7 @@ package com.pharmacy.manager.components.product
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
+import androidx.paging.ExperimentalPagingApi
 import com.google.android.material.tabs.TabLayoutMediator
 import com.pharmacy.manager.R
 import com.pharmacy.manager.components.product.adapter.ProductsImageAdapter
@@ -11,11 +12,14 @@ import com.pharmacy.manager.util.ColorFilterUtil.blackWhiteFilter
 import kotlinx.android.synthetic.main.layout_product_card_additional_info.*
 import kotlinx.android.synthetic.main.layout_product_card_image_pager.*
 import kotlinx.android.synthetic.main.layout_product_card_main_info.*
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class ProductFragment(private val viewModel: ProductViewModel) : BaseProductFragment<ProductViewModel>(R.layout.fragment_product, viewModel) {
 
     private val args: ProductFragmentArgs by navArgs()
 
+    @ExperimentalPagingApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showBackButton()
@@ -39,6 +43,7 @@ class ProductFragment(private val viewModel: ProductViewModel) : BaseProductFrag
 
     private fun onInstruction() = requireContext().toast(getString(R.string.expectSoonMock))
 
+    @ExperimentalPagingApi
     private fun setProductInfo() = with(args.product) {
         tvTitle.setTextHtml(rusName)
         tvSubTitle.setTextHtml(releaseForm)

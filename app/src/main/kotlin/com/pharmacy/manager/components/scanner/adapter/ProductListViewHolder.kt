@@ -2,6 +2,7 @@ package com.pharmacy.manager.components.scanner.adapter
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.ExperimentalPagingApi
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.pharmacy.manager.R
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.item_product_short.view.tvProductPrice
 
 class ProductListViewHolder(override val containerView: View) : BaseViewHolder<ProductLite>(containerView) {
 
+    @ExperimentalPagingApi
     override fun bind(item: ProductLite) = with(item) {
 
         if (pictures.isNotEmpty()) {

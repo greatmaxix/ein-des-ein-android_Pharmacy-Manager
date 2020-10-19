@@ -1,6 +1,7 @@
 package com.pharmacy.manager.components.search.adapter
 
 import android.view.ViewGroup
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.ItemSnapshotList
 import androidx.paging.PagingDataAdapter
 import com.pharmacy.manager.components.product.model.ProductLite
@@ -13,6 +14,7 @@ class ProductListAdapter(private val itemClick: (Int) -> Unit) :
         itemView.setDebounceOnClickListener { itemClick(getItem(bindingAdapterPosition)!!.globalProductId) }
     }
 
+    @ExperimentalPagingApi
     override fun onBindViewHolder(holder: ProductListViewHolder, position: Int) {
         holder.bind(getItem(position) ?: return)
     }

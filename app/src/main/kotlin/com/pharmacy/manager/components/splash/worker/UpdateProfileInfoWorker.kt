@@ -6,8 +6,10 @@ import com.pharmacy.manager.components.splash.repository.SplashRepository
 import com.pharmacy.manager.core.base.worker.BaseCoroutineWorker
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
-import org.koin.core.inject
+import org.koin.core.component.KoinApiExtension
+import org.koin.core.component.inject
 
+@KoinApiExtension
 class UpdateProfileInfoWorker(context: Context, params: WorkerParameters) : BaseCoroutineWorker(context, params) {
 
     private val repository by inject<SplashRepository>()

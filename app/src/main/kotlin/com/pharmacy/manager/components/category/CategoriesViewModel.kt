@@ -9,7 +9,9 @@ import com.pharmacy.manager.components.category.model.Category
 import com.pharmacy.manager.components.category.repository.CategoriesRepository
 import com.pharmacy.manager.core.base.mvvm.BaseViewModel
 import com.pharmacy.manager.core.general.SingleLiveEvent
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class CategoriesViewModel(private val repository: CategoriesRepository) : BaseViewModel() {
 
     val baseCategoriesLiveData = requestLiveData {

@@ -11,7 +11,9 @@ import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import com.pharmacy.manager.core.extensions.*
 import kotlinx.android.synthetic.main.fragment_categories.*
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class CategoriesFragment(private val viewModel: CategoriesViewModel) : BaseMVVMFragment(R.layout.fragment_categories) {
 
     private val clickAction = viewModel::adapterClicked

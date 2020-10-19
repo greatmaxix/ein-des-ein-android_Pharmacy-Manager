@@ -1,4 +1,4 @@
-package com.pharmacy.manager.data.rest.deserializer
+package com.pharmacy.manager.data.rest.serializer
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer

@@ -1,15 +1,18 @@
 package com.pharmacy.manager.components.splash
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.pharmacy.manager.R
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import com.pharmacy.manager.core.extensions.animateVisible
 import kotlinx.android.synthetic.main.fragment_splash.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class SplashFragment(private val vm: SplashViewModel) :
     BaseMVVMFragment(R.layout.fragment_splash) {
 
@@ -29,14 +32,15 @@ class SplashFragment(private val vm: SplashViewModel) :
 
     // App theme have image background, will change after Splash screen to main background color
     private fun setupMainBackground() {
-        Handler(Looper.getMainLooper()).postDelayed({
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(BACKGROUND_CHANGE_DELAY)
             requireActivity().window.setBackgroundDrawable(
                 ContextCompat.getDrawable(
                     requireContext(),
                     R.drawable.background_main
                 )
             )
-        }, BACKGROUND_CHANGE_DELAY)
+        }
     }
 
     companion object {

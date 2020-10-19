@@ -5,7 +5,9 @@ import android.view.View
 import com.pharmacy.manager.R
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import kotlinx.android.synthetic.main.fragment_notifications.*
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class NotificationsFragment(private val vm: NotificationsViewModel) : BaseMVVMFragment(R.layout.fragment_notifications) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

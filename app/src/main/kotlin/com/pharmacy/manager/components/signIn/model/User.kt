@@ -14,5 +14,7 @@ data class User(
     @SerializedName("uuid") val uuid: String,
     @SerializedName("createdAt") val createdAt: String,
     @SerializedName("phone") val phone: String?,
-    @SerializedName("type") val type: String
+    @SerializedName("type") val type: String,
+    @SerializedName("topicName") val topicName: String?,
+    @SerializedName("aboutMe") val aboutMe: String?
 )

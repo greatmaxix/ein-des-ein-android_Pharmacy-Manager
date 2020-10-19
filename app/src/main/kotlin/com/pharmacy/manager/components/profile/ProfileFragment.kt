@@ -11,7 +11,9 @@ import com.pharmacy.manager.core.base.fragment.dialog.AlertDialogFragment
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import com.pharmacy.manager.core.extensions.loadCircularImage
 import kotlinx.android.synthetic.main.fragment_profile.*
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class ProfileFragment(private val vm: ProfileViewModel) : BaseMVVMFragment(R.layout.fragment_profile) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

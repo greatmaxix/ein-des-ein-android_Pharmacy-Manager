@@ -16,16 +16,11 @@ object Libraries {
     const val desugaringJdk = "com.android.tools:desugar_jdk_libs:${Versions.desugaringJdk}"
 
     // lifecycle
-    private const val lifecycleRuntime =
-        "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleRuntime}"
-    private const val lifecycleExtensions =
-        "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycleExtensions}"
-    private const val lifecycleLivedata =
-        "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycleLiveData}"
-    private const val lifecycleCommon =
-        "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycleCommon}"
-    private const val lifecycleViewmodel =
-        "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycleCommon}"
+    private const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleRuntime}"
+    private const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycleExtensions}"
+    private const val lifecycleLivedata = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycleLiveData}"
+    private const val lifecycleCommon = "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycleCommon}"
+    private const val lifecycleViewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycleCommon}"
 
     fun DependencyHandler.implementLifecycle() {
         add(implementation, lifecycleRuntime)
@@ -36,10 +31,8 @@ object Libraries {
     }
 
     // coroutines
-    private const val coroutinesCore =
-        "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesCore}"
-    private const val coroutinesAndroid =
-        "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutinesAndroid}"
+    private const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesCore}"
+    private const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutinesAndroid}"
 
     fun DependencyHandler.implementCoroutines() {
         add(implementation, coroutinesCore)
@@ -62,11 +55,10 @@ object Libraries {
     // networking
     private const val gson = "com.google.code.gson:gson:${Versions.gson}"
     private const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-    private const val converterGson =
-        "com.squareup.retrofit2:converter-gson:${Versions.converterGson}"
+    private const val converterGson = "com.squareup.retrofit2:converter-gson:${Versions.converterGson}"
     private const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
-    private const val loggingInterceptor =
-        "com.github.ihsanbal:LoggingInterceptor:${Versions.loggingInterceptor}"
+    private const val loggingInterceptor = "com.github.ihsanbal:LoggingInterceptor:${Versions.loggingInterceptor}"
+    private const val oksse = "com.github.heremaps:oksse:${Versions.oksse}"
 
     fun DependencyHandler.implementNetworking() {
         add(implementation, gson)
@@ -76,6 +68,7 @@ object Libraries {
         add(implementation, loggingInterceptor) {
             exclude("org.json", "json")
         }
+        add(implementation, oksse)
     }
 
     // database
@@ -94,17 +87,12 @@ object Libraries {
     private const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
     private const val activity = "androidx.activity:activity-ktx:${Versions.activity}"
     private const val fragment = "androidx.fragment:fragment-ktx:${Versions.fragment}"
-    private const val navigationFragment =
-        "androidx.navigation:navigation-fragment-ktx:${Versions.navigationFragment}"
-    private const val navigationUi =
-        "androidx.navigation:navigation-ui-ktx:${Versions.navigationUi}"
-    private const val androidMaterial =
-        "com.google.android.material:material:${Versions.androidMaterial}"
-    private const val constraintLayout =
-        "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    private const val navigationFragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navigationFragment}"
+    private const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navigationUi}"
+    private const val androidMaterial = "com.google.android.material:material:${Versions.androidMaterial}"
+    private const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     private const val viewPager2 = "androidx.viewpager2:viewpager2:${Versions.viewPager2}"
-    private const val swipeRefreshLayout =
-        "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefreshLayout}"
+    private const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefreshLayout}"
 
     fun DependencyHandler.implementAndroidUI() {
         add(implementation, appcompat)
@@ -120,15 +108,12 @@ object Libraries {
     }
 
     // coreUtils
-    private const val crashlytics =
-        "com.google.firebase:firebase-crashlytics:${Versions.crashlytics}"
+    private const val crashlytics = "com.google.firebase:firebase-crashlytics:${Versions.crashlytics}"
     private const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
     private const val kpermissions = "com.github.fondesa:kpermissions:${Versions.kPermissions}"
     private const val cryptoPrefs = "androidx.security:security-crypto:${Versions.cryptoPrefs}"
-    private const val firebaseAnalytics =
-        "com.google.firebase:firebase-analytics:${Versions.firebaseAnalytics}"
-    private const val firebaseMessaging =
-        "com.google.firebase:firebase-messaging:${Versions.firebaseMessaging}"
+    private const val firebaseAnalytics = "com.google.firebase:firebase-analytics:${Versions.firebaseAnalytics}"
+    private const val firebaseMessaging = "com.google.firebase:firebase-messaging:${Versions.firebaseMessaging}"
     private const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
     private const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
     private const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManager}"
@@ -139,6 +124,8 @@ object Libraries {
     private const val flowBinding = "io.github.reactivecircus.flowbinding:flowbinding-android:${Versions.flowBinding}"
     private const val qrCodeScanner = "com.budiyev.android:code-scanner:${Versions.qrCodeScanner}"
     private const val paging = "androidx.paging:paging-runtime-ktx:${Versions.paging}"
+    private const val notificationsDslCore = "com.kirich1409.android-notification-dsl:core:${Versions.notificationsDsl}"
+    private const val notificationsDslExt = "com.kirich1409.android-notification-dsl:extensions:${Versions.notificationsDsl}"
 
     fun DependencyHandler.implementCoreUtils() {
         add(implementation, crashlytics)
@@ -157,5 +144,7 @@ object Libraries {
         add(implementation, flowBinding)
         add(implementation, qrCodeScanner)
         add(implementation, paging)
+        add(implementation, notificationsDslCore)
+        add(implementation, notificationsDslExt)
     }
 }

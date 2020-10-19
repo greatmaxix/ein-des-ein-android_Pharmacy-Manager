@@ -2,9 +2,11 @@ package com.pharmacy.manager.components.search.repository
 
 import androidx.paging.PagingSource
 import com.pharmacy.manager.components.product.model.ProductLite
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinApiExtension
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
+@KoinApiExtension
 class SearchPagingSource(private val text: String? = null, private val category: String? = null, private val total: (Int) -> Unit) : PagingSource<Int, ProductLite>(),
     KoinComponent {
 

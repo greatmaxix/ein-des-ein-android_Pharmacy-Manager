@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import com.pharmacy.manager.components.product.BaseProductViewModel
 import com.pharmacy.manager.components.scanner.repository.ScannerRepository
 import com.pharmacy.manager.core.general.SingleLiveEvent
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class ScannerViewModel(private val repository: ScannerRepository) : BaseProductViewModel() {
 
     private val _descriptionVisibility by lazy { SingleLiveEvent<Boolean>() }

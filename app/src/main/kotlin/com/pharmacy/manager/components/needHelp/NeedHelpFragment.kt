@@ -13,7 +13,9 @@ import com.pharmacy.manager.core.extensions.falseIfNull
 import com.pharmacy.manager.data.DummyData
 import kotlinx.android.synthetic.main.fragment_need_help.*
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class NeedHelpFragment(private val vm: NeedHelpViewModel) : BaseMVVMFragment(R.layout.fragment_need_help) {
 
     private val helpAdapter by lazy { HelpAdapter() }

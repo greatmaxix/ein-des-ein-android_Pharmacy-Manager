@@ -9,7 +9,9 @@ import com.pharmacy.manager.components.signIn.model.User
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import com.pharmacy.manager.core.extensions.*
 import kotlinx.android.synthetic.main.fragment_sign_in.*
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class SignInFragment(private val vm: SignInViewModel) : BaseMVVMFragment(R.layout.fragment_sign_in) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,7 +42,7 @@ class SignInFragment(private val vm: SignInViewModel) : BaseMVVMFragment(R.layou
 
         debug {
             // TODO Test data - pharmacist1@example.com - pharmacist3@example.com (pw1234)
-            etEmailSignIn.setText("pharmacist2@example.com")
+            etEmailSignIn.setText("pharmacist1@example.com")
             etPasswordSignIn.setText("pw1234")
         }
     }

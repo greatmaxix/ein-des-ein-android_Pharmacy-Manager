@@ -233,6 +233,7 @@
         android:text="@string/recentlyRecommended"
         android:textColor="@color/darkBlue"
         android:textSize="@dimen/_14ssp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvChatListHome" />
@@ -246,6 +247,7 @@
         android:clipToPadding="false"
         android:orientation="vertical"
         android:paddingTop="@dimen/_12sdp"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
