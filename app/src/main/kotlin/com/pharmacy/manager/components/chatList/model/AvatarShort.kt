@@ -5,4 +5,4 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Avatar(@SerializedName("url") val url: String) : Parcelable
+data class AvatarShort(@SerializedName("url") val url: String?, @SerializedName("uuid") val uuid: String?) : Parcelable

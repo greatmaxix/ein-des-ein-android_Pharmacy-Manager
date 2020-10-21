@@ -26,6 +26,10 @@ class SPManager(context: Context) : BaseSharedPreferences(context), ManagerInter
         get() = get(Keys.QR_CODE_DESCRIPTION_SHOWN)
         set(value) = put(Keys.QR_CODE_DESCRIPTION_SHOWN, value)
 
+    var isChatForeground: Boolean?
+        get() = get(Keys.IS_CHAT_FOREGROUND)
+        set(value) = put(Keys.IS_CHAT_FOREGROUND, value)
+
     override fun clear() {
         clearAll()
     }
@@ -35,6 +39,7 @@ class SPManager(context: Context) : BaseSharedPreferences(context), ManagerInter
         EMAIL,
         ACCESS_TOKEN,
         REFRESH_TOKEN,
-        QR_CODE_DESCRIPTION_SHOWN
+        QR_CODE_DESCRIPTION_SHOWN,
+        IS_CHAT_FOREGROUND
     }
 }

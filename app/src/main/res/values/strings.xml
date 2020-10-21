@@ -100,5 +100,8 @@
     <string name="sort">Сортировать</string>
 
     <string name="analyzeTitleContentDescriptionHome">Анализы и диагностика</string>
+    <string name="close_chat_request">Запросить закрытие чата</string>
+    <string name="attachment_image">Изображение</string>
+    <string name="attachment_product">Продукт</string>
 
 </resources>

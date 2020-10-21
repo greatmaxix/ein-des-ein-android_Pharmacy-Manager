@@ -24,6 +24,14 @@
         app:popEnterAnim="@anim/nav_enter_pop_anim"
         app:popExitAnim="@anim/nav_exit_pop_anim" />
 
+    <action
+        android:id="@+id/globalToChat"
+        app:destination="@id/nav_chat"
+        app:enterAnim="@anim/nav_enter_anim"
+        app:exitAnim="@anim/nav_exit_anim"
+        app:popEnterAnim="@anim/nav_enter_pop_anim"
+        app:popExitAnim="@anim/nav_exit_pop_anim" />
+
     <fragment
         android:id="@+id/nav_splash"
         android:name="com.pharmacy.manager.components.splash.SplashFragment"
@@ -174,7 +182,7 @@
 
         <argument
             android:name="chat"
-            app:argType="com.pharmacy.manager.components.chatList.model.ChatItem" />
+            app:argType="com.pharmacy.manager.components.chatList.model.chat.ChatItem" />
 
         <action
             android:id="@+id/fromChatToSendImageBottomSheet"

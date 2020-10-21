@@ -7,8 +7,8 @@ import com.pharmacy.manager.components.product.model.ProductLite
 import com.pharmacy.manager.core.adapter.BaseFilterRecyclerAdapter
 import com.pharmacy.manager.core.adapter.BaseViewHolder
 import com.pharmacy.manager.core.extensions.inflate
-import com.pharmacy.manager.core.extensions.load
 import com.pharmacy.manager.core.extensions.setDebounceOnClickListener
+import com.pharmacy.manager.core.extensions.setProductImage
 import com.pharmacy.manager.core.extensions.setTextHtml
 import kotlinx.android.synthetic.main.item_product_short.view.*
 
@@ -35,7 +35,7 @@ class ProductAdapter(private val itemClick: (ProductLite) -> Unit) : BaseFilterR
                     tvProductPrice.text = context.getString(R.string.price, it.minPrice.toString())
                 }
                 tvProductTitle.setTextHtml(item.rusName)
-                item.pictures.firstOrNull()?.url?.let(ivProductImage::load)
+                ivProductImage.setProductImage(item)
             }
         }
 

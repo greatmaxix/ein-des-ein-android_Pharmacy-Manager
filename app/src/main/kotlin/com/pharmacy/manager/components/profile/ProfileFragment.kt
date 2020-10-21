@@ -1,14 +1,17 @@
 package com.pharmacy.manager.components.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.pharmacy.manager.R
+import com.pharmacy.manager.components.mercureService.MercureEventListenerService
 import com.pharmacy.manager.components.profile.ProfileFragmentDirections.Companion.actionFromProfileToSplash
 import com.pharmacy.manager.components.profile.ProfileFragmentDirections.Companion.fromProfileToAboutApp
 import com.pharmacy.manager.components.profile.ProfileFragmentDirections.Companion.fromProfileToNeedHelp
 import com.pharmacy.manager.components.profile.ProfileFragmentDirections.Companion.fromProfileToNotifications
 import com.pharmacy.manager.core.base.fragment.dialog.AlertDialogFragment
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
+import com.pharmacy.manager.core.extensions.isServiceRunning
 import com.pharmacy.manager.core.extensions.loadCircularImage
 import kotlinx.android.synthetic.main.fragment_profile.*
 import org.koin.core.component.KoinApiExtension
@@ -49,6 +52,9 @@ class ProfileFragment(private val vm: ProfileViewModel) : BaseMVVMFragment(R.lay
         observeRestResult<Unit> {
             liveData = vm.logout()
             onEmmit = {
+                if (!requireContext().isServiceRunning(MercureEventListenerService::class.java)) {
+                    requireContext().stopService(Intent(requireContext(), MercureEventListenerService::class.java))
+                }
                 navController.navigate(actionFromProfileToSplash())
             }
         }

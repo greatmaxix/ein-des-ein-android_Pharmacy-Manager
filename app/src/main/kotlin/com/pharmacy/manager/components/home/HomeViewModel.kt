@@ -3,21 +3,32 @@ package com.pharmacy.manager.components.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.pharmacy.manager.components.chatList.repository.ChatListPagingSource
+import com.pharmacy.manager.components.chatList.repository.ChatListRemoteMediator
+import com.pharmacy.manager.components.chatList.repository.ChatListRepository
 import com.pharmacy.manager.components.product.model.ProductLite
 import com.pharmacy.manager.components.product.repository.ProductRepository
 import com.pharmacy.manager.core.base.mvvm.BaseViewModel
 import com.pharmacy.manager.core.general.SingleLiveEvent
+import com.pharmacy.manager.util.Constants
+import kotlinx.coroutines.Dispatchers
+import org.koin.core.component.KoinApiExtension
 
-class HomeViewModel(private val repository: ProductRepository, private val productRepository: ProductRepository) : BaseViewModel() {
+@KoinApiExtension
+class HomeViewModel(private val repository: ProductRepository, private val productRepository: ProductRepository, chatListRepository: ChatListRepository) : BaseViewModel() {
 
+    @ExperimentalPagingApi
     val chatListLiveData by lazy {
-        Pager(PagingConfig(HOME_CHAT_LIST_SIZE, initialLoadSize = HOME_CHAT_LIST_SIZE)) { ChatListPagingSource() }.flow
+        Pager(
+            config = PagingConfig(Constants.PAGE_SIZE, enablePlaceholders = false, prefetchDistance = 1, initialLoadSize = Constants.PAGE_SIZE / 2),
+            remoteMediator = ChatListRemoteMediator(chatListRepository, errorHandler),
+            pagingSourceFactory = { chatListRepository.getChatsPagingSource() }
+        ).flow
             .cachedIn(viewModelScope)
-            .asLiveData()
+            .asLiveData(Dispatchers.IO)
     }
 
     private val _recentProductListLiveData by lazy { SingleLiveEvent<List<ProductLite>>() }
@@ -29,10 +40,5 @@ class HomeViewModel(private val repository: ProductRepository, private val produ
 
     fun requestProductInfo(globalProductId: Int) = requestLiveData {
         repository.productById(globalProductId)
-    }
-
-    companion object {
-
-        private const val HOME_CHAT_LIST_SIZE = 2
     }
 }

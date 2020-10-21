@@ -1,6 +1,7 @@
 package com.pharmacy.manager.components.chat
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -12,17 +13,16 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import androidx.paging.ExperimentalPagingApi
-import br.com.onimur.handlepathoz.HandlePathOz
-import br.com.onimur.handlepathoz.HandlePathOzListener
-import br.com.onimur.handlepathoz.model.PathOz
-import br.com.onimur.handlepathoz.utils.extension.getListUri
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
@@ -41,57 +41,63 @@ import com.pharmacy.manager.components.chat.adapter.ProductAttachSearchAdapter
 import com.pharmacy.manager.components.chat.dialog.SendBottomSheetDialogFragment
 import com.pharmacy.manager.components.chat.dialog.SendBottomSheetDialogFragment.Companion.RESULT_BUTTON_EXTRA_KEY
 import com.pharmacy.manager.components.chat.dialog.SendBottomSheetDialogFragment.Companion.SEND_PHOTO_KEY
+import com.pharmacy.manager.components.chat.model.message.MessageItem
+import com.pharmacy.manager.components.chatList.model.chat.ChatItem
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import com.pharmacy.manager.core.extensions.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.component.KoinApiExtension
 import org.koin.core.parameter.parametersOf
 
+@KoinApiExtension
+@FlowPreview
 class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
 
+    private val args by navArgs<ChatFragmentArgs>()
+    private val vm: ChatViewModel by viewModel(parameters = { parametersOf(args.chat) })
     private val uri by lazy { FileProvider.getUriForFile(requireContext(), "${BuildConfig.APPLICATION_ID}.fileprovider", vm.tempPhotoFile) }
-    private val vm: ChatViewModel by viewModel(parameters = { parametersOf(ChatFragmentArgs.fromBundle(requireArguments())) })
-
-    @FlowPreview
     private lateinit var choosePhotoLauncher: ActivityResultLauncher<Intent>
     private lateinit var takePhotoLauncher: ActivityResultLauncher<Uri>
-    private val handlePathOz by lazy { HandlePathOz(requireContext(), listener) }
-    private val listener = object : HandlePathOzListener.MultipleUri {
-        override fun onRequestHandlePathOz(listPathOz: List<PathOz>, tr: Throwable?) {
-            if (tr != null) {
-                messageCallback?.showError(getString(R.string.sendPhotoError))
-            } else {
-                vm.sendPhotos(listPathOz.map { uri -> Uri.parse(uri.path) })
-            }
-        }
-    }
 
     private val chatAdapter by lazy { ChatMessageAdapter() }
     private val productAdapter by lazy {
         ProductAttachSearchAdapter {
-            vm.sendProduct(it)
+            observeRestResult<MessageItem> {
+                liveData = vm.sendProduct(it)
+            }
             searchViewChatList.setText("")
             hideProducts()
         }
     }
+    private var scrollerJob: Job? = null
 
     @FlowPreview
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         showBackButton()
-        initMenu(R.menu.profile) {
-            if (it.itemId == R.id.profile) {
-                // TODO open profile maybe
+        initMenu(R.menu.menu) {
+            if (it.itemId == R.id.closeRequest) {
+                observeRestResult<ChatItem> {
+                    liveData = vm.requestCloseChat()
+                }
             }
             true
         }
         initChatList()
         initProductList()
 
-        choosePhotoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { handlePathOz.getListRealPath(it.data.getListUri()) }
-        takePhotoLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { vm.sendPhotos(listOf(uri)) }
+        choosePhotoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) onActivityResult(it)
+        }
+        takePhotoLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) {
+            if (it) sendPhotoMessage(uri)
+        }
 
         tilMessageChat.editText?.doAfterTextChanged {
             ivButtonSendChat.animateVisibleOrGoneIfNot(!it.isNullOrBlank())
@@ -114,6 +120,7 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
             } else {
                 llProductContainer.animateVisibleIfNot()
                 ivProductAttachment.isSelected = true
+                searchViewChatList.requestFocus()
             }
         }
         llMessageFieldChat.setTopRoundCornerBackground()
@@ -140,6 +147,7 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
     private fun hideProducts() {
         llProductContainer.animateGoneIfNot()
         ivProductAttachment.isSelected = false
+        searchViewChatList.clearFocus()
     }
 
     private fun initProductList() {
@@ -147,10 +155,22 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
         rvProductChat.setHasFixedSize(true)
     }
 
+    private fun onActivityResult(result: ActivityResult) {
+        val data = result.data?.data
+        if (result.resultCode == Activity.RESULT_OK && data != null) {
+            sendPhotoMessage(data)
+        }
+    }
+
+    private fun sendPhotoMessage(uri: Uri) {
+        observeRestResult<MessageItem?> {
+            liveData = vm.sendPhoto(uri)
+        }
+    }
+
     @FlowPreview
     private fun requestPickPhoto() {
         val pickIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        pickIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         choosePhotoLauncher.launch(pickIntent)
     }
 
@@ -198,7 +218,9 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
     private fun sendMessage() {
         val message = tilMessageChat.editText?.text?.toString()?.trim().orEmpty()
         tilMessageChat.editText?.text = null
-        vm.sendMessage(message)
+        observeRestResult<MessageItem> {
+            liveData = vm.sendMessage(message)
+        }
     }
 
     @ExperimentalPagingApi
@@ -209,10 +231,10 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
         observe(vm.errorLiveData) { messageCallback?.showError(this) }
         observe(vm.progressLiveData) { progressCallback?.setInProgress(this) }
         observe(vm.chatLiveData) {
-            toolbar?.title = user.name
+            toolbar?.title = customer.name
             Glide.with(requireContext())
                 .asBitmap()
-                .load(user.avatar?.url)
+                .load(customer.avatar?.url)
                 .placeholder(R.drawable.ic_avatar_placeholder)
                 .apply(RequestOptions.circleCropTransform())
                 .into(object : CustomTarget<Bitmap>() {
@@ -227,15 +249,23 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
         }
         observe(vm.chatMessagesLiveData) {
             chatAdapter.submitData(lifecycle, this)
-            rvMessagesChat.postDelayed({
-                rvMessagesChat.smoothScrollToPosition(0)
-            }, 100)
         }
+        observe(vm.lastMessageLiveData) { scrollToLastMessage() }
         observe(vm.pagedSearchLiveData) { productAdapter.submitData(lifecycle, this) }
     }
 
     private fun initChatList() {
         rvMessagesChat.adapter = chatAdapter
         rvMessagesChat.setHasFixedSize(true)
+    }
+
+    private fun scrollToLastMessage() {
+        scrollerJob?.cancel()
+        if (chatAdapter.itemCount != 0) {
+            scrollerJob = viewLifecycleOwner.lifecycleScope.launch {
+                delay(500)
+                rvMessagesChat.smoothScrollToPosition(0)
+            }
+        }
     }
 }

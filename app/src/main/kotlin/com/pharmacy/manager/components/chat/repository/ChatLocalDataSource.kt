@@ -2,15 +2,16 @@ package com.pharmacy.manager.components.chat.repository
 
 import com.pharmacy.manager.components.chat.model.message.MessageDAO
 import com.pharmacy.manager.components.chat.model.message.MessageItem
-import com.pharmacy.manager.components.chat.model.remoteKeys.RemoteKeys
-import com.pharmacy.manager.components.chat.model.remoteKeys.RemoteKeysDAO
+import com.pharmacy.manager.components.chat.model.remoteKeys.MessagesRemoteKeys.Companion.createRemoteKey
+import com.pharmacy.manager.components.chat.model.remoteKeys.MessagesRemoteKeysDAO
 import com.pharmacy.manager.components.signIn.model.UserDAO
 import com.pharmacy.manager.data.local.SPManager
+import java.time.LocalDateTime
 
 class ChatLocalDataSource(
     private val sp: SPManager,
     private val userDao: UserDAO,
-    private val remoteKeysDAO: RemoteKeysDAO,
+    private val messagesRemoteKeysDAO: MessagesRemoteKeysDAO,
     private val messageDAO: MessageDAO,
 ) {
 
@@ -18,15 +19,23 @@ class ChatLocalDataSource(
 
     fun getMessagePagingSource(chatId: Int) = messageDAO.getMessagePagingSource(chatId)
 
-    suspend fun clearMessages(chatId: Int) = messageDAO.clearChat(chatId)
+    fun getLastMessageLiveData(chatId: Int) = messageDAO.getLastMessageLiveData(chatId)
 
-    suspend fun insertMessages(items: List<MessageItem>) = messageDAO.insert(items)
+    suspend fun getRemoteKeys(messageId: Int) = messagesRemoteKeysDAO.getRemoteKeys(messageId)
 
-    suspend fun getCount(chatId: Int) = messageDAO.getCount(chatId)
+    suspend fun clearMessages(chatId: Int) {
+        messageDAO.clearChat(chatId)
+        messagesRemoteKeysDAO.clearRemoteKeys(chatId)
+    }
 
-    suspend fun insertRemoteKeys(items: List<RemoteKeys>) = remoteKeysDAO.insert(items)
+    suspend fun insertMessagesWithKeys(messages: List<MessageItem>) {
+        val keys = messages.map { messageItem -> createRemoteKey(messageItem) }
+        messageDAO.insert(messages)
+        messagesRemoteKeysDAO.insert(keys)
+    }
 
-    suspend fun getRemoteKeys(messageId: Int) = remoteKeysDAO.getRemoteKeys(messageId)
+    suspend fun getLastMessage(chatId: Int) = messageDAO.getLastMessage(chatId)
 
-    suspend fun clearRemoteKeys(chatId: Int) = remoteKeysDAO.clearRemoteKeys(chatId)
+    suspend fun isHeaderExist(chatId: Int, createdAt: LocalDateTime) = messageDAO.getHeaderMessages(chatId)
+        .find { it.createdAt.year == createdAt.year && it.createdAt.month == createdAt.month && it.createdAt.dayOfMonth == createdAt.dayOfMonth } != null
 }

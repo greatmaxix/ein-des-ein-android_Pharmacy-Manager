@@ -94,165 +94,180 @@
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardChatRequestsHome"
-        android:layout_width="@dimen/match_constraint"
-        android:layout_height="@dimen/_100sdp"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:layout_marginEnd="@dimen/_4sdp"
-        app:cardBackgroundColor="@color/mediumGrey"
-        app:cardElevation="@dimen/_3sdp"
-        app:cardUseCompatPadding="true"
-        app:contentPadding="@dimen/_8sdp"
-        app:layout_constraintEnd_toStartOf="@+id/cardSoonHome"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/match_constraint"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingBottom="@dimen/_12sdp"
+        android:clipToPadding="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clToolbarContainerHome">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|top">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/ivAvatar4Home"
-                android:layout_width="@dimen/_32sdp"
-                android:layout_height="@dimen/_32sdp"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardChatRequestsHome"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                app:cardBackgroundColor="@color/mediumGrey"
+                app:cardElevation="@dimen/_3sdp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="@dimen/_8sdp"
+                app:layout_constraintEnd_toStartOf="@+id/cardSoonHome"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|top">
+
+                    <ImageView
+                        android:id="@+id/ivAvatar4Home"
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/ic_avatar_placeholder" />
+
+                    <ImageView
+                        android:id="@+id/ivAvatar3Home"
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_marginEnd="@dimen/_12sdp"
+                        app:layout_constraintEnd_toEndOf="@+id/ivAvatar4Home"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/ic_avatar_placeholder" />
+
+                    <ImageView
+                        android:id="@+id/ivAvatar2Home"
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_marginEnd="@dimen/_12sdp"
+                        app:layout_constraintEnd_toEndOf="@+id/ivAvatar3Home"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/ic_avatar_placeholder" />
+
+                    <ImageView
+                        android:id="@+id/ivAvatar1Home"
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_marginEnd="@dimen/_12sdp"
+                        app:layout_constraintEnd_toEndOf="@+id/ivAvatar2Home"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/ic_avatar_placeholder" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvChatRequestsCounterHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="@dimen/_24sdp"
+                    android:fontFamily="@font/open_sans_bold"
+                    android:textColor="@color/colorGlobalWhite"
+                    android:textSize="@dimen/_28ssp"
+                    tools:text="64" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:text="@string/newRequests"
+                    android:textColor="@color/colorGlobalWhite"
+                    android:textSize="@dimen/_10ssp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSoonHome"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                app:cardBackgroundColor="@color/mediumGrey"
+                app:cardElevation="@dimen/_3sdp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="@dimen/_8sdp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_avatar_placeholder" />
+                app:layout_constraintStart_toEndOf="@+id/cardChatRequestsHome"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/ivAvatar3Home"
-                android:layout_width="@dimen/_32sdp"
-                android:layout_height="@dimen/_32sdp"
-                android:layout_marginEnd="@dimen/_12sdp"
-                app:layout_constraintEnd_toEndOf="@+id/ivAvatar4Home"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_avatar_placeholder" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvSoonCounterHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="@dimen/_24sdp"
+                    android:fontFamily="@font/open_sans_bold"
+                    android:textColor="@color/colorGlobalWhite"
+                    android:textSize="@dimen/_28ssp"
+                    tools:text="64" />
 
-            <ImageView
-                android:id="@+id/ivAvatar2Home"
-                android:layout_width="@dimen/_32sdp"
-                android:layout_height="@dimen/_32sdp"
-                android:layout_marginEnd="@dimen/_12sdp"
-                app:layout_constraintEnd_toEndOf="@+id/ivAvatar3Home"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_avatar_placeholder" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:text="@string/willBeSoon"
+                    android:textColor="@color/colorGlobalWhite"
+                    android:textSize="@dimen/_10ssp" />
 
-            <ImageView
-                android:id="@+id/ivAvatar1Home"
-                android:layout_width="@dimen/_32sdp"
-                android:layout_height="@dimen/_32sdp"
-                android:layout_marginEnd="@dimen/_12sdp"
-                app:layout_constraintEnd_toEndOf="@+id/ivAvatar2Home"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_avatar_placeholder" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvChatListHome"
+                style="@style/Recycler"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_158sdp"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardSoonHome" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvRecommendedHome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:fontFamily="@font/open_sans_bold"
+                android:text="@string/recentlyRecommended"
+                android:textColor="@color/darkBlue"
+                android:textSize="@dimen/_14ssp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvChatListHome" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvProductsHome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/_12sdp"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRecommendedHome"
+                app:spanCount="2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvChatRequestsCounterHome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/_24sdp"
-            android:fontFamily="@font/open_sans_bold"
-            android:textColor="@color/colorGlobalWhite"
-            android:textSize="@dimen/_28ssp"
-            tools:text="64" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/_8sdp"
-            android:fontFamily="@font/open_sans_semibold"
-            android:text="@string/newRequests"
-            android:textColor="@color/colorGlobalWhite"
-            android:textSize="@dimen/_10ssp" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardSoonHome"
-        android:layout_width="@dimen/match_constraint"
-        android:layout_height="@dimen/_100sdp"
-        android:layout_marginStart="@dimen/_4sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:layout_marginEnd="@dimen/_12sdp"
-        app:cardBackgroundColor="@color/mediumGrey"
-        app:cardElevation="@dimen/_3sdp"
-        app:cardUseCompatPadding="true"
-        app:contentPadding="@dimen/_8sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardChatRequestsHome"
-        app:layout_constraintTop_toBottomOf="@+id/clToolbarContainerHome">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvSoonCounterHome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/_24sdp"
-            android:fontFamily="@font/open_sans_bold"
-            android:textColor="@color/colorGlobalWhite"
-            android:textSize="@dimen/_28ssp"
-            tools:text="64" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/_8sdp"
-            android:fontFamily="@font/open_sans_semibold"
-            android:text="@string/willBeSoon"
-            android:textColor="@color/colorGlobalWhite"
-            android:textSize="@dimen/_10ssp" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvChatListHome"
-        style="@style/Recycler"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_160sdp"
-        android:layout_marginHorizontal="@dimen/_12sdp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardSoonHome" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvRecommendedHome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:fontFamily="@font/open_sans_bold"
-        android:text="@string/recentlyRecommended"
-        android:textColor="@color/darkBlue"
-        android:textSize="@dimen/_14ssp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvChatListHome" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvProductsHome"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/match_constraint"
-        android:layout_marginHorizontal="@dimen/_12sdp"
-        android:layout_marginTop="@dimen/_4sdp"
-        android:clipToPadding="false"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/_12sdp"
-        android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRecommendedHome"
-        app:spanCount="2" />
-
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

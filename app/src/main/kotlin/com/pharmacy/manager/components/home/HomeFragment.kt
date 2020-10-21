@@ -1,8 +1,10 @@
 package com.pharmacy.manager.components.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.RecyclerView
+import androidx.paging.ExperimentalPagingApi
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.pharmacy.manager.R
 import com.pharmacy.manager.components.chatList.adapter.ChatAdapter
 import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.fromHomeToChat
@@ -10,14 +12,14 @@ import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.fro
 import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.fromHomeToSearch
 import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.globalToProductCard
 import com.pharmacy.manager.components.home.adapter.ProductAdapter
+import com.pharmacy.manager.components.mercureService.MercureEventListenerService
 import com.pharmacy.manager.components.product.model.Product
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
-import com.pharmacy.manager.core.extensions.animateVisibleOrGoneIfNot
-import com.pharmacy.manager.core.extensions.compatColor
-import com.pharmacy.manager.core.extensions.loadCircularImage
-import com.pharmacy.manager.core.extensions.setDebounceOnClickListener
+import com.pharmacy.manager.core.extensions.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fragment_home) {
 
     private val chatAdapter by lazy { ChatAdapter { navController.navigate(fromHomeToChat(it)) } }
@@ -26,7 +28,6 @@ class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fr
             observeRestResult<Product> {
                 liveData = vm.requestProductInfo(it.globalProductId)
                 onEmmit = { navController.navigate(globalToProductCard(this)) }
-
             }
         }
     }
@@ -52,6 +53,16 @@ class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fr
         vm.getRecentProductList()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        // TODO add manual mercure stop
+        if (!requireContext().isServiceRunning(MercureEventListenerService::class.java)) {
+            requireContext().startService(Intent(requireContext(), MercureEventListenerService::class.java))
+        }
+    }
+
+    @ExperimentalPagingApi
     override fun onBindLiveData() {
         super.onBindLiveData()
 
@@ -66,10 +77,12 @@ class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fr
     private fun initChatList() {
         rvChatListHome.adapter = chatAdapter
         rvChatListHome.setHasFixedSize(true)
-        chatAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-            override fun onItemRangeRemoved(position: Int, count: Int) = rvChatListHome.animateVisibleOrGoneIfNot(chatAdapter.itemCount != 1)
-            override fun onItemRangeInserted(position: Int, count: Int) = rvChatListHome.animateVisibleOrGoneIfNot(count != 0)
-        })
+        rvChatListHome.layoutManager = object : LinearLayoutManager(requireContext()) {
+            override fun canScrollVertically(): Boolean {
+                return false
+            }
+        }
+        chatAdapter.addStateListener { progressCallback?.setInProgress(it) }
     }
 
     private fun initProductList() {

@@ -10,6 +10,7 @@ import com.pharmacy.manager.components.chat.chatModule
 import com.pharmacy.manager.components.chatList.chatListModule
 import com.pharmacy.manager.components.devTools.devToolsModule
 import com.pharmacy.manager.components.home.homeModule
+import com.pharmacy.manager.components.main.mainModule
 import com.pharmacy.manager.components.mercureService.mercureModule
 import com.pharmacy.manager.components.needHelp.needHelpModule
 import com.pharmacy.manager.components.notifications.notificationsModule
@@ -67,6 +68,7 @@ class App : Application() {
             androidContext(this@App)
             fragmentFactory()
             modules(
+                mainModule,
                 restModule,
                 managersModule,
                 devToolsModule,

@@ -6,13 +6,13 @@ import androidx.room.Query
 import com.pharmacy.manager.data.local.db.BaseDao
 
 @Dao
-interface RemoteKeysDAO : BaseDao<RemoteKeys> {
+interface MessagesRemoteKeysDAO : BaseDao<MessagesRemoteKeys> {
 
     @WorkerThread
-    @Query("SELECT * FROM remotekeys WHERE messageId = :messageId")
-    suspend fun getRemoteKeys(messageId: Int): RemoteKeys?
+    @Query("SELECT * FROM MessagesRemoteKeys WHERE messageId = :messageId")
+    suspend fun getRemoteKeys(messageId: Int): MessagesRemoteKeys?
 
     @WorkerThread
-    @Query("DELETE FROM remotekeys WHERE chatId = :chatId")
+    @Query("DELETE FROM MessagesRemoteKeys WHERE chatId = :chatId")
     suspend fun clearRemoteKeys(chatId: Int)
 }

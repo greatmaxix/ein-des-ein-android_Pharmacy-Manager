@@ -65,7 +65,6 @@ object Versions {
     const val workManager = "2.5.0-alpha02"
     const val androidScalableDimens = "1.0.6"
     const val inputMask = "6.0.0"
-    const val handlePathOz = "1.0.7"
     const val flowBinding = "1.0.0-beta01"
     const val qrCodeScanner = "2.1.0"
     const val paging = "3.0.0-alpha07"

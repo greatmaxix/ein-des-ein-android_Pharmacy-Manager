@@ -13,6 +13,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.pharmacy.manager.R
+import com.pharmacy.manager.components.chat.model.message.MessageProduct
 import com.pharmacy.manager.components.product.model.ProductLite
 import com.pharmacy.manager.util.ColorFilterUtil
 
@@ -101,4 +102,15 @@ fun ImageView.setProductImage(product: ProductLite) {
     val hasPictures = product.pictures.isNotEmpty()
     setBackgroundColor(if (hasPictures) 0 else ContextCompat.getColor(context, R.color.mediumGrey50))
     colorFilter = (if (product.aggregation == null && !hasPictures) ColorFilterUtil.blackWhiteFilter else null)
+}
+
+// TODO refactor this
+fun ImageView.setProductImage(product: MessageProduct) {
+    load(product.pictures.firstOrNull()?.url) {
+        transform(CenterCrop(), RoundedCorners(resources.getDimensionPixelSize(R.dimen._8sdp)))
+        error(R.drawable.default_product_image)
+    }
+    val hasPictures = product.pictures.isNotEmpty()
+    setBackgroundColor(if (hasPictures) 0 else ContextCompat.getColor(context, R.color.mediumGrey50))
+    colorFilter = (if (product.pharmacyProductsAggregationData == null && !hasPictures) ColorFilterUtil.blackWhiteFilter else null)
 }

@@ -2,7 +2,6 @@ package com.pharmacy.manager.data.rest
 
 import androidx.annotation.WorkerThread
 import com.pharmacy.manager.components.category.model.Category
-import com.pharmacy.manager.components.chat.model.ChatActionResponse
 import com.pharmacy.manager.components.chat.model.SendMessageBody
 import com.pharmacy.manager.components.chat.model.message.MessageItem
 import com.pharmacy.manager.components.chatList.model.AvatarShort
@@ -36,7 +35,9 @@ interface RestApi {
     @GET("${API_PATH}/chat/chats")
     suspend fun chatList(
         @Query("page") page: Int? = null,
-        @Query("per_page") pageSize: Int? = null
+        @Query("per_page") pageSize: Int? = null,
+        @Query("all") all: Boolean = false,
+        @Query("order") order: String? = "desc"
     ): BaseDataResponse<PaginationModel<ChatItem>>
 
     @WorkerThread
@@ -85,7 +86,10 @@ interface RestApi {
     suspend fun uploadImage(@Part file: MultipartBody.Part): BaseDataResponse<SingleItemModel<AvatarShort>>
 
     @PATCH("${API_PATH}/user/chat/{chatId}/close")
-    suspend fun closeChat(@Path("chatId") chatId: Int): BaseDataResponse<SingleItemModel<ChatActionResponse>>
+    suspend fun closeChat(@Path("chatId") chatId: Int): BaseDataResponse<SingleItemModel<ChatItem>>
+
+    @GET("${API_PATH}/chat/chat/{chatId}")
+    suspend fun getChat(@Path("chatId") chatId: Int): BaseDataResponse<SingleItemModel<ChatItem>>
 
     companion object {
 

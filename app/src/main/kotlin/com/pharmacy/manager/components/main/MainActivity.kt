@@ -1,11 +1,16 @@
 package com.pharmacy.manager.components.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.navigation.NavDestination
 import androidx.navigation.ui.setupWithNavController
+import com.pharmacy.manager.GraphMainDirections.Companion.globalToChat
 import com.pharmacy.manager.R
-import com.pharmacy.manager.core.base.BaseActivity
+import com.pharmacy.manager.components.chatList.model.chat.ChatItem
+import com.pharmacy.manager.components.mercureService.MercureEventListenerService.Companion.EXTRA_CHAT_ID
+import com.pharmacy.manager.core.base.mvvm.BaseMVVMActivity
+import com.pharmacy.manager.core.dsl.ObserveGeneral
 import com.pharmacy.manager.core.extensions.setTopRoundCornerBackground
 import com.pharmacy.manager.core.extensions.translateYDown
 import com.pharmacy.manager.core.extensions.translateYUp
@@ -13,11 +18,14 @@ import com.pharmacy.manager.core.general.behavior.MessagesBehavior
 import com.pharmacy.manager.core.general.behavior.ProgressViewBehavior
 import com.pharmacy.manager.core.general.interfaces.MessagesCallback
 import com.pharmacy.manager.core.general.interfaces.ProgressCallback
+import com.pharmacy.manager.core.network.Resource
 import com.pharmacy.manager.widget.SelectableBottomNavView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_progress.*
+import org.koin.core.component.KoinApiExtension
 
-class MainActivity : BaseActivity(R.layout.activity_main), ProgressCallback, MessagesCallback {
+@KoinApiExtension
+class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, MainViewModel::class), ProgressCallback, MessagesCallback {
 
     private val progressBehavior by lazy { attachBehavior(ProgressViewBehavior(progress)) }
     private val messagesBehavior by lazy { attachBehavior(MessagesBehavior(this)) }
@@ -30,6 +38,25 @@ class MainActivity : BaseActivity(R.layout.activity_main), ProgressCallback, Mes
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupNavigation()
+
+        checkIntentChatId(intent)
+    }
+
+    private fun checkIntentChatId(intent: Intent?) {
+        intent?.extras?.let {
+            val chatId = it.getInt(EXTRA_CHAT_ID, -1)
+            if (chatId != -1) {
+                observeResult<ChatItem> {
+                    liveData = viewModel.goToChat(chatId)
+                    onEmmit = { navController.navigate(globalToChat(this)) }
+                }
+            }
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        checkIntentChatId(intent)
     }
 
     private fun setupNavigation() = with(bottomNavMain) {
@@ -48,6 +75,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), ProgressCallback, Mes
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.isTopLevelDestination) bottomNavMain.translateYUp() else bottomNavMain.translateYDown()
             if (destination.isTopDestinationAndHome) window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS) else window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            viewModel.setChatForeground(destination.id == R.id.nav_chat)
             changeSelection(destination)
         }
         translationZ = 1f
@@ -60,6 +88,27 @@ class MainActivity : BaseActivity(R.layout.activity_main), ProgressCallback, Mes
 
     override fun showError(strResId: Int, action: (() -> Unit)?) =
         messagesBehavior.showError(strResId, action)
+
+    // TODO maybe need to move to BaseMVVMActivity, but need to move behaviors...
+    protected fun <T> observeResult(block: ObserveGeneral<T>.() -> Unit) {
+        ObserveGeneral<T>().apply(block).apply {
+            observe(liveData) {
+                when (this) {
+                    is Resource.Success<T> -> {
+                        setInProgress(false)
+                        onEmmit(data)
+                    }
+                    is Resource.Progress -> {
+                        onProgress?.invoke(isLoading) ?: setInProgress(isLoading)
+                    }
+                    is Resource.Error -> {
+                        setInProgress(false)
+                        onError?.invoke(exception) ?: showError(exception.resId)
+                    }
+                }
+            }
+        }
+    }
 
     override fun onBackPressed() {
         navController.currentDestination?.apply {

@@ -8,6 +8,8 @@ import com.pharmacy.manager.components.chat.model.message.MessageItem
 import com.pharmacy.manager.core.adapter.BaseViewHolder
 import com.pharmacy.manager.core.extensions.inflate
 import com.pharmacy.manager.core.extensions.resources
+import com.pharmacy.manager.core.extensions.setProductImage
+import com.pharmacy.manager.core.extensions.setTextHtml
 import kotlinx.android.synthetic.main.item_chat_product.view.*
 
 class ProductViewHolder(itemView: View) : BaseViewHolder<MessageItem>(itemView) {
@@ -24,16 +26,15 @@ class ProductViewHolder(itemView: View) : BaseViewHolder<MessageItem>(itemView) 
     }
 
     override fun bind(item: MessageItem) {
-//        with(itemView) {
-//            val productMessage = item.asProduct()
-//            tvChatProductRecipe.text = "Рецепт" // TODO
-//            tvChatProductDescription.text = productMessage.product.releaseForm
-//            productMessage.product.aggregation?.let {
-//                tvChatProductPrice.text = context.getString(R.string.price, it.minPrice.toString())
-//            }
-//            tvChatProductTitle.setTextHtml(productMessage.product.rusName)
-//            productMessage.product.pictures.firstOrNull()?.url?.let(ivChatProduct::load)
-//        }
+        with(itemView) {
+//            tvChatProductRecipe.text = "Рецепт" // TODO set value and make visible
+            tvChatProductDescription.setTextHtml(item.product?.releaseForm)
+            item.product?.pharmacyProductsAggregationData?.let {
+                tvChatProductPrice.text = context.getString(R.string.price, it.minPrice.toString())
+            }
+            tvChatProductTitle.setTextHtml(item.product?.rusName)
+            item.product?.let(ivChatProduct::setProductImage)
+        }
     }
 
     companion object {

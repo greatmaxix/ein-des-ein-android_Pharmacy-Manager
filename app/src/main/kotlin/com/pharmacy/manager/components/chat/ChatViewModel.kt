@@ -2,10 +2,7 @@ package com.pharmacy.manager.components.chat
 
 import android.content.Context
 import android.net.Uri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.navigation.NavDirections
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
@@ -13,18 +10,22 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.pharmacy.manager.components.chat.repository.ChatMessagesRemoteMediator
 import com.pharmacy.manager.components.chat.repository.ChatRepository
-import com.pharmacy.manager.components.chatList.model.ChatItem
+import com.pharmacy.manager.components.chatList.model.chat.ChatItem
 import com.pharmacy.manager.components.product.model.ProductLite
 import com.pharmacy.manager.components.search.SearchViewModel
+import com.pharmacy.manager.core.extensions.getMultipartBody
 import com.pharmacy.manager.core.general.SingleLiveEvent
 import com.pharmacy.manager.util.Constants
-import timber.log.Timber
+import com.pharmacy.manager.util.ImageFileUtil
+import kotlinx.coroutines.Dispatchers
+import org.koin.core.component.KoinApiExtension
 import java.io.File
 
+@KoinApiExtension
 class ChatViewModel(
     private val context: Context,
     private val repository: ChatRepository,
-    args: ChatFragmentArgs
+    private val chat: ChatItem
 ) : SearchViewModel() {
 
     private val _errorLiveData by lazy { SingleLiveEvent<String>() }
@@ -39,74 +40,48 @@ class ChatViewModel(
     private val _chatLiveData by lazy { MutableLiveData<ChatItem>() }
     val chatLiveData: LiveData<ChatItem> by lazy { _chatLiveData }
 
+    val lastMessageLiveData = repository.getLastMessageLiveData(chat.id)
+        .distinctUntilChanged()
+
     @ExperimentalPagingApi
     val chatMessagesLiveData by lazy {
         Pager(
-            config = PagingConfig(Constants.PAGE_SIZE, initialLoadSize = Constants.INIT_LOAD_SIZE, enablePlaceholders = false),
-            remoteMediator = ChatMessagesRemoteMediator(repository, errorHandler, args.chat.id),
-            pagingSourceFactory = { repository.getMessagePagingSource(args.chat.id) }
+            config = PagingConfig(Constants.PAGE_SIZE, enablePlaceholders = false, prefetchDistance = 1, initialLoadSize = Constants.PAGE_SIZE / 2),
+            remoteMediator = ChatMessagesRemoteMediator(repository, errorHandler, chat),
+            pagingSourceFactory = { repository.getMessagePagingSource(chat.id) }
         ).flow
             .cachedIn(viewModelScope)
-            .asLiveData()
+            .asLiveData(Dispatchers.IO)
     }
 
     val tempPhotoFile = File(context.externalCacheDir, Constants.TEMP_PHOTO_FILE_NAME)
 
     init {
-        mockPharmacyMessages(true)
-        _chatLiveData.value = args.chat
+        _chatLiveData.value = chat
     }
 
-    fun sendMessage(message: String) {
-        addMessageToChatList(message)
-
-        // TODO send message to server
+    fun sendMessage(message: String) = requestLiveData {
+        repository.sendMessage(chat.id, message)
     }
 
-
-    fun sendProduct(product: ProductLite) {
-        // TODO send message to server
+    fun sendProduct(product: ProductLite) = requestLiveData {
         saveRecentlyRecommended(product)
-        addMessageToChatList(product = product)
+        repository.sendProductMessage(chat.id, product.globalProductId)
     }
 
-    fun sendPhotos(uriList: List<Uri>) {
-        addMessageToChatList(images = uriList.map { it.toString() }.toMutableList())
-        // TODO send photos
-        Timber.e(uriList.toString())
+    fun sendPhoto(uri: Uri) = requestLiveData {
+        ImageFileUtil.saveImageByUriToFile(context, tempPhotoFile, uri)
+        ImageFileUtil.compressImage(context, tempPhotoFile, uri)
+
+        val multipart = tempPhotoFile.getMultipartBody("file")
+        val response = repository.uploadImage(multipart)
+        response.uuid?.let {
+            tempPhotoFile.delete()
+            repository.sendImageMessage(chat.id, response.uuid)
+        }
     }
 
-    private fun addMessageToChatList(message: String? = null, images: MutableList<String>? = null, product: ProductLite? = null) {
-        // TODO
-//        val list = chatMessagesLiveData.value ?: arrayListOf()
-//        if (list.isEmpty()) list.add(0, ChatMessage.DateHeader(LocalDateTime.now()))
-//        if (!message.isNullOrBlank()) {
-//            list.add(0, ChatMessage.PharmacyMessage(message))
-//        } else if (!images.isNullOrEmpty()) {
-//            list.add(0, ChatMessage.Attachment(images))
-//        } else if (product != null) {
-//            list.add(0, ChatMessage.ChatProduct(product))
-//        }
-//
-//        _chatMessagesLiveData.value = list
-
-        mockPharmacyMessages()
-    }
-
-    // TODO remove
-    @Deprecated("Mock data method")
-    private fun mockPharmacyMessages(startMessages: Boolean = false) {
-        // TODO
-//        val list = chatMessagesLiveData.value ?: arrayListOf()
-//        if (startMessages) {
-//            list.add(0, ChatMessage.DateHeader(LocalDateTime.now()))
-//            list.add(0, ChatMessage.PharmacyMessage("Добрый день! Меня зовут Эстер"))
-//            list.add(0, ChatMessage.PharmacyMessage("Чем я могу Вам помочь?"))
-//            list.add(0, ChatMessage.UserMessage("Мне нужно что то от опухшего горла"))
-//        } else {
-//            list.add(0, ChatMessage.UserMessage(DummyData.userResponses.random()))
-//        }
-//
-//        _chatMessagesLiveData.value = list
+    fun requestCloseChat() = requestLiveData {
+        repository.requestCloseChat(chat.id)
     }
 }

@@ -1,8 +1,10 @@
 package com.pharmacy.manager.components.signIn.model
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import com.pharmacy.manager.components.chatList.model.AvatarShort
 
 @Entity
 data class User(
@@ -16,5 +18,7 @@ data class User(
     @SerializedName("phone") val phone: String?,
     @SerializedName("type") val type: String,
     @SerializedName("topicName") val topicName: String?,
-    @SerializedName("aboutMe") val aboutMe: String?
+    @SerializedName("aboutMe") val aboutMe: String?,
+    @Embedded(prefix = "avatar")
+    @SerializedName("avatar") val avatar: AvatarShort? = null
 )

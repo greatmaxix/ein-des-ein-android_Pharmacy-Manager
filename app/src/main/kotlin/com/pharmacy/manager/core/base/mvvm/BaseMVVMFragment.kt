@@ -59,7 +59,7 @@ abstract class BaseMVVMFragment(@LayoutRes layoutResourceId: Int) : BaseFragment
                         onEmmit.invoke(data)
                     }
                     is Progress -> {
-                        onProgress?.invoke() ?: progressCallback?.setInProgress(isLoading)
+                        onProgress?.invoke(isLoading) ?: progressCallback?.setInProgress(isLoading)
                     }
                     is Error -> {
                         progressCallback?.setInProgress(false)

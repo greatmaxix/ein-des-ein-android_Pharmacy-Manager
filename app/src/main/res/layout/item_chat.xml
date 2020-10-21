@@ -7,9 +7,9 @@
     app:cardBackgroundColor="@color/colorGlobalWhite"
     app:cardCornerRadius="@dimen/_8sdp"
     app:cardElevation="0dp"
-    app:rippleColor="@color/colorRippleBlue"
     app:cardUseCompatPadding="true"
-    app:contentPadding="@dimen/_10sdp">
+    app:contentPadding="@dimen/_10sdp"
+    app:rippleColor="@color/colorRippleBlue">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -29,14 +29,15 @@
             android:id="@+id/tvCounterChatUser"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_2sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
             android:background="@drawable/background_message_counter"
             android:fontFamily="@font/open_sans_semibold"
             android:gravity="center"
             android:padding="@dimen/_1sdp"
-            android:layout_marginBottom="@dimen/_2sdp"
-            android:layout_marginEnd="@dimen/_2sdp"
             android:textColor="@color/colorGlobalWhite"
             android:textSize="@dimen/_8ssp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@+id/ivAvatarChatUser"

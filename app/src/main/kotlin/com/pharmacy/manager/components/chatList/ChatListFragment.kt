@@ -4,16 +4,19 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
+import androidx.paging.ExperimentalPagingApi
 import com.pharmacy.manager.R
 import com.pharmacy.manager.components.chatList.ChatListFragmentDirections.Companion.fromChatListToChat
 import com.pharmacy.manager.components.chatList.adapter.ChatAdapter
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
+import com.pharmacy.manager.core.extensions.addStateListener
 import com.pharmacy.manager.core.extensions.animateGoneIfNot
 import com.pharmacy.manager.core.extensions.animateVisibleIfNot
 import kotlinx.android.synthetic.main.fragment_chat_list.*
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class ChatListFragment(private val vm: ChatListViewModel) : BaseMVVMFragment(R.layout.fragment_chat_list) {
 
     private val chatAdapter by lazy {
@@ -53,12 +56,13 @@ class ChatListFragment(private val vm: ChatListViewModel) : BaseMVVMFragment(R.l
             }
         }
 
-        chatAdapter.addLoadStateListener { progressCallback?.setInProgress(it.refresh is LoadState.Loading || it.append is LoadState.Loading) }
+        chatAdapter.addStateListener { progressCallback?.setInProgress(it) }
         searchViewChatList.onBackClick = {
             requireActivity().onBackPressed()
         }
     }
 
+    @ExperimentalPagingApi
     override fun onBindLiveData() {
         super.onBindLiveData()
 

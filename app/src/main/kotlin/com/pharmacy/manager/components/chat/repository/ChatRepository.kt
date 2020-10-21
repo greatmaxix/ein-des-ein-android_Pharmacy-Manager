@@ -1,30 +1,40 @@
 package com.pharmacy.manager.components.chat.repository
 
 import com.pharmacy.manager.components.chat.model.message.MessageItem
-import com.pharmacy.manager.components.chat.model.remoteKeys.RemoteKeys
+import okhttp3.MultipartBody
+import java.time.LocalDateTime
 
 class ChatRepository(
     private val rds: ChatRemoteDataSource,
     private val lds: ChatLocalDataSource
 ) {
 
-    suspend fun messagesList(chatId: Int, page: Int, pageSize: Int) = rds.messagesList(chatId, page, pageSize)
-
     suspend fun getUserUuid() = lds.getUserUuid()
+
+    suspend fun fetchMessagesList(chatId: Int, pageSize: Int?, afterMessageNumber: Int?, beforeMessageNumber: Int?) =
+        rds.messagesList(chatId, pageSize, afterMessageNumber, beforeMessageNumber)
 
     fun getMessagePagingSource(chatId: Int) = lds.getMessagePagingSource(chatId)
 
-    suspend fun clearMessagesCache(chatId: Int) = lds.clearMessages(chatId)
+    fun getLastMessageLiveData(chatId: Int) = lds.getLastMessageLiveData(chatId)
 
-    suspend fun insertMessages(items: List<MessageItem>) = lds.insertMessages(items)
+    suspend fun clearMessages(chatId: Int) = lds.clearMessages(chatId)
 
-    suspend fun getCount(chatId: Int) = lds.getCount(chatId)
-
-    suspend fun sendMessage(chatId: Int, text: String) = rds.sendMessage(chatId, text)
-
-    suspend fun insertRemoteKeys(items: List<RemoteKeys>) = lds.insertRemoteKeys(items)
+    suspend fun insertMessagesWithKeys(messages: List<MessageItem>) = lds.insertMessagesWithKeys(messages)
 
     suspend fun getRemoteKeys(messageId: Int) = lds.getRemoteKeys(messageId)
 
-    suspend fun clearRemoteKeys(chatId: Int) = lds.clearRemoteKeys(chatId)
+    suspend fun sendMessage(chatId: Int, text: String) = rds.sendMessage(chatId, text)
+
+    suspend fun sendProductMessage(chatId: Int, globalProductId: Int) = rds.sendProductMessage(chatId, globalProductId)
+
+    suspend fun sendImageMessage(chatId: Int, fileUuid: String) = rds.sendImageMessage(chatId, fileUuid)
+
+    suspend fun uploadImage(partBody: MultipartBody.Part) = rds.uploadImage(partBody)
+
+    suspend fun getLastMessage(chatId: Int) = lds.getLastMessage(chatId)
+
+    suspend fun isHeaderExist(chatId: Int, createdAt: LocalDateTime) = lds.isHeaderExist(chatId, createdAt)
+
+    suspend fun requestCloseChat(chatId: Int) = rds.requestCloseChat(chatId)
 }
