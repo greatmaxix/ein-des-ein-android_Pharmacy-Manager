@@ -13,6 +13,6 @@ class ChatListAdapter(private val itemClick: (ChatItem) -> Unit) : BaseRecyclerA
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ChatViewHolder.newInstance(parent).apply {
-        itemView.setDebounceOnClickListener { itemClick.invoke(itemView.tag as ChatItem) }
+        itemView.setDebounceOnClickListener { itemClick(itemView.tag as ChatItem) }
     }
 }

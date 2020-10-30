@@ -17,7 +17,6 @@ import com.pulse.manager.components.search.SearchViewModel
 import com.pulse.manager.core.extensions.getMultipartBody
 import com.pulse.manager.util.Constants
 import com.pulse.manager.util.ImageFileUtil
-import kotlinx.coroutines.Dispatchers
 import org.koin.core.component.KoinApiExtension
 import java.io.File
 
@@ -41,7 +40,7 @@ class ChatViewModel(
             pagingSourceFactory = { repository.getMessagePagingSource(chat.id) }
         ).flow
             .cachedIn(viewModelScope)
-            .asLiveData(Dispatchers.IO)
+            .asLiveData()
     }
 
     val tempPhotoFile = File(context.externalCacheDir, Constants.TEMP_PHOTO_FILE_NAME)

@@ -22,7 +22,7 @@ class ProductAdapter(private val itemClick: (ProductLite) -> Unit) : BaseFilterR
 
         init {
             itemView.setDebounceOnClickListener {
-                itemClick.invoke(tag as ProductLite)
+                itemClick(tag as ProductLite)
             }
         }
 

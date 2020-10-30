@@ -12,9 +12,6 @@ object Libraries {
     const val kotlinStdLib = "stdlib"
     const val kotlinReflect = "reflect"
 
-    // desugaring
-    const val desugaringJdk = "com.android.tools:desugar_jdk_libs:${Versions.desugaringJdk}"
-
     // lifecycle
     private const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleRuntime}"
     private const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycleExtensions}"

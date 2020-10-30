@@ -3,9 +3,6 @@ object Versions {
     // kotlin
     const val kotlinVersion = "1.4.10"
 
-    //desugaring
-    const val desugaringJdk = "1.0.10"
-
     // nav components
     const val navigationFragment = "2.3.0"
 

@@ -12,7 +12,6 @@ import com.pulse.manager.components.chatList.repository.ChatListRemoteMediator
 import com.pulse.manager.components.chatList.repository.ChatListRepository
 import com.pulse.manager.core.base.mvvm.BaseViewModel
 import com.pulse.manager.util.Constants.Companion.PAGE_SIZE
-import kotlinx.coroutines.Dispatchers
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
@@ -37,7 +36,7 @@ class ChatListViewModel(private val repository: ChatListRepository) : BaseViewMo
                 )
             }.flow
                 .cachedIn(viewModelScope)
-                .asLiveData(Dispatchers.IO)
+                .asLiveData()
         }
     }
 
@@ -46,6 +45,6 @@ class ChatListViewModel(private val repository: ChatListRepository) : BaseViewMo
     }
 
     fun searchChat(query: String) {
-        filterTextLiveData.postValue(query)
+        filterTextLiveData.value = query
     }
 }

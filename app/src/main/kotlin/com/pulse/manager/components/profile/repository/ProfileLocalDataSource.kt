@@ -10,10 +10,8 @@ class ProfileLocalDataSource(private val sp: SPManager, private val userDAO: Use
 
     fun getUser() = userDAO.get()
 
-    suspend fun logout() {
+    fun logout() {
         sp.clear()
-        val user = userDAO.getUser()
-        user?.let { userDAO.delete(it) }
-        recentlyRecommendedDAO.clear()
+        val user = userDAO.clear()
     }
 }

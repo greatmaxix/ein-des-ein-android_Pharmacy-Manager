@@ -8,10 +8,10 @@ import com.pulse.manager.core.extensions.setDebounceOnClickListener
 class ChatListPagingAdapter(private val itemClick: (ChatItem) -> Unit) : PagingDataAdapter<ChatItem, ChatViewHolder>(ChatDiff) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ChatViewHolder.newInstance(parent).apply {
-        itemView.setDebounceOnClickListener { itemClick.invoke(itemView.tag as ChatItem) }
+        itemView.setDebounceOnClickListener { itemClick(itemView.tag as ChatItem) }
     }
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it) }
+        getItem(position)?.let(holder::bind)
     }
 }
