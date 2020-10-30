@@ -21,8 +21,12 @@ plugins {
     id(BuildPlugins.crashlyticsPlugin)
 }
 
-tasks.withType<KotlinCompile> {
+tasks.withType<KotlinCompile>().all {
     kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.freeCompilerArgs += listOf(
+        "-Xopt-in=kotlin.RequiresOptIn",
+        "-Xopt-in=kotlin.OptIn"
+    )
 }
 
 versionberg {
@@ -87,14 +91,12 @@ android {
         getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")
 
-            applicationIdSuffix = ".debug"
-            versionNameSuffix = "-debug"
+            versionNameSuffix = "-dg"
             isDebuggable = true
         }
     }
 
     compileOptions {
-        coreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -105,9 +107,6 @@ android {
 dependencies {
     // libs
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar", "*.jar"))))
-
-    // desugaring
-    coreLibraryDesugaring(Libraries.desugaringJdk)
 
     // kotlin
     implementation(kotlin(Libraries.kotlinStdLib))

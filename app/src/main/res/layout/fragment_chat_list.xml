@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightGrey"
+    android:paddingBottom="@dimen/bottomNavHeight"
     android:fitsSystemWindows="true">
 
     <LinearLayout
@@ -20,7 +21,7 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
-        <com.pharmacy.manager.widget.AppSearchView
+        <com.pulse.manager.widget.AppSearchView
             android:id="@+id/searchViewChatList"
             android:layout_width="match_parent"
             android:layout_height="0dp"

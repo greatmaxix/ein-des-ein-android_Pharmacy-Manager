@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pharmacy-Manager</string>
+    <string name="app_name">Pulse-Manager</string>
 
     <string name="common_closeButton">@android:string/cancel</string>
     <string name="common_okButton">@android:string/ok</string>
@@ -59,7 +59,7 @@
     <string name="startSearching">Начните поиск</string>
     <string name="searchHintHome">Ношпа</string>
     <string name="recentlyRecommended">Вы недавно рекомендовали</string>
-    <string name="willBeSoon">Скоро будет</string>
+    <string name="willBeSoon">Ожидается в разработке</string>
     <string name="newRequests">Новых запросов</string>
 
     <!-- Code scanner -->
@@ -100,5 +100,10 @@
     <string name="sort">Сортировать</string>
 
     <string name="analyzeTitleContentDescriptionHome">Анализы и диагностика</string>
-
+    <string name="attachment_image">Изображение</string>
+    <string name="attachment_product">Продукт</string>
+    <string name="endChatMessage">У Вас есть еще какие либо вопросы?</string>
+    <string name="chatEndedTitle">Чат завершен</string>
+    <string name="chatEndedMessage">A short, complete sentence that takes up the first and the second line.</string>
+    <string name="appNameShort">Pulse</string>
 </resources>

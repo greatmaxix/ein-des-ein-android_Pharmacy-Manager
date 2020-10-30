@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorSearchBackground">
 
-    <com.pharmacy.manager.widget.EmptyContainerView
+    <com.pulse.manager.widget.EmptyContainerView
         android:id="@+id/llDrugsNotFoundContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.pharmacy.manager.widget.AppSearchView
+        <com.pulse.manager.widget.AppSearchView
             android:id="@+id/searchView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
