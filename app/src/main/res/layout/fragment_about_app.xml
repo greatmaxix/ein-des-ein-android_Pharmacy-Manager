@@ -16,7 +16,7 @@
         android:layout_height="@dimen/_64sdp"
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_24sdp"
-        android:src="@drawable/ic_logo_stub"
+        android:src="@drawable/ic_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
@@ -69,7 +69,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvAddressAboutApp"
         tools:text="kzpharamcy.com" />
 
-    <com.pharmacy.manager.widget.ProfileItemView
+    <com.pulse.manager.widget.ProfileItemView
         android:id="@+id/itemAgreementAboutApp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvSiteAboutApp"
         app:titleProfile="@string/userAgreement" />
 
-    <com.pharmacy.manager.widget.ProfileItemView
+    <com.pulse.manager.widget.ProfileItemView
         android:id="@+id/itemPrivacyAboutApp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
         app:layout_constraintTop_toBottomOf="@+id/itemAgreementAboutApp"
         app:titleProfile="@string/privacyPolicy" />
 
-    <com.pharmacy.manager.widget.ProfileItemView
+    <com.pulse.manager.widget.ProfileItemView
         android:id="@+id/itemTermsAboutApp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
         app:layout_constraintTop_toBottomOf="@+id/itemPrivacyAboutApp"
         app:titleProfile="@string/termsAndConditions" />
 
-    <com.pharmacy.manager.widget.ProfileItemView
+    <com.pulse.manager.widget.ProfileItemView
         android:id="@+id/itemCashbackAboutApp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

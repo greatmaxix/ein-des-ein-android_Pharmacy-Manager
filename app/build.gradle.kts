@@ -91,8 +91,7 @@ android {
         getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")
 
-            applicationIdSuffix = ".debug"
-            versionNameSuffix = "-debug"
+            versionNameSuffix = "-dg"
             isDebuggable = true
         }
     }

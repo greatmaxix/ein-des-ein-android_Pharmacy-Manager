@@ -39,7 +39,7 @@
     <style name="Logo">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:src">@drawable/ic_logo_stub</item>
+        <item name="android:src">@drawable/ic_logo</item>
     </style>
 
     <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">

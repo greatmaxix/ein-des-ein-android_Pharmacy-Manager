@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pharmacy-Manager</string>
+    <string name="app_name">Pulse-Manager</string>
 
     <string name="common_closeButton">@android:string/cancel</string>
     <string name="common_okButton">@android:string/ok</string>
@@ -105,4 +105,5 @@
     <string name="endChatMessage">У Вас есть еще какие либо вопросы?</string>
     <string name="chatEndedTitle">Чат завершен</string>
     <string name="chatEndedMessage">A short, complete sentence that takes up the first and the second line.</string>
+    <string name="appNameShort">Pulse</string>
 </resources>

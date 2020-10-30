@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <com.pharmacy.manager.widget.AppSearchView
+    <com.pulse.manager.widget.AppSearchView
         android:id="@+id/searchViewCategories"
         android:layout_width="@dimen/match_constraint"
         android:layout_height="wrap_content"

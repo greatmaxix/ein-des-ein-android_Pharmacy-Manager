@@ -18,7 +18,7 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
-        <com.pharmacy.manager.widget.AppSearchView
+        <com.pulse.manager.widget.AppSearchView
             android:id="@+id/searchViewNeedHelp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
