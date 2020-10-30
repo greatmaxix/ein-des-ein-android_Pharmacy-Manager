@@ -4,6 +4,7 @@ import com.pharmacy.manager.components.chat.model.message.MessageDAO
 import com.pharmacy.manager.components.chat.model.message.MessageItem
 import com.pharmacy.manager.components.chat.model.remoteKeys.MessagesRemoteKeys.Companion.createRemoteKey
 import com.pharmacy.manager.components.chat.model.remoteKeys.MessagesRemoteKeysDAO
+import com.pharmacy.manager.components.chatList.model.chat.ChatItemDAO
 import com.pharmacy.manager.components.signIn.model.UserDAO
 import com.pharmacy.manager.data.local.SPManager
 import java.time.LocalDateTime
@@ -13,6 +14,7 @@ class ChatLocalDataSource(
     private val userDao: UserDAO,
     private val messagesRemoteKeysDAO: MessagesRemoteKeysDAO,
     private val messageDAO: MessageDAO,
+    private val chatItemDAO: ChatItemDAO
 ) {
 
     suspend fun getUserUuid() = userDao.getUser()?.uuid
@@ -38,4 +40,6 @@ class ChatLocalDataSource(
 
     suspend fun isHeaderExist(chatId: Int, createdAt: LocalDateTime) = messageDAO.getHeaderMessages(chatId)
         .find { it.createdAt.year == createdAt.year && it.createdAt.month == createdAt.month && it.createdAt.dayOfMonth == createdAt.dayOfMonth } != null
+
+    fun getChatLiveData(chatId: Int) = chatItemDAO.getChatLiveData(chatId)
 }

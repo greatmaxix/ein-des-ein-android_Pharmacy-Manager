@@ -2,8 +2,9 @@ package com.pharmacy.manager.components.chat
 
 import android.content.Context
 import android.net.Uri
-import androidx.lifecycle.*
-import androidx.navigation.NavDirections
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.distinctUntilChanged
+import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -14,7 +15,6 @@ import com.pharmacy.manager.components.chatList.model.chat.ChatItem
 import com.pharmacy.manager.components.product.model.ProductLite
 import com.pharmacy.manager.components.search.SearchViewModel
 import com.pharmacy.manager.core.extensions.getMultipartBody
-import com.pharmacy.manager.core.general.SingleLiveEvent
 import com.pharmacy.manager.util.Constants
 import com.pharmacy.manager.util.ImageFileUtil
 import kotlinx.coroutines.Dispatchers
@@ -28,18 +28,8 @@ class ChatViewModel(
     private val chat: ChatItem
 ) : SearchViewModel() {
 
-    private val _errorLiveData by lazy { SingleLiveEvent<String>() }
-    val errorLiveData: LiveData<String> by lazy { _errorLiveData }
-
-    private val _progressLiveData by lazy { SingleLiveEvent<Boolean>() }
-    val progressLiveData: LiveData<Boolean> by lazy { _progressLiveData }
-
-    private val _directionLiveData by lazy { SingleLiveEvent<NavDirections>() }
-    val directionLiveData: LiveData<NavDirections> by lazy { _directionLiveData }
-
-    private val _chatLiveData by lazy { MutableLiveData<ChatItem>() }
-    val chatLiveData: LiveData<ChatItem> by lazy { _chatLiveData }
-
+    val chatLiveData = repository.getChatLiveData(chat.id)
+        .distinctUntilChanged()
     val lastMessageLiveData = repository.getLastMessageLiveData(chat.id)
         .distinctUntilChanged()
 
@@ -55,10 +45,6 @@ class ChatViewModel(
     }
 
     val tempPhotoFile = File(context.externalCacheDir, Constants.TEMP_PHOTO_FILE_NAME)
-
-    init {
-        _chatLiveData.value = chat
-    }
 
     fun sendMessage(message: String) = requestLiveData {
         repository.sendMessage(chat.id, message)

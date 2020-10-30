@@ -47,4 +47,12 @@ class MercureLocalDataSource(
         chatItemDAO.insert(chat)
         chatsRemoteKeysDAO.insert(keys)
     }
+
+    suspend fun clearEndChatMessage(chatId: Int) = messageDAO.getEndChatMessage(chatId)
+        ?.let {
+            messagesRemoteKeysDAO.deleteById(chatId, it.id)
+            messageDAO.delete(it)
+        }
+
+    suspend fun getChat(chatId: Int) = chatItemDAO.getChat(chatId)
 }

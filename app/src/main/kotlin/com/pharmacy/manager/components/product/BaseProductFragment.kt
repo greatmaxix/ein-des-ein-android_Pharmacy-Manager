@@ -15,8 +15,7 @@ abstract class BaseProductFragment<VM : BaseProductViewModel>(@LayoutRes private
 
     protected fun performProductInfoRequest(globalProductId: Int) {
         Timber.e("perform $globalProductId")
-        observeRestResult<Product> {
-            liveData = viewModel.requestProductInfo(globalProductId)
+        observeResult(viewModel.requestProductInfo(globalProductId)) {
             onEmmit = {
                 Timber.e("emit $this")
                 navController.navigate(getNavDirection(this))

@@ -1,5 +1,7 @@
 package com.pharmacy.manager.components.chatList
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
@@ -16,14 +18,34 @@ import org.koin.core.component.KoinApiExtension
 @KoinApiExtension
 class ChatListViewModel(private val repository: ChatListRepository) : BaseViewModel() {
 
+    private val filterTextLiveData by lazy { MutableLiveData<String>() }
+    private val config = PagingConfig(PAGE_SIZE, enablePlaceholders = false, prefetchDistance = 1, initialLoadSize = PAGE_SIZE / 2)
+
     @ExperimentalPagingApi
     val chatListLiveData by lazy {
-        Pager(
-            config = PagingConfig(PAGE_SIZE, enablePlaceholders = false, prefetchDistance = 1, initialLoadSize = PAGE_SIZE / 2),
-            remoteMediator = ChatListRemoteMediator(repository, errorHandler),
-            pagingSourceFactory = { repository.getChatsPagingSource() }
-        ).flow
-            .cachedIn(viewModelScope)
-            .asLiveData(Dispatchers.IO)
+        Transformations.switchMap(filterTextLiveData) {
+            if (it.isBlank()) {
+                Pager(
+                    config = config,
+                    remoteMediator = ChatListRemoteMediator(repository, errorHandler),
+                    pagingSourceFactory = { repository.getChatsPagingSource() }
+                )
+            } else {
+                Pager(
+                    config = config,
+                    pagingSourceFactory = { repository.searchChatsPagingSource(it) }
+                )
+            }.flow
+                .cachedIn(viewModelScope)
+                .asLiveData(Dispatchers.IO)
+        }
+    }
+
+    init {
+        searchChat("")
+    }
+
+    fun searchChat(query: String) {
+        filterTextLiveData.postValue(query)
     }
 }

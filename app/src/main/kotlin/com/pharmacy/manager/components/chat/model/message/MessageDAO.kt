@@ -19,9 +19,12 @@ interface MessageDAO : BaseDao<MessageItem> {
     @Query("DELETE FROM MessageItem WHERE chatId = :chatId")
     suspend fun clearChat(chatId: Int)
 
-    @Query("SELECT * FROM MessageItem WHERE chatId = :chatId ORDER BY messageCreatedAt ASC LIMIT 1")
+    @Query("SELECT * FROM MessageItem WHERE chatId = :chatId ORDER BY messageCreatedAt DESC LIMIT 1")
     suspend fun getLastMessage(chatId: Int): MessageItem?
 
     @Query("SELECT * FROM MessageItem WHERE chatId = :chatId AND messageType = ${ChatMessageAdapter.TYPE_DATE_HEADER}")
     suspend fun getHeaderMessages(chatId: Int): List<MessageItem>
+
+    @Query("SELECT * FROM MessageItem WHERE chatId = :chatId AND messageType = ${ChatMessageAdapter.TYPE_END_CHAT} LIMIT 1")
+    fun getEndChatMessage(chatId: Int): MessageItem?
 }

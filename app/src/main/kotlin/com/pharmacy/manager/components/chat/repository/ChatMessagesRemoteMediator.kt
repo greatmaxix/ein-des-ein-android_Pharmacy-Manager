@@ -4,6 +4,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.pharmacy.manager.components.chat.adapter.ChatMessageAdapter.Companion.TYPE_DATE_HEADER
 import com.pharmacy.manager.components.chat.model.message.MessageItem
 import com.pharmacy.manager.components.chat.model.remoteKeys.MessagesRemoteKeys
 import com.pharmacy.manager.components.chatList.model.chat.ChatItem
@@ -44,7 +45,7 @@ class ChatMessagesRemoteMediator(private val repository: ChatRepository, private
                     var lastItem = if (loadType != LoadType.REFRESH) repository.getLastMessage(chat.id) else null
                     items.forEachIndexed { index, messageItem ->
                         if ((index == 0 && lastItem == null) || (lastItem != null && lastItem?.createdAt?.dayOfMonth != messageItem.createdAt.dayOfMonth)) {
-                            val header = MessageItem.getHeaderInstance(messageItem)
+                            val header = MessageItem.getStubItem(null, messageItem, TYPE_DATE_HEADER, messageItem.chatId)
                             if (!repository.isHeaderExist(chat.id, header.createdAt)) messagesList.add(header)
                         }
                         messagesList.add(messageItem)

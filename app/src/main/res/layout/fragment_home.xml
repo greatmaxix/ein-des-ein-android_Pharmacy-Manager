@@ -230,7 +230,7 @@
                 android:id="@+id/rvChatListHome"
                 style="@style/Recycler"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_158sdp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

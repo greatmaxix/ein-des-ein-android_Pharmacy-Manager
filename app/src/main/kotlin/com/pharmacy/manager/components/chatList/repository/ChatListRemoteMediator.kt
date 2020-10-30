@@ -43,7 +43,7 @@ class ChatListRemoteMediator(private val repository: ChatListRepository, private
             LoadType.REFRESH -> getRemoteKeyClosestToCurrentPosition(state) ?: ChatsRemoteKeys.emptyInstance()
             LoadType.PREPEND -> ChatsRemoteKeys.errorInstance()
             LoadType.APPEND -> {
-                val remoteKeys = getRemoteKeyForFirstItem(state)
+                val remoteKeys = getRemoteKeyForLastItem(state)
                 if (remoteKeys?.nextPage == null) ChatsRemoteKeys.errorInstance() else remoteKeys
             }
             else -> ChatsRemoteKeys.emptyInstance()
@@ -53,7 +53,7 @@ class ChatListRemoteMediator(private val repository: ChatListRepository, private
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, ChatItem>): ChatsRemoteKeys? =
         state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { chat -> repository.getRemoteKeys(chat.id) }
 
-    // FIXME looks like there is bug with load more
+    // TODO for feature fix
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, ChatItem>): ChatsRemoteKeys? =
         state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { chat -> repository.getRemoteKeys(chat.id) }
 

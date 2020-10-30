@@ -6,6 +6,8 @@ import androidx.paging.ItemSnapshotList
 import androidx.paging.PagingDataAdapter
 import com.pharmacy.manager.components.product.model.ProductLite
 import com.pharmacy.manager.core.extensions.setDebounceOnClickListener
+import kotlinx.coroutines.FlowPreview
+import org.koin.core.KoinExperimentalAPI
 
 class ProductListAdapter(private val itemClick: (Int) -> Unit) :
     PagingDataAdapter<ProductLite, ProductListViewHolder>(ProductListDiffUtil) {
@@ -14,7 +16,9 @@ class ProductListAdapter(private val itemClick: (Int) -> Unit) :
         itemView.setDebounceOnClickListener { itemClick(getItem(bindingAdapterPosition)!!.globalProductId) }
     }
 
+    @KoinExperimentalAPI
     @ExperimentalPagingApi
+    @FlowPreview
     override fun onBindViewHolder(holder: ProductListViewHolder, position: Int) {
         holder.bind(getItem(position) ?: return)
     }

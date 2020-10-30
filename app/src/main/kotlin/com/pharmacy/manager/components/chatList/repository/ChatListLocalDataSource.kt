@@ -12,6 +12,8 @@ class ChatListLocalDataSource(
 
     fun getChatsPagingSource() = chatItemDAO.getChatsPagingSource()
 
+    fun searchChatsPagingSource(query: String) = chatItemDAO.searchChatsPagingSource("%$query%")
+
     suspend fun getRemoteKeys(chatId: Int) = chatsRemoteKeysDAO.getRemoteKeys(chatId)
 
     suspend fun clearMessages() {

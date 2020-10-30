@@ -3,24 +3,22 @@ package com.pharmacy.manager.components.chatList
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
 import com.pharmacy.manager.R
 import com.pharmacy.manager.components.chatList.ChatListFragmentDirections.Companion.fromChatListToChat
-import com.pharmacy.manager.components.chatList.adapter.ChatAdapter
+import com.pharmacy.manager.components.chatList.adapter.ChatListPagingAdapter
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import com.pharmacy.manager.core.extensions.addStateListener
 import com.pharmacy.manager.core.extensions.animateGoneIfNot
 import com.pharmacy.manager.core.extensions.animateVisibleIfNot
 import kotlinx.android.synthetic.main.fragment_chat_list.*
-import kotlinx.coroutines.launch
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
 class ChatListFragment(private val vm: ChatListViewModel) : BaseMVVMFragment(R.layout.fragment_chat_list) {
 
     private val chatAdapter by lazy {
-        ChatAdapter {
+        ChatListPagingAdapter {
             searchViewChatList.clearFocus()
             navController.navigate(fromChatListToChat(it))
         }
@@ -47,14 +45,7 @@ class ChatListFragment(private val vm: ChatListViewModel) : BaseMVVMFragment(R.l
             }
         }
 
-        searchViewChatList.setSearchListener { text ->
-            viewLifecycleOwner.lifecycleScope.launch {
-                // TODO filter
-//                chatAdapter.filter {
-//                    it.name.contains(text, true).falseIfNull() || it.lastMessage.contains(text, true).falseIfNull()
-//                }
-            }
-        }
+        searchViewChatList.setSearchListener { text -> vm.searchChat(text.toString()) }
 
         chatAdapter.addStateListener { progressCallback?.setInProgress(it) }
         searchViewChatList.onBackClick = {

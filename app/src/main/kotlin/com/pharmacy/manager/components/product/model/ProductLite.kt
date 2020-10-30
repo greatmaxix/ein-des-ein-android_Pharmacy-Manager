@@ -9,6 +9,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.pharmacy.manager.App
 import kotlinx.android.parcel.Parcelize
+import kotlinx.coroutines.FlowPreview
 import org.koin.core.KoinExperimentalAPI
 import java.util.*
 
@@ -29,6 +30,7 @@ open class ProductLite(
 ) : Parcelable {
 
     //TODO Create global "Local helper"
+    @FlowPreview
     @KoinExperimentalAPI
     @ExperimentalPagingApi
     val productLocale: String?

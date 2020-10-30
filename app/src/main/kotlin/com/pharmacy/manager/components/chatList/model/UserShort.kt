@@ -12,6 +12,7 @@ data class UserShort(
     @SerializedName("id") val id: Int,
     @SerializedName("uuid") val uuid: String,
     @SerializedName("type") val type: String,
+    @ColumnInfo(name = "customerName")
     @SerializedName("name") val name: String,
     @Embedded(prefix = "avatar")
     @SerializedName("avatar") val avatar: AvatarShort? = null

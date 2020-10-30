@@ -10,6 +10,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.pharmacy.manager.core.base.fragment.BaseFragment
 import com.pharmacy.manager.core.dsl.ObserveGeneral
+import com.pharmacy.manager.core.network.Resource
 import com.pharmacy.manager.core.network.Resource.*
 import kotlinx.coroutines.flow.Flow
 
@@ -50,21 +51,32 @@ abstract class BaseMVVMFragment(@LayoutRes layoutResourceId: Int) : BaseFragment
         })
     }
 
-    protected fun <T> observeRestResult(block: ObserveGeneral<T>.() -> Unit) {
-        ObserveGeneral<T>().apply(block).apply {
-            observe(liveData) {
-                when (this) {
-                    is Success<T> -> {
-                        progressCallback?.setInProgress(false)
-                        onEmmit.invoke(data)
+    protected fun <T> observeResult(liveData: LiveData<Resource<T>>, block: (ObserveGeneral<T>.() -> Unit)? = null) {
+        block?.let {
+            ObserveGeneral<T>().apply(block).apply {
+                observe(liveData) {
+                    when (this) {
+                        is Success<T> -> {
+                            progressCallback?.setInProgress(false)
+                            onEmmit(data)
+                        }
+                        is Progress -> {
+                            onProgress?.invoke(isLoading) ?: progressCallback?.setInProgress(isLoading)
+                        }
+                        is Error -> {
+                            progressCallback?.setInProgress(false)
+                            onError?.invoke(exception) ?: messageCallback?.showError(exception.resId)
+                        }
                     }
-                    is Progress -> {
-                        onProgress?.invoke(isLoading) ?: progressCallback?.setInProgress(isLoading)
-                    }
-                    is Error -> {
-                        progressCallback?.setInProgress(false)
-                        onError?.invoke(exception) ?: messageCallback?.showError(exception.resId)
-                    }
+                }
+            }
+        } ?: observe(liveData) {
+            when (this) {
+                is Success<T> -> progressCallback?.setInProgress(false)
+                is Progress -> progressCallback?.setInProgress(isLoading)
+                is Error -> {
+                    progressCallback?.setInProgress(false)
+                    messageCallback?.showError(exception.resId)
                 }
             }
         }

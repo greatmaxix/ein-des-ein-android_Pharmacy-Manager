@@ -16,6 +16,8 @@ import com.here.oksse.ServerSentEvent
 import com.kirich1409.androidnotificationdsl.channels.createNotificationChannels
 import com.kirich1409.androidnotificationdsl.notification
 import com.pharmacy.manager.R
+import com.pharmacy.manager.components.chat.adapter.ChatMessageAdapter.Companion.TYPE_DATE_HEADER
+import com.pharmacy.manager.components.chat.adapter.ChatMessageAdapter.Companion.TYPE_END_CHAT
 import com.pharmacy.manager.components.chat.model.message.MessageItem
 import com.pharmacy.manager.components.chatList.model.chat.ChatItem
 import com.pharmacy.manager.components.main.MainActivity
@@ -82,44 +84,48 @@ class MercureEventListenerService : Service(), CoroutineScope, LifecycleObserver
                     with(messageItem.item) {
                         val lastMessage = repository.getLastMessage(chatId)
                         if (lastMessage == null || lastMessage.createdAt.dayOfMonth != createdAt.dayOfMonth) {
-                            val header = MessageItem.getHeaderInstance(this)
+                            val header = MessageItem.getStubItem(null, this, TYPE_DATE_HEADER, chatId)
                             if (!repository.isHeaderExist(chatId, header.createdAt)) repository.insertMessageWithKey(header)
                         }
                         repository.insertMessageWithKey(this)
-
-                        if (repository.getUserUuid() != ownerUuid && (!repository.isChatForeground || !isAppForeground)) {
-                            val intent = getActionIntent().apply { putExtra(EXTRA_CHAT_ID, chatId) }
-                            val notification = notification(
-                                this@MercureEventListenerService,
-                                MERCURE_NOTIFICATION_CHANNEL_ID,
-                                smallIcon = R.drawable.ic_logo_stub
-                            ) {
-                                // TODO get chat from db else get chat from server and get user name from it
-                                contentTitle("Message")
-                                contentText(text ?: getString(if (file != null) R.string.attachment_image else R.string.attachment_product))
-                                priority(NotificationCompat.PRIORITY_HIGH)
-                                contentIntent(PendingIntent.getActivity(applicationContext, chatId, intent, PendingIntent.FLAG_UPDATE_CURRENT))
-                                autoCancel(true)
-                            }
-
-                            notificationManager.notify(chatId, notification)
-                        }
+                        if (repository.getUserUuid() != ownerUuid && (!repository.isChatForeground || !isAppForeground)) postNotification()
                     }
                 }
                 MESSAGE_TYPE_CHANGE_STATUS -> {
                     val typeToken: TypeToken<SingleItemModel<ChatItem>> = object : TypeToken<SingleItemModel<ChatItem>>() {}
                     val item: SingleItemModel<ChatItem> = gson.fromJson(response.body, typeToken.type)
-                    // TODO temp
-                    if (item.item.status == ChatItem.STATUS_OPENED) {
-                        repository.insertChatWithKeys(item.item)
-                        repository.sendMessage(item.item.id, "Привет. Меня зовут Фармацевт")
-                        repository.sendMessage(item.item.id, "Чем я могу вам помочь?")
+                    with(item.item) {
+                        repository.insertChatWithKeys(this)
+
+                        if (status == ChatItem.STATUS_CLOSE_REQUEST) {
+                            val lastMessage = repository.getLastMessage(id)
+                            repository.insertMessageWithKey(MessageItem.getStubItem(null, lastMessage, TYPE_END_CHAT, id))
+                        } else {
+                            repository.clearEndChatMessage(id)
+                        }
                     }
-                    // TODO add state of closed chat
                 }
                 else -> Timber.e("Unknown message type: ${response.type} >>> ${response.body}")
             }
         }
+    }
+
+    private suspend fun MessageItem.postNotification() {
+        val intent = getActionIntent().apply { putExtra(EXTRA_CHAT_ID, chatId) }
+        val notification = notification(
+            this@MercureEventListenerService,
+            MERCURE_NOTIFICATION_CHANNEL_ID,
+            smallIcon = R.drawable.ic_logo_stub
+        ) {
+            val chat = repository.getChat(chatId)
+            chat?.let { contentTitle(it.customer.name) }
+            contentText(text ?: getString(if (file != null) R.string.attachment_image else R.string.attachment_product))
+            priority(NotificationCompat.PRIORITY_HIGH)
+            contentIntent(PendingIntent.getActivity(applicationContext, chatId, intent, PendingIntent.FLAG_UPDATE_CURRENT))
+            autoCancel(true)
+        }
+
+        notificationManager.notify(chatId, notification)
     }
 
     private fun getActionIntent(): Intent {
@@ -155,10 +161,10 @@ class MercureEventListenerService : Service(), CoroutineScope, LifecycleObserver
     }
 
     override fun onDestroy() {
+        ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
         isRunning = false
         sse?.close()
         coroutineJob.cancel()
-        ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)

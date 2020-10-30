@@ -3,17 +3,17 @@ package com.pharmacy.manager.components.home
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pharmacy.manager.R
-import com.pharmacy.manager.components.chatList.adapter.ChatAdapter
 import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.fromHomeToChat
 import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.fromHomeToScanner
 import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.fromHomeToSearch
 import com.pharmacy.manager.components.home.HomeFragmentDirections.Companion.globalToProductCard
+import com.pharmacy.manager.components.home.adapter.ChatListAdapter
 import com.pharmacy.manager.components.home.adapter.ProductAdapter
 import com.pharmacy.manager.components.mercureService.MercureEventListenerService
-import com.pharmacy.manager.components.product.model.Product
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import com.pharmacy.manager.core.extensions.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -22,11 +22,11 @@ import org.koin.core.component.KoinApiExtension
 @KoinApiExtension
 class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fragment_home) {
 
-    private val chatAdapter by lazy { ChatAdapter { navController.navigate(fromHomeToChat(it)) } }
+    private lateinit var customerAvatars: List<ImageView>
+    private val chatAdapter by lazy { ChatListAdapter { navController.navigate(fromHomeToChat(it)) } }
     private val productAdapter by lazy {
         ProductAdapter {
-            observeRestResult<Product> {
-                liveData = vm.requestProductInfo(it.globalProductId)
+            observeResult(vm.requestProductInfo(it.globalProductId)) {
                 onEmmit = { navController.navigate(globalToProductCard(this)) }
             }
         }
@@ -34,23 +34,18 @@ class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        customerAvatars = listOf(
+            ivAvatar4Home,
+            ivAvatar3Home,
+            ivAvatar2Home,
+            ivAvatar1Home
+        )
         cardScanHome.setDebounceOnClickListener { navController.navigate(fromHomeToScanner()) }
         cardSearchHome.setDebounceOnClickListener { navController.navigate(fromHomeToSearch()) }
-        tvChatRequestsCounterHome.text = 12.toString()
         tvSoonCounterHome.text = "∞"
 
         initChatList()
         initProductList()
-
-        val avatarAddress =
-            "https://www.nj.com/resizer/h8MrN0-Nw5dB5FOmMVGMmfVKFJo=/450x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/SJGKVE5UNVESVCW7BBOHKQCZVE.jpg"
-        ivAvatar4Home.loadCircularImage(avatarAddress, resources.getDimensionPixelSize(R.dimen._2sdp).toFloat(), requireContext().compatColor(R.color.colorGlobalWhite))
-        ivAvatar3Home.loadCircularImage(avatarAddress, resources.getDimensionPixelSize(R.dimen._2sdp).toFloat(), requireContext().compatColor(R.color.colorGlobalWhite))
-        ivAvatar2Home.loadCircularImage(avatarAddress, resources.getDimensionPixelSize(R.dimen._2sdp).toFloat(), requireContext().compatColor(R.color.colorGlobalWhite))
-        ivAvatar1Home.loadCircularImage(avatarAddress, resources.getDimensionPixelSize(R.dimen._2sdp).toFloat(), requireContext().compatColor(R.color.colorGlobalWhite))
-
-        vm.getRecentProductList()
     }
 
     override fun onResume() {
@@ -64,29 +59,45 @@ class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fr
 
     @ExperimentalPagingApi
     override fun onBindLiveData() {
-        super.onBindLiveData()
-
-        observe(vm.chatListLiveData) { chatAdapter.submitData(lifecycle, this) }
-        observe(vm.recentProductListLiveData) {
-            productAdapter.notifyDataSet(this)
-            tvRecommendedHome.animateVisibleOrGoneIfNot(!productAdapter.isEmpty())
-            rvProductsHome.animateVisibleOrGoneIfNot(!productAdapter.isEmpty())
-        }
-    }
-
-    private fun initChatList() {
-        rvChatListHome.adapter = chatAdapter
-        rvChatListHome.setHasFixedSize(true)
-        rvChatListHome.layoutManager = object : LinearLayoutManager(requireContext()) {
-            override fun canScrollVertically(): Boolean {
-                return false
+        observeResult(vm.openedChats) {
+            onEmmit = {
+                val openedChatsCount = totalCount
+                tvChatRequestsCounterHome.text = openedChatsCount.toString()
+                val customerImages = items.map { it.customer.avatar?.url ?: "" }
+                customerAvatars.forEachIndexed { index, imageView ->
+                    val avatarUrl = customerImages.getOrNull(index)
+                    avatarUrl?.let {
+                        imageView.loadCircularImage(
+                            it,
+                            resources.getDimensionPixelSize(R.dimen._2sdp).toFloat(),
+                            requireContext().compatColor(R.color.colorGlobalWhite)
+                        )
+                        imageView.animateVisibleIfNot()
+                    } ?: run { imageView.animateGoneIfNot() }
+                }
+                chatAdapter.setList(this.items.take(2))
+                rvChatListHome.animateVisibleOrGoneIfNot(!chatAdapter.isEmpty())
             }
         }
-        chatAdapter.addStateListener { progressCallback?.setInProgress(it) }
+        observeResult(vm.recentProductListLiveData) {
+            onEmmit = {
+                productAdapter.notifyDataSet(this)
+                tvRecommendedHome.animateVisibleOrGoneIfNot(!productAdapter.isEmpty())
+                rvProductsHome.animateVisibleOrGoneIfNot(!productAdapter.isEmpty())
+            }
+        }
     }
 
-    private fun initProductList() {
-        rvProductsHome.adapter = productAdapter
-        rvProductsHome.setHasFixedSize(true)
+    private fun initChatList() = with(rvChatListHome) {
+        adapter = chatAdapter
+        setHasFixedSize(true)
+        layoutManager = object : LinearLayoutManager(requireContext()) {
+            override fun canScrollVertically(): Boolean = false
+        }
+    }
+
+    private fun initProductList() = with(rvProductsHome) {
+        adapter = productAdapter
+        setHasFixedSize(true)
     }
 }

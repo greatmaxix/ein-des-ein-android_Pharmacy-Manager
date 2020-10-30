@@ -4,9 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -23,10 +20,6 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.paging.ExperimentalPagingApi
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.fondesa.kpermissions.allGranted
 import com.fondesa.kpermissions.anyDenied
 import com.fondesa.kpermissions.anyPermanentlyDenied
@@ -36,12 +29,12 @@ import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.pharmacy.manager.BuildConfig
 import com.pharmacy.manager.R
 import com.pharmacy.manager.components.chat.ChatFragmentDirections.Companion.fromChatToSendImageBottomSheet
+import com.pharmacy.manager.components.chat.ChatFragmentDirections.Companion.globalToHome
 import com.pharmacy.manager.components.chat.adapter.ChatMessageAdapter
 import com.pharmacy.manager.components.chat.adapter.ProductAttachSearchAdapter
 import com.pharmacy.manager.components.chat.dialog.SendBottomSheetDialogFragment
 import com.pharmacy.manager.components.chat.dialog.SendBottomSheetDialogFragment.Companion.RESULT_BUTTON_EXTRA_KEY
 import com.pharmacy.manager.components.chat.dialog.SendBottomSheetDialogFragment.Companion.SEND_PHOTO_KEY
-import com.pharmacy.manager.components.chat.model.message.MessageItem
 import com.pharmacy.manager.components.chatList.model.chat.ChatItem
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import com.pharmacy.manager.core.extensions.*
@@ -67,9 +60,7 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
     private val chatAdapter by lazy { ChatMessageAdapter() }
     private val productAdapter by lazy {
         ProductAttachSearchAdapter {
-            observeRestResult<MessageItem> {
-                liveData = vm.sendProduct(it)
-            }
+            observeResult(vm.sendProduct(it))
             searchViewChatList.setText("")
             hideProducts()
         }
@@ -81,11 +72,9 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
         super.onViewCreated(view, savedInstanceState)
 
         showBackButton()
-        initMenu(R.menu.menu) {
+        initMenu(R.menu.close_request) {
             if (it.itemId == R.id.closeRequest) {
-                observeRestResult<ChatItem> {
-                    liveData = vm.requestCloseChat()
-                }
+                observeResult(vm.requestCloseChat())
             }
             true
         }
@@ -163,9 +152,7 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
     }
 
     private fun sendPhotoMessage(uri: Uri) {
-        observeRestResult<MessageItem?> {
-            liveData = vm.sendPhoto(uri)
-        }
+        observeResult(vm.sendPhoto(uri))
     }
 
     @FlowPreview
@@ -218,45 +205,40 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
     private fun sendMessage() {
         val message = tilMessageChat.editText?.text?.toString()?.trim().orEmpty()
         tilMessageChat.editText?.text = null
-        observeRestResult<MessageItem> {
-            liveData = vm.sendMessage(message)
-        }
+        observeResult(vm.sendMessage(message))
     }
 
     @ExperimentalPagingApi
     override fun onBindLiveData() {
         super.onBindLiveData()
-
-        observe(vm.directionLiveData, navController::navigate)
-        observe(vm.errorLiveData) { messageCallback?.showError(this) }
-        observe(vm.progressLiveData) { progressCallback?.setInProgress(this) }
         observe(vm.chatLiveData) {
-            toolbar?.title = customer.name
-            Glide.with(requireContext())
-                .asBitmap()
-                .load(customer.avatar?.url)
-                .placeholder(R.drawable.ic_avatar_placeholder)
-                .apply(RequestOptions.circleCropTransform())
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        toolbar?.menu?.findItem(R.id.profile)?.icon = BitmapDrawable(resources, resource)
-                    }
+            this?.let {
+                toolbar?.title = customer.name
+                toolbar?.menu?.findItem(R.id.closeRequest)?.isVisible = isAbleToWrite && it.status != ChatItem.STATUS_OPENED
+                llMessageFieldChat.isVisible = isAbleToWrite
 
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                        // no op
-                    }
-                })
+                if (args.chat.isAbleToWrite) {
+                    if (isAutomaticClosed) showChatEndDialog()
+                    else if (isClosed) showChatEndDialog()
+                }
+            }
         }
-        observe(vm.chatMessagesLiveData) {
-            chatAdapter.submitData(lifecycle, this)
-        }
+        observe(vm.chatMessagesLiveData) { chatAdapter.submitData(lifecycle, this) }
         observe(vm.lastMessageLiveData) { scrollToLastMessage() }
         observe(vm.pagedSearchLiveData) { productAdapter.submitData(lifecycle, this) }
     }
 
-    private fun initChatList() {
-        rvMessagesChat.adapter = chatAdapter
-        rvMessagesChat.setHasFixedSize(true)
+    private fun showChatEndDialog() {
+        showAlertRes(getString(R.string.chatEndedMessage)) {
+            cancelable = false
+            title = R.string.chatEndedTitle
+            positive = R.string.common_okButton
+            positiveAction = { navController.navigate(globalToHome()) }
+        }
+    }
+
+    private fun initChatList() = with(rvMessagesChat) {
+        adapter = chatAdapter
     }
 
     private fun scrollToLastMessage() {

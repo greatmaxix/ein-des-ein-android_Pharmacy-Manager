@@ -31,7 +31,7 @@ class MessageItem(
 ) : Parcelable {
 
     fun updateMessageType(userUuid: String?) {
-        if (messageType == ChatMessageAdapter.TYPE_DATE_HEADER) return
+        if (messageType == ChatMessageAdapter.TYPE_DATE_HEADER || messageType == ChatMessageAdapter.TYPE_END_CHAT) return
         messageType = when {
             file != null -> ChatMessageAdapter.TYPE_ATTACHMENT
             product != null -> ChatMessageAdapter.TYPE_PRODUCT
@@ -49,14 +49,16 @@ class MessageItem(
 
         private val headerDateFormatter by lazy { DateTimeFormatter.ofPattern("dd MMMM, EEEE HH:mm") }
 
-        fun getHeaderInstance(nextMessageItem: MessageItem) = MessageItem(
+        fun getStubItem(text: String?, messageItem: MessageItem?, type: Int, chatId: Int) = MessageItem(
             id = System.currentTimeMillis().toInt() % Integer.MAX_VALUE,
             ownerUuid = "",
-            text = headerDateFormatter.format(nextMessageItem.createdAt),
-            messageNumber = nextMessageItem.messageNumber,
-            createdAt = nextMessageItem.createdAt.withSecond(0),
-            chatId = nextMessageItem.chatId,
-            messageType = ChatMessageAdapter.TYPE_DATE_HEADER
+            text = if (type == ChatMessageAdapter.TYPE_DATE_HEADER && messageItem?.createdAt != null) headerDateFormatter.format(messageItem.createdAt) else text,
+            messageNumber = -1,
+            createdAt = if (type == ChatMessageAdapter.TYPE_DATE_HEADER && messageItem?.createdAt != null) messageItem.createdAt.minusSeconds(1)
+            else if (type == ChatMessageAdapter.TYPE_END_CHAT && messageItem?.createdAt != null) messageItem.createdAt.plusSeconds(1)
+            else LocalDateTime.now(),
+            chatId = chatId,
+            messageType = type
         )
     }
 }

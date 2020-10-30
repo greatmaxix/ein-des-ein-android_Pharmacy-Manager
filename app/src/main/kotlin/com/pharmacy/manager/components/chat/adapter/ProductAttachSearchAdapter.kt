@@ -31,7 +31,7 @@ class ProductAttachSearchAdapter(private val itemClick: (ProductLite) -> Unit) :
         override fun bind(item: ProductLite) {
             itemView.tag = item
             with(itemView) {
-                tvRecipe.text = "Рецепт" // TODO
+//                tvRecipe.text = "Рецепт" // TODO
                 tvProductDescription.text = item.releaseForm
                 item.aggregation?.let {
                     tvProductPrice.text = context.getString(R.string.price, it.minPrice.toString())

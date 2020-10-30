@@ -27,9 +27,9 @@ class ProductAdapter(private val itemClick: (ProductLite) -> Unit) : BaseFilterR
         }
 
         override fun bind(item: ProductLite) {
-            itemView.tag = item
             with(itemView) {
-                tvRecipe.text = "Рецепт" // TODO
+                tag = item
+//                tvRecipe.text = "Рецепт" // TODO
                 tvProductDescription.text = item.releaseForm
                 item.aggregation?.let {
                     tvProductPrice.text = context.getString(R.string.price, it.minPrice.toString())

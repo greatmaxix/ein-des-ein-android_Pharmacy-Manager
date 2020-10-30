@@ -18,7 +18,6 @@ import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.zxing.Result
 import com.pharmacy.manager.R
 import com.pharmacy.manager.components.product.BaseProductFragment
-import com.pharmacy.manager.components.product.model.ProductLite
 import com.pharmacy.manager.components.scanner.ScannerFragmentDirections.Companion.fromScannerToListResult
 import com.pharmacy.manager.core.base.fragment.dialog.AlertDialogFragment
 import com.pharmacy.manager.core.extensions.animateVisibleOrGoneIfNot
@@ -121,8 +120,7 @@ class ScannerFragment(private val viewModel: ScannerViewModel) : BaseProductFrag
     }
 
     private fun performBarcodeSearch(it: Result) {
-        observeRestResult<List<ProductLite>> {
-            liveData = viewModel.searchQrCode(it.text)
+        observeResult(viewModel.searchQrCode(it.text)) {
             onEmmit = {
                 if (this.size == 1) {
                     performProductInfoRequest(this.first().globalProductId)

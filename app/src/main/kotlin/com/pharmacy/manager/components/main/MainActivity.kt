@@ -3,11 +3,11 @@ package com.pharmacy.manager.components.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavDestination
 import androidx.navigation.ui.setupWithNavController
 import com.pharmacy.manager.GraphMainDirections.Companion.globalToChat
 import com.pharmacy.manager.R
-import com.pharmacy.manager.components.chatList.model.chat.ChatItem
 import com.pharmacy.manager.components.mercureService.MercureEventListenerService.Companion.EXTRA_CHAT_ID
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMActivity
 import com.pharmacy.manager.core.dsl.ObserveGeneral
@@ -19,6 +19,7 @@ import com.pharmacy.manager.core.general.behavior.ProgressViewBehavior
 import com.pharmacy.manager.core.general.interfaces.MessagesCallback
 import com.pharmacy.manager.core.general.interfaces.ProgressCallback
 import com.pharmacy.manager.core.network.Resource
+import com.pharmacy.manager.core.network.Resource.*
 import com.pharmacy.manager.widget.SelectableBottomNavView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_progress.*
@@ -46,8 +47,7 @@ class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, Mai
         intent?.extras?.let {
             val chatId = it.getInt(EXTRA_CHAT_ID, -1)
             if (chatId != -1) {
-                observeResult<ChatItem> {
-                    liveData = viewModel.goToChat(chatId)
+                observeResult(viewModel.goToChat(chatId)) {
                     onEmmit = { navController.navigate(globalToChat(this)) }
                 }
             }
@@ -90,21 +90,32 @@ class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, Mai
         messagesBehavior.showError(strResId, action)
 
     // TODO maybe need to move to BaseMVVMActivity, but need to move behaviors...
-    protected fun <T> observeResult(block: ObserveGeneral<T>.() -> Unit) {
-        ObserveGeneral<T>().apply(block).apply {
-            observe(liveData) {
-                when (this) {
-                    is Resource.Success<T> -> {
-                        setInProgress(false)
-                        onEmmit(data)
+    protected fun <T> observeResult(liveData: LiveData<Resource<T>>, block: (ObserveGeneral<T>.() -> Unit)? = null) {
+        block?.let {
+            ObserveGeneral<T>().apply(block).apply {
+                observe(liveData) {
+                    when (this) {
+                        is Success<T> -> {
+                            setInProgress(false)
+                            onEmmit(data)
+                        }
+                        is Progress -> {
+                            onProgress?.invoke(isLoading) ?: setInProgress(isLoading)
+                        }
+                        is Error -> {
+                            setInProgress(false)
+                            onError?.invoke(exception) ?: showError(exception.resId)
+                        }
                     }
-                    is Resource.Progress -> {
-                        onProgress?.invoke(isLoading) ?: setInProgress(isLoading)
-                    }
-                    is Resource.Error -> {
-                        setInProgress(false)
-                        onError?.invoke(exception) ?: showError(exception.resId)
-                    }
+                }
+            }
+        } ?: observe(liveData) {
+            when (this) {
+                is Success<T> -> setInProgress(false)
+                is Progress -> setInProgress(isLoading)
+                is Error -> {
+                    setInProgress(false)
+                    showError(exception.resId)
                 }
             }
         }

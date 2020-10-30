@@ -91,6 +91,18 @@ interface RestApi {
     @GET("${API_PATH}/chat/chat/{chatId}")
     suspend fun getChat(@Path("chatId") chatId: Int): BaseDataResponse<SingleItemModel<ChatItem>>
 
+    @GET("${API_PATH}/user/chat/last-opened-chats")
+    suspend fun lastOpenedChats(
+        @Query("page") page: Int? = 1,
+        @Query("per_page") pageSize: Int? = 4 // Because wi want to show 4 last items in home block
+    ): BaseDataResponse<PaginationModel<ChatItem>>
+
+    @GET("${API_PATH}/user/chat/last-global-products")
+    suspend fun lastRecommendedProducts(
+        @Query("page") page: Int? = 1,
+        @Query("per_page") pageSize: Int? = 2
+    ): BaseDataResponse<ListItemsModel<Product>>
+
     companion object {
 
         private const val API_PATH = "/api/v1"

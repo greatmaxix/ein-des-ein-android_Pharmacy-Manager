@@ -38,11 +38,11 @@ import org.koin.dsl.module
 import timber.log.Timber
 import java.util.*
 
-@KoinExperimentalAPI
-@ExperimentalPagingApi
-@FlowPreview
 class App : Application() {
 
+    @KoinExperimentalAPI
+    @ExperimentalPagingApi
+    @FlowPreview
     override fun onCreate() {
         super.onCreate()
 
@@ -62,6 +62,9 @@ class App : Application() {
         )
     }
 
+    @KoinExperimentalAPI
+    @ExperimentalPagingApi
+    @FlowPreview
     private fun initKoin() {
         startKoin {
             androidLogger(Level.ERROR)

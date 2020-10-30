@@ -15,4 +15,7 @@ interface MessagesRemoteKeysDAO : BaseDao<MessagesRemoteKeys> {
     @WorkerThread
     @Query("DELETE FROM MessagesRemoteKeys WHERE chatId = :chatId")
     suspend fun clearRemoteKeys(chatId: Int)
+
+    @Query("DELETE FROM MessagesRemoteKeys WHERE chatId = :chatId AND messageId = :messageId")
+    suspend fun deleteById(chatId: Int, messageId: Int)
 }

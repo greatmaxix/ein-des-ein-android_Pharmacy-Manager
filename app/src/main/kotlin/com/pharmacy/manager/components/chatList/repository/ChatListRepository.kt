@@ -11,6 +11,8 @@ class ChatListRepository(
 
     fun getChatsPagingSource() = lds.getChatsPagingSource()
 
+    fun searchChatsPagingSource(query: String) = lds.searchChatsPagingSource(query)
+
     suspend fun getRemoteKeys(chatId: Int) = lds.getRemoteKeys(chatId)
 
     suspend fun clearChats() = lds.clearMessages()

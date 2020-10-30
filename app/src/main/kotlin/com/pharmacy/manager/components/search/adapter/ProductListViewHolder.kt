@@ -8,11 +8,13 @@ import com.pharmacy.manager.components.product.model.ProductLite
 import com.pharmacy.manager.core.adapter.BaseViewHolder
 import com.pharmacy.manager.core.extensions.*
 import kotlinx.android.synthetic.main.item_product_search.view.*
+import kotlinx.coroutines.FlowPreview
 import org.koin.core.KoinExperimentalAPI
 
 class ProductListViewHolder(override val containerView: View) : BaseViewHolder<ProductLite>(containerView) {
 
     @KoinExperimentalAPI
+    @FlowPreview
     @ExperimentalPagingApi
     override fun bind(item: ProductLite) = with(item) {
         itemView.ivProduct.setProductImage(this)

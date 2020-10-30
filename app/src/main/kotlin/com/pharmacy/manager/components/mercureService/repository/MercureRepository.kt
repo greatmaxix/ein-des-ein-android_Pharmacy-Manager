@@ -27,5 +27,7 @@ class MercureRepository(
 
     suspend fun insertChatWithKeys(chat: ChatItem) = lds.insertChatWithKeys(chat)
 
-    suspend fun sendMessage(chatId: Int, text: String) = rds.sendMessage(chatId, text)
+    suspend fun clearEndChatMessage(chatId: Int) = lds.clearEndChatMessage(chatId)
+
+    suspend fun getChat(chatId: Int) = lds.getChat(chatId)
 }

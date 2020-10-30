@@ -18,6 +18,8 @@ class ChatRepository(
 
     fun getLastMessageLiveData(chatId: Int) = lds.getLastMessageLiveData(chatId)
 
+    fun getChatLiveData(chatId: Int) = lds.getChatLiveData(chatId)
+
     suspend fun clearMessages(chatId: Int) = lds.clearMessages(chatId)
 
     suspend fun insertMessagesWithKeys(messages: List<MessageItem>) = lds.insertMessagesWithKeys(messages)

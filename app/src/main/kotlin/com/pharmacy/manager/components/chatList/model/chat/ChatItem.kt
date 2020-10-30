@@ -24,14 +24,21 @@ data class ChatItem(
     @SerializedName("type") val type: String,
     @Embedded
     @SerializedName("lastMessage") val lastMessage: MessageItem?,
-    @SerializedName("createdAt") val createdAt: LocalDateTime?
+    @SerializedName("createdAt") val createdAt: LocalDateTime?,
+    @SerializedName("isAutomaticClosed") val isAutomaticClosed: Boolean
 ) : Parcelable {
 
+    val isAbleToWrite: Boolean
+        get() = status != STATUS_CLOSE_REQUEST && status != STATUS_CLOSED
+
+    val isClosed: Boolean
+        get() = status == STATUS_CLOSED
+
     companion object {
+
         const val STATUS_OPENED = "opened"
         const val STATUS_ANSWERED = "answered"
         const val STATUS_CLOSE_REQUEST = "close_request"
         const val STATUS_CLOSED = "closed"
-        const val STATUS_RATED = "rated"
     }
 }

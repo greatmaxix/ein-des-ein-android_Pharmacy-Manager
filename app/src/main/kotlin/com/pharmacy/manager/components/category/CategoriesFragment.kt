@@ -40,9 +40,7 @@ class CategoriesFragment(private val viewModel: CategoriesViewModel) : BaseMVVMF
         searchViewCategories.onBackClick = {
             navigationBack()
         }
-        observeRestResult<List<Category>> {
-            liveData = viewModel.baseCategoriesLiveData
-        }
+        observeResult(viewModel.baseCategoriesLiveData)
     }
 
     override fun navigationBack() {

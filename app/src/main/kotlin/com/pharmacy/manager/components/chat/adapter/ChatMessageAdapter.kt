@@ -18,7 +18,8 @@ class ChatMessageAdapter : PagingDataAdapter<MessageItem, BaseViewHolder<Message
             TYPE_MESSAGE_PHARMACY -> UserMessageViewHolder.newInstance(parent)
             TYPE_DATE_HEADER -> DateHeaderViewHolder.newInstance(parent)
             TYPE_ATTACHMENT -> AttachmentViewHolder.newInstance(parent)
-            else -> ProductViewHolder.newInstance(parent)
+            TYPE_PRODUCT -> ProductViewHolder.newInstance(parent)
+            else -> EndChatViewHolder.newInstance(parent)
         }
 
     override fun getItemViewType(position: Int) = getItem(position)?.messageType ?: -1
@@ -30,5 +31,6 @@ class ChatMessageAdapter : PagingDataAdapter<MessageItem, BaseViewHolder<Message
         const val TYPE_DATE_HEADER = 3
         const val TYPE_ATTACHMENT = 4
         const val TYPE_PRODUCT = 5
+        const val TYPE_END_CHAT = 6
     }
 }

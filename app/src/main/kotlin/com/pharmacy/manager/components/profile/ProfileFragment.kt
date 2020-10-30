@@ -49,8 +49,7 @@ class ProfileFragment(private val vm: ProfileViewModel) : BaseMVVMFragment(R.lay
     }
 
     private fun performLogout() {
-        observeRestResult<Unit> {
-            liveData = vm.logout()
+        observeResult(vm.logout()) {
             onEmmit = {
                 if (!requireContext().isServiceRunning(MercureEventListenerService::class.java)) {
                     requireContext().stopService(Intent(requireContext(), MercureEventListenerService::class.java))
