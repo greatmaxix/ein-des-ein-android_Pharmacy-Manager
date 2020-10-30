@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter
 class ChatViewHolder(view: View) : BaseViewHolder<ChatItem>(view) {
 
     private val timeFormatter by lazy { DateTimeFormatter.ofPattern("HH:mm") }
-    private var borderWidth = resources.getDimensionPixelSize(R.dimen._2sdp).toFloat()
+    private val borderWidth by lazy { resources.getDimensionPixelSize(R.dimen._2sdp).toFloat() }
 
     override fun bind(item: ChatItem) = with(itemView) {
         tag = item

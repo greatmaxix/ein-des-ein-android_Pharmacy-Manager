@@ -3,7 +3,6 @@ package com.pulse.manager.components.home
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pulse.manager.R
@@ -22,7 +21,14 @@ import org.koin.core.component.KoinApiExtension
 @KoinApiExtension
 class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fragment_home) {
 
-    private lateinit var customerAvatars: List<ImageView>
+    private val customerAvatars by lazy {
+        listOf(
+            ivAvatar4Home,
+            ivAvatar3Home,
+            ivAvatar2Home,
+            ivAvatar1Home
+        )
+    }
     private val chatAdapter by lazy { ChatListAdapter { navController.navigate(fromHomeToChat(it)) } }
     private val productAdapter by lazy {
         ProductAdapter {
@@ -34,12 +40,7 @@ class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        customerAvatars = listOf(
-            ivAvatar4Home,
-            ivAvatar3Home,
-            ivAvatar2Home,
-            ivAvatar1Home
-        )
+
         cardScanHome.setDebounceOnClickListener { navController.navigate(fromHomeToScanner()) }
         cardSearchHome.setDebounceOnClickListener { navController.navigate(fromHomeToSearch()) }
         tvSoonCounterHome.text = "∞"

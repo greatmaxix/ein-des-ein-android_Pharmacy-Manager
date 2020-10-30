@@ -97,7 +97,6 @@ android {
     }
 
     compileOptions {
-        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -108,9 +107,6 @@ android {
 dependencies {
     // libs
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar", "*.jar"))))
-
-    // desugaring
-    coreLibraryDesugaring(Libraries.desugaringJdk)
 
     // kotlin
     implementation(kotlin(Libraries.kotlinStdLib))
