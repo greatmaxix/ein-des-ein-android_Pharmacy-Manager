@@ -9,7 +9,5 @@ class SplashLocalDataSource(private val sp: SPManager, private val userDAO: User
     val isUserLoggedIn
         get() = sp.accessToken.isNotBlank()
 
-    suspend fun saveUser(user: User) {
-        userDAO.save(user)
-    }
+    suspend fun saveUser(user: User) = userDAO.save(user)
 }

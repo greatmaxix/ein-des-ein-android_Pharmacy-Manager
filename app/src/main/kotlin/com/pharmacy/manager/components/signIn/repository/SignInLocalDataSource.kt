@@ -14,7 +14,5 @@ class SignInLocalDataSource(private val sp: SPManager, private val userDAO: User
         sp.refreshToken = token
     }
 
-    suspend fun saveUser(user: User) {
-        userDAO.save(user)
-    }
+    suspend fun saveUser(user: User) = userDAO.save(user)
 }

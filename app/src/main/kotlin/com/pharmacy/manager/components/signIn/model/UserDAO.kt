@@ -22,4 +22,7 @@ interface UserDAO {
     suspend fun update(user: User)
 
     suspend fun isUserExist() = getUser() != null
+
+    @Query("DELETE FROM user")
+    fun clear()
 }
