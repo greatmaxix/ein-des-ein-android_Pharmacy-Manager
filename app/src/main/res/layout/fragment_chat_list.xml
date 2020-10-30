@@ -30,7 +30,8 @@
             android:layout_marginBottom="@dimen/_16sdp"
             android:layout_weight="1"
             android:visibility="gone"
-            app:cardCornerRadius="@dimen/_16sdp" />
+            app:cardCornerRadius="@dimen/_16sdp"
+            app:withBackButton="true" />
 
     </LinearLayout>
 
@@ -40,8 +41,8 @@
         android:layout_height="@dimen/match_constraint"
         android:clipToPadding="false"
         android:paddingHorizontal="@dimen/_8sdp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:paddingTop="@dimen/_12sdp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/llToolbarContainerChatList" />
 

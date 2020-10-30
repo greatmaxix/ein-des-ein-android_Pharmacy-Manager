@@ -16,5 +16,4 @@ class Product(
 
     val getFullManufacture
         get() = "${manufacture.producer} , $productLocale"
-
 }

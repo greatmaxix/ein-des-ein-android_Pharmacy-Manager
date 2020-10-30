@@ -1,6 +1,19 @@
 package com.pharmacy.manager.components.product.repository
 
-class ProductRepository(private val rds: ProductRemoteDataSource) {
+import com.pharmacy.manager.components.product.model.ProductLite
 
-//    suspend fun productById(globalProductId: Int) = rds.getProductById(globalProductId)
+class ProductRepository(private val rds: ProductRemoteDataSource, private val lds: ProductLocalDataSource) {
+
+    suspend fun productById(globalProductId: Int) = rds.getProductById(globalProductId)
+        .dataOrThrow()
+        .item
+
+    suspend fun getRecentlyRecommended() = lds.getRecentlyRecommended()
+
+    suspend fun saveRecentlyRecommended(product: ProductLite) {
+        val lastProduct = getRecentlyRecommended().firstOrNull()?.apply { primaryKey = 1 }
+        if (lastProduct != product) {
+            lds.save(listOfNotNull(product, lastProduct))
+        }
+    }
 }

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import com.pharmacy.manager.R
+import com.pharmacy.manager.components.signIn.SignInFragmentDirections.Companion.globalToHome
+import com.pharmacy.manager.components.signIn.model.User
 import com.pharmacy.manager.core.base.mvvm.BaseMVVMFragment
 import com.pharmacy.manager.core.extensions.*
 import kotlinx.android.synthetic.main.fragment_sign_in.*
@@ -27,15 +29,23 @@ class SignInFragment(private val vm: SignInViewModel) : BaseMVVMFragment(R.layou
             updateSignInButtonState(isEmailAccepted && isPasswordAccepted)
         }
         llButtonContainer.setDebounceOnClickListener {
-            vm.performSignIn(etEmailSignIn.text?.toTrim.orEmpty(), etPasswordSignIn.text?.toTrim.orEmpty())
+            observeRestResult<User> {
+                liveData = vm.performSignIn(
+                    etEmailSignIn.text?.toTrim.orEmpty(),
+                    etPasswordSignIn.text?.toTrim.orEmpty()
+                )
+                onEmmit = { navController.navigate(globalToHome()) }
+            }
+        }
+
+        debug {
+            // TODO Test data - pharmacist1@example.com - pharmacist3@example.com (pw1234)
+            etEmailSignIn.setText("pharmacist1@example.com")
+            etPasswordSignIn.setText("pw1234")
         }
     }
 
     private fun updateSignInButtonState(isEnabled: Boolean) {
         llButtonContainer.isEnabled = isEnabled
-    }
-
-    override fun onBindLiveData() {
-        observe(vm.directionLiveData, navController::navigate)
     }
 }

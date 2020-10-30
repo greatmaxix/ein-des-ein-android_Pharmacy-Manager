@@ -10,21 +10,21 @@ interface BaseDao<T> {
 
     @WorkerThread
     @Insert(onConflict = REPLACE)
-    fun insert(obj: T)
+    suspend fun insert(obj: T)
 
     @WorkerThread
     @Insert(onConflict = REPLACE)
-    fun insert(obj: List<T>)
+    suspend fun insert(obj: List<T>)
 
     @WorkerThread
     @Insert(onConflict = REPLACE)
-    fun insert(vararg obj: T)
+    suspend fun insert(vararg obj: T)
 
     @WorkerThread
     @Update(onConflict = REPLACE)
-    fun update(obj: T)
+    suspend fun update(obj: T)
 
     @WorkerThread
     @Delete
-    fun delete(obj: T)
+    suspend fun delete(obj: T)
 }

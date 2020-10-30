@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="@dimen/_12sdp"
-    android:paddingEnd="@dimen/_12sdp"
-    android:paddingBottom="@dimen/_40sdp">
+    android:clipToPadding="false"
+    android:paddingHorizontal="@dimen/_12sdp"
+    android:paddingBottom="@dimen/_24sdp">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/mtvDescriptionTitle"

@@ -2,9 +2,9 @@ package com.pharmacy.manager.components.chat.adapter
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import com.pharmacy.manager.R
-import com.pharmacy.manager.components.product.model.Product
-import com.pharmacy.manager.core.adapter.BaseFilterRecyclerAdapter
+import com.pharmacy.manager.components.product.model.ProductLite
 import com.pharmacy.manager.core.adapter.BaseViewHolder
 import com.pharmacy.manager.core.extensions.inflate
 import com.pharmacy.manager.core.extensions.load
@@ -12,25 +12,27 @@ import com.pharmacy.manager.core.extensions.setDebounceOnClickListener
 import com.pharmacy.manager.core.extensions.setTextHtml
 import kotlinx.android.synthetic.main.item_product_short.view.*
 
-class ProductAdapter(private val itemClick: (Product) -> Unit) : BaseFilterRecyclerAdapter<Product, BaseViewHolder<Product>>() {
+class ProductAttachSearchAdapter(private val itemClick: (ProductLite) -> Unit) : PagingDataAdapter<ProductLite, BaseViewHolder<ProductLite>>(ProductAttachSearchDiff) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ProductViewHolder.newInstance(parent, itemClick)
 
-    override fun diffResult(origin: List<Product>, new: List<Product>) = ProductDiff(origin, new)
+    override fun onBindViewHolder(holder: BaseViewHolder<ProductLite>, position: Int) {
+        holder.bind(getItem(position) ?: return)
+    }
 
-    class ProductViewHolder(itemView: View, itemClick: (Product) -> Unit) : BaseViewHolder<Product>(itemView) {
+    class ProductViewHolder(itemView: View, itemClick: (ProductLite) -> Unit) : BaseViewHolder<ProductLite>(itemView) {
 
         init {
             itemView.setDebounceOnClickListener {
-                itemClick.invoke(tag as Product)
+                itemClick.invoke(tag as ProductLite)
             }
         }
 
-        override fun bind(item: Product) {
+        override fun bind(item: ProductLite) {
             itemView.tag = item
             with(itemView) {
                 tvRecipe.text = "Рецепт" // TODO
-                tvProductDescription.text = item.description
+                tvProductDescription.text = item.releaseForm
                 item.aggregation?.let {
                     tvProductPrice.text = context.getString(R.string.price, it.minPrice.toString())
                 }
@@ -41,7 +43,7 @@ class ProductAdapter(private val itemClick: (Product) -> Unit) : BaseFilterRecyc
 
         companion object {
 
-            fun newInstance(parent: ViewGroup, itemClick: (Product) -> Unit) = ProductViewHolder(parent.inflate(R.layout.item_product_short), itemClick)
+            fun newInstance(parent: ViewGroup, itemClick: (ProductLite) -> Unit) = ProductViewHolder(parent.inflate(R.layout.item_product_short), itemClick)
         }
     }
 }

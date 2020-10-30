@@ -15,8 +15,11 @@ import com.fondesa.kpermissions.anyPermanentlyDenied
 import com.fondesa.kpermissions.anyShouldShowRationale
 import com.fondesa.kpermissions.extension.addListener
 import com.fondesa.kpermissions.extension.permissionsBuilder
+import com.google.zxing.Result
 import com.pharmacy.manager.R
 import com.pharmacy.manager.components.product.BaseProductFragment
+import com.pharmacy.manager.components.product.model.ProductLite
+import com.pharmacy.manager.components.scanner.ScannerFragmentDirections.Companion.fromScannerToListResult
 import com.pharmacy.manager.core.base.fragment.dialog.AlertDialogFragment
 import com.pharmacy.manager.core.extensions.animateVisibleOrGoneIfNot
 import com.pharmacy.manager.core.extensions.doWithDelay
@@ -83,7 +86,6 @@ class ScannerFragment(private val viewModel: ScannerViewModel) : BaseProductFrag
     override fun onBindLiveData() {
         super.onBindLiveData()
         observe(viewModel.descriptionVisibility) { qrCodeScannerInstructionGroup.animateVisibleOrGoneIfNot(this) }
-//        observe(viewModel.resultLiveData) { navController.navigate(fromScannerToListResult(this.toTypedArray())) } TODO
     }
 
     private fun initQRCamera() {
@@ -100,7 +102,7 @@ class ScannerFragment(private val viewModel: ScannerViewModel) : BaseProductFrag
                     if (it.text.isNullOrBlank()) {
                         doWithDelay(500) { startPreview() }
                     } else {
-                        viewModel.searchQrCode(it.text)
+                        performBarcodeSearch(it)
                     }
                 }
 
@@ -114,6 +116,19 @@ class ScannerFragment(private val viewModel: ScannerViewModel) : BaseProductFrag
                 }
                 startPreview()
             }
+    }
+
+    private fun performBarcodeSearch(it: Result) {
+        observeRestResult<List<ProductLite>> {
+            liveData = viewModel.searchQrCode(it.text)
+            onEmmit = {
+                if (this.size == 1) {
+                    performProductInfoRequest(this.first().globalProductId)
+                } else {
+                    navController.navigate(fromScannerToListResult(this.toTypedArray()))
+                }
+            }
+        }
     }
 
     override fun onResume() {
