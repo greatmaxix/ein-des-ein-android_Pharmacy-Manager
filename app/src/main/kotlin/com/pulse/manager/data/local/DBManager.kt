@@ -2,6 +2,8 @@ package com.pulse.manager.data.local
 
 import android.content.Context
 import androidx.room.*
+import com.pulse.manager.components.category.model.Category
+import com.pulse.manager.components.category.model.CategoryDAO
 import com.pulse.manager.components.chat.model.message.MessageDAO
 import com.pulse.manager.components.chat.model.message.MessageItem
 import com.pulse.manager.components.chat.model.remoteKeys.MessagesRemoteKeys
@@ -51,6 +53,9 @@ class DBManager(context: Context) : ManagerInterface {
     val recentlyViewedDAO
         get() = db.recentlyViewedDAO()
 
+    val categoryDAO
+        get() = db.categoryDAO()
+
     override fun clear() {
         recentlyViewedDAO.clear()
     }
@@ -62,7 +67,8 @@ class DBManager(context: Context) : ManagerInterface {
             MessagesRemoteKeys::class,
             ChatItem::class,
             ChatsRemoteKeys::class,
-            ProductLite::class
+            ProductLite::class,
+            Category::class
         ], version = VERSION, exportSchema = false
     )
     @TypeConverters(
@@ -83,6 +89,8 @@ class DBManager(context: Context) : ManagerInterface {
         abstract fun chatsRemoteKeysDAO(): ChatsRemoteKeysDAO
 
         abstract fun recentlyViewedDAO(): RecentlyRecommendedDAO
+
+        abstract fun categoryDAO(): CategoryDAO
     }
 
     class StringListConverter {

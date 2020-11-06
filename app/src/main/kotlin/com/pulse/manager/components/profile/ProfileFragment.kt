@@ -66,10 +66,8 @@ class ProfileFragment(private val vm: ProfileViewModel) : BaseMVVMFragment(R.lay
             val fullName = "$firstName $lastName"
             tvNameProfile.text = fullName
             tvEmailProfile.text = email
-
-            // TODO set proper data
-            ivAvatarProfile.loadCircularImage("https://www.nj.com/resizer/h8MrN0-Nw5dB5FOmMVGMmfVKFJo=/450x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/SJGKVE5UNVESVCW7BBOHKQCZVE.jpg")
-            tvRatingProfile.text = getString(R.string.ratingHolder, 4.2)
+            ivAvatarProfile.loadCircularImage(avatar?.url)
+            tvRatingProfile.text = getString(R.string.ratingHolder, chatRatingInfo?.rating ?: 0.0f)
         }
     }
 }

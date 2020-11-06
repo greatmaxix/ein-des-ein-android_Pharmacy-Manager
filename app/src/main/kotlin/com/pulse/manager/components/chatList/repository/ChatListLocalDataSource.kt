@@ -26,4 +26,6 @@ class ChatListLocalDataSource(
         chatItemDAO.insert(chats)
         chatsRemoteKeysDAO.insert(keys)
     }
+
+    suspend fun getLastChat() = chatItemDAO.getLastChat()
 }

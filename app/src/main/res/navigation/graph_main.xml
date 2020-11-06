@@ -214,6 +214,12 @@
             app:popEnterAnim="@anim/nav_enter_pop_anim"
             app:popExitAnim="@anim/nav_exit_pop_anim" />
 
+        <argument
+            android:name="category"
+            android:defaultValue="@null"
+            app:argType="com.pulse.manager.components.category.model.Category"
+            app:nullable="true" />
+
     </fragment>
 
 </navigation>

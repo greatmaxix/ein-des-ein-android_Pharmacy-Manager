@@ -10,7 +10,6 @@ import com.pulse.manager.data.GeneralErrorHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinApiExtension
-import java.time.ZoneOffset
 
 @KoinApiExtension
 @ExperimentalPagingApi
@@ -23,7 +22,6 @@ class ChatListRemoteMediator(private val repository: ChatListRepository, private
                 val page = remoteKeys.nextPage ?: 1
                 val items = repository.chatList(page, state.config.pageSize)
                     .items
-                    .sortedByDescending { it.createdAt?.atOffset(ZoneOffset.UTC)?.toInstant()?.toEpochMilli() }
 
                 if (items.isNotEmpty()) {
                     if (loadType == LoadType.REFRESH) repository.clearChats()
@@ -52,10 +50,6 @@ class ChatListRemoteMediator(private val repository: ChatListRepository, private
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, ChatItem>): ChatsRemoteKeys? =
         state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { chat -> repository.getRemoteKeys(chat.id) }
-
-    // TODO for feature fix
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, ChatItem>): ChatsRemoteKeys? =
-        state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { chat -> repository.getRemoteKeys(chat.id) }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, ChatItem>): ChatsRemoteKeys? =
         state.anchorPosition?.let { position -> state.closestItemToPosition(position)?.id?.let { chatId -> repository.getRemoteKeys(chatId) } }

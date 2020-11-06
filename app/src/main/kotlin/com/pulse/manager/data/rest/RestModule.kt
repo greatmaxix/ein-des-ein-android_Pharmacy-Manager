@@ -4,8 +4,10 @@ import com.google.gson.GsonBuilder
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
 import com.pulse.manager.BuildConfig
+import com.pulse.manager.components.category.model.Category
 import com.pulse.manager.core.network.FlowCallAdapterFactory
 import com.pulse.manager.data.rest.interceptor.HeaderInterceptor
+import com.pulse.manager.data.rest.serializer.CategoryDeserializer
 import com.pulse.manager.data.rest.serializer.DateTimeSerializer
 import com.pulse.manager.data.rest.serializer.StringDeserializer
 import okhttp3.OkHttpClient
@@ -16,7 +18,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 
-private const val BASE_URL = "https://api.pharmacies.fmc-dev.com" /* "https://api.pharmacies.release.fmc-dev.com" */ // TODO change to release in future
+// DEV - "https://api.pharmacies.fmc-dev.com" RELEASE - "https://api.pharmacies.release.fmc-dev.com"
+private const val BASE_URL = "https://api.pharmacies.release.fmc-dev.com"
 private const val READ_TIMEOUT = 30L
 private const val CONNECT_TIMEOUT = 60L
 private const val WRITE_TIMEOUT = 120L
@@ -62,6 +65,7 @@ val restModule = module {
             setLenient()
             registerTypeAdapter(String::class.java, StringDeserializer())
             registerTypeAdapter(LocalDateTime::class.java, DateTimeSerializer())
+            registerTypeAdapter(Category::class.java, CategoryDeserializer())
         }.create()
     }
 }

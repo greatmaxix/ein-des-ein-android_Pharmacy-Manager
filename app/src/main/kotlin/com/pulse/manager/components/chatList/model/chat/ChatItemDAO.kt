@@ -26,4 +26,7 @@ interface ChatItemDAO : BaseDao<ChatItem> {
 
     @Query("SELECT * FROM ChatItem WHERE status LIKE '%opened%'")
     fun getOpenedChatsLiveData(): LiveData<List<ChatItem>?>
+
+    @Query("SELECT * FROM ChatItem ORDER BY createdAt DESC LIMIT 1")
+    suspend fun getLastChat(): ChatItem?
 }

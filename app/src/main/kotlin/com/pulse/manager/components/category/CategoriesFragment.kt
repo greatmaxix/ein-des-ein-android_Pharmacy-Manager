@@ -4,24 +4,38 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.pulse.manager.R
 import com.pulse.manager.components.category.adapter.CategoriesAdapter
+import com.pulse.manager.components.category.adapter.NestedCategoriesAdapter
 import com.pulse.manager.components.category.model.Category
+import com.pulse.manager.core.adapter.BaseFilterRecyclerAdapter
 import com.pulse.manager.core.base.mvvm.BaseMVVMFragment
 import com.pulse.manager.core.extensions.*
 import kotlinx.android.synthetic.main.fragment_categories.*
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinApiExtension
+import org.koin.core.parameter.parametersOf
 
 @KoinApiExtension
-class CategoriesFragment(private val viewModel: CategoriesViewModel) : BaseMVVMFragment(R.layout.fragment_categories) {
+class CategoriesFragment : BaseMVVMFragment(R.layout.fragment_categories) {
 
-    private val clickAction = viewModel::adapterClicked
+    private val args by navArgs<CategoriesFragmentArgs>()
+    private val viewModel: CategoriesViewModel by viewModel { parametersOf(args.category) }
+
+    private val clickAction by lazy { return@lazy viewModel::selectCategory }
+    private var adapter: BaseFilterRecyclerAdapter<Category, *>? = null
+    private val spacing by lazy { resources.getDimensionPixelSize(R.dimen._4sdp) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        showBackButton()
+        showBackButton { viewModel.handleBackPress() }
+        attachBackPressCallback { viewModel.handleBackPress() }
+        searchViewCategories.onBackClick = { viewModel.handleBackPress() }
         initMenu(R.menu.search) {
             it.isVisible = false
             toolbar?.title = null
@@ -31,16 +45,8 @@ class CategoriesFragment(private val viewModel: CategoriesViewModel) : BaseMVVMF
             true
         }
         searchViewCategories.setSearchListener { text ->
-            viewLifecycleOwner.lifecycleScope.launch {
-                if (rvCategories.adapter == null) return@launch
-                val adapter = rvCategories.adapter as CategoriesAdapter
-                adapter.filter { it.name.contains(text, true).falseIfNull() }
-            }
+            viewLifecycleOwner.lifecycleScope.launch { adapter?.filter { it.name?.contains(text, true).falseIfNull() } }
         }
-        searchViewCategories.onBackClick = {
-            navigationBack()
-        }
-        observeResult(viewModel.baseCategoriesLiveData)
     }
 
     override fun navigationBack() {
@@ -48,31 +54,32 @@ class CategoriesFragment(private val viewModel: CategoriesViewModel) : BaseMVVMF
             hideKeyboard()
             searchViewCategories.animateGoneIfNot()
             toolbar?.menu?.findItem(R.id.search)?.isVisible = true
-            toolbar?.title = viewModel.selectedCategoryLiveData.value?.name ?: getString(R.string.menuTitleCategories)
+            toolbar?.title = getString(R.string.menuTitleCategories)
             showBackButton()
         } else {
-            viewModel.handleBackPress()
+            navController.popBackStack()
         }
     }
 
     override fun onBindLiveData() {
         observe(viewModel.directionLiveData, navController::navigate)
-        observe(viewModel.navigateBackLiveData) { navController.popBackStack() }
-        observeNullable(viewModel.selectedCategoryLiveData) {
-            if (searchViewCategories.isVisible) {
-                toolbar?.title = null
-            } else {
-                toolbar?.title = this?.name ?: getString(R.string.menuTitleCategories)
-            }
+        observe(viewModel.navigateBackLiveData) { navigationBack() }
+        observe(viewModel.parentCategoriesLiveData) {
+            setAdapter(CategoriesAdapter(clickAction).apply { notifyDataSet(toMutableList()) })
+            rvCategories.layoutManager = GridLayoutManager(requireContext(), 2)
+            rvCategories.addGridItemDecorator()
         }
-        observe(viewModel.parentCategoriesLiveData, ::setAdapter)
-        observe(viewModel.nestedCategoriesLiveData, ::setAdapter)
+        observe(viewModel.nestedCategoriesLiveData) {
+            setAdapter(NestedCategoriesAdapter(clickAction).apply { notifyDataSet(toMutableList()) })
+            rvCategories.layoutManager = LinearLayoutManager(requireContext())
+            rvCategories.addItemDecorator(true, spacing, spacing, spacing, spacing)
+        }
     }
 
-    private fun setAdapter(list: List<Category>) {
-        rvCategories.adapter = CategoriesAdapter(list.toMutableList(), clickAction)
+    private fun setAdapter(categoriesAdapter: BaseFilterRecyclerAdapter<Category, *>) {
+        adapter = categoriesAdapter
+        rvCategories.adapter = categoriesAdapter
         clearItemDecoration()
-        rvCategories.addGridItemDecorator()
     }
 
     private fun clearItemDecoration() {

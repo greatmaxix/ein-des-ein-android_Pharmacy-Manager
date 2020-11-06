@@ -35,12 +35,25 @@ class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, Mai
         get() = topLevelDestinations.contains(id)
     private val NavDestination.isTopDestinationAndHome
         get() = isTopLevelDestination && id == R.id.nav_home
+    private val NavDestination.isCategories
+        get() = id == R.id.nav_categories
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupNavigation()
 
         checkIntentChatId(intent)
+    }
+
+    override fun onBindLiveData() {
+        observe(viewModel.userLiveData) {
+            bottomNavMain.navItems = listOf(
+                SelectableBottomNavView.NavItem(R.id.nav_home, R.id.nav_home, R.drawable.ic_home, null),
+                SelectableBottomNavView.NavItem(R.id.nav_categories, R.id.nav_categories, R.drawable.ic_category, null),
+                SelectableBottomNavView.NavItem(R.id.nav_chat_list, R.id.nav_chat_list, R.drawable.ic_chat, null),
+                SelectableBottomNavView.NavItem(R.id.graph_profile, R.id.nav_profile, null, avatar?.url)
+            )
+        }
     }
 
     private fun checkIntentChatId(intent: Intent?) {
@@ -62,14 +75,13 @@ class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, Mai
     private fun setupNavigation() = with(bottomNavMain) {
         setTopRoundCornerBackground()
         itemIconTintList = null
-        // TODO get avatar from profile
-        val avatar = "https://www.nj.com/resizer/h8MrN0-Nw5dB5FOmMVGMmfVKFJo=/450x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/SJGKVE5UNVESVCW7BBOHKQCZVE.jpg"
         navItems = listOf(
             SelectableBottomNavView.NavItem(R.id.nav_home, R.id.nav_home, R.drawable.ic_home, null),
             SelectableBottomNavView.NavItem(R.id.nav_categories, R.id.nav_categories, R.drawable.ic_category, null),
             SelectableBottomNavView.NavItem(R.id.nav_chat_list, R.id.nav_chat_list, R.drawable.ic_chat, null),
-            SelectableBottomNavView.NavItem(R.id.graph_profile, R.id.nav_profile, null, avatar)
+            SelectableBottomNavView.NavItem(R.id.graph_profile, R.id.nav_profile, null, null)
         )
+
         setupWithNavController(navController)
         setOnNavigationItemReselectedListener {}
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -124,6 +136,7 @@ class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, Mai
     override fun onBackPressed() {
         navController.currentDestination?.apply {
             when {
+                isCategories -> super.onBackPressed()
                 isTopDestinationAndHome -> finish()
                 isTopLevelDestination -> navController.navigate(R.id.nav_home)
                 else -> super.onBackPressed()
