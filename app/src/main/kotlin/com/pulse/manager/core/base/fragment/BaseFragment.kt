@@ -106,7 +106,9 @@ abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutR
         if (isKeyboardOpen) {
             hideKeyboard()
         } else {
-            navController.popBackStack()
+            if (!navController.popBackStack()) {
+                requireActivity().finish()
+            }
         }
     }
 

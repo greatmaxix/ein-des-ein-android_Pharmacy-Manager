@@ -1,6 +1,14 @@
 package com.pulse.manager.components.category.repository
 
-class CategoriesRepository(private val rds: CategoriesRemoteDataSource) {
+import com.pulse.manager.components.category.extra.flattenCategories
 
-    suspend fun categories() = rds.categories()
+class CategoriesRepository(private val rds: CategoriesRemoteDataSource, private val lds: CategoriesLocalDataSource) {
+
+    suspend fun categories() = if (lds.isCategoriesPresent()) {
+        lds.categories()
+    } else {
+        rds.categories()
+            .flattenCategories
+            .also { lds.saveCategories(it) }
+    }
 }

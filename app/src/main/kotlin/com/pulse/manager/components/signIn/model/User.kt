@@ -20,5 +20,7 @@ data class User(
     @SerializedName("topicName") val topicName: String?,
     @SerializedName("aboutMe") val aboutMe: String?,
     @Embedded(prefix = "avatar")
-    @SerializedName("avatar") val avatar: AvatarShort? = null
+    @SerializedName("avatar") val avatar: AvatarShort? = null,
+    @Embedded
+    @SerializedName("chatRatingInfo") val chatRatingInfo: ChatRatingInfo?
 )

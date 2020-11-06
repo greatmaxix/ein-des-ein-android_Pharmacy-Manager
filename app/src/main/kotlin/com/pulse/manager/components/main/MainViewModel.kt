@@ -7,6 +7,8 @@ import org.koin.core.component.KoinApiExtension
 @KoinApiExtension
 class MainViewModel(private val repository: MainRepository) : BaseViewModel() {
 
+    val userLiveData = repository.getUserLiveData()
+
     fun setChatForeground(isForeground: Boolean) {
         repository.setChatForeground(isForeground)
     }

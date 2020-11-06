@@ -1,5 +1,7 @@
 package com.pulse.manager.core.extensions
 
+import android.graphics.Rect
+import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
@@ -45,6 +47,31 @@ fun RecyclerView.addAutoKeyboardCloser() {
             hideKeyboard()
         }
     }
+}
+
+fun RecyclerView.addItemDecorator(
+    needTopSpacing: Boolean = true,
+    top: Int? = null,
+    start: Int? = null,
+    end: Int? = null,
+    bottom: Int? = null
+) {
+    addItemDecoration(object : RecyclerView.ItemDecoration() {
+
+        private val spacing = context.resources.getDimensionPixelSize(R.dimen._8sdp)
+
+        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            val index = parent.getChildAdapterPosition(view)
+            if (index >= 0 && index < state.itemCount && needTopSpacing) {
+                outRect.top = top ?: spacing
+            }
+            outRect.left = start ?: spacing * 2
+            outRect.right = end ?: spacing * 2
+            if (index == state.itemCount - 1 || !needTopSpacing) {
+                outRect.bottom = bottom ?: spacing
+            }
+        }
+    })
 }
 
 fun RecyclerView.addGridItemDecorator() = addItemDecoration(GridSpacingItemDecoration(spacing = context.resources.getDimensionPixelSize(R.dimen._8sdp)))

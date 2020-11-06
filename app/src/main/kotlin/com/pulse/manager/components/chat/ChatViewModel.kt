@@ -35,7 +35,7 @@ class ChatViewModel(
     @ExperimentalPagingApi
     val chatMessagesLiveData by lazy {
         Pager(
-            config = PagingConfig(Constants.PAGE_SIZE, enablePlaceholders = false, prefetchDistance = 1, initialLoadSize = Constants.PAGE_SIZE / 2),
+            config = PagingConfig(Constants.PAGE_SIZE, enablePlaceholders = false),
             remoteMediator = ChatMessagesRemoteMediator(repository, errorHandler, chat),
             pagingSourceFactory = { repository.getMessagePagingSource(chat.id) }
         ).flow

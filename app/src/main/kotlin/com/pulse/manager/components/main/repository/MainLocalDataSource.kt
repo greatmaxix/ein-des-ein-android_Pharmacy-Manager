@@ -10,6 +10,8 @@ class MainLocalDataSource(
     private val chatItemDAO: ChatItemDAO
 ) {
 
+    fun getUserLiveData() = userDao.get()
+
     fun setChatForeground(isForeground: Boolean) {
         sp.isChatForeground = isForeground
     }
