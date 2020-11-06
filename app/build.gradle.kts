@@ -7,7 +7,6 @@ import Libraries.implementLifecycle
 import Libraries.implementNetworking
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import io.github.rockerhieu.versionberg.Git.getCommitCount
-import io.github.rockerhieu.versionberg.Git.getCommitSha
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -32,7 +31,7 @@ tasks.withType<KotlinCompile>().all {
 versionberg {
     setMajor(App.major)
     setMinor(App.minor)
-    nameTemplate = "$major.$minor.${getCommitCount(gitDir)}.${getCommitSha(gitDir)}"
+    nameTemplate = "$major.$minor.${getCommitCount(gitDir)}}"
     codeTemplate = "((($major * 100) + $minor) * 100) * 100000 + $build"
 }
 
@@ -49,14 +48,13 @@ android {
 
         applicationVariants.all {
             outputs.all {
-                if (name.contains("release")) (this as BaseVariantOutputImpl).outputFileName =
-                    "../../apk/$applicationId-$name-$versionName($versionCode).apk"
+                (this as BaseVariantOutputImpl).outputFileName = "../../apk/$applicationId-$name-$versionName($versionCode).apk"
             }
         }
 
         kapt {
             arguments {
-                arg("room.schemaLocation", "$projectDir/schemas".toString())
+                arg("room.schemaLocation", "$projectDir/schemas")
                 arg("room.incremental", "true")
                 arg("room.expandProjection", "true")
             }
