@@ -104,6 +104,6 @@
     <string name="attachment_product">Продукт</string>
     <string name="endChatMessage">У Вас есть еще какие либо вопросы?</string>
     <string name="chatEndedTitle">Чат завершен</string>
-    <string name="chatEndedMessage">A short, complete sentence that takes up the first and the second line.</string>
+    <string name="chatEndedMessage">Благодарим за использования нашего сервиса! Оставайтесь здоровыми</string>
     <string name="appNameShort">Pulse</string>
 </resources>
