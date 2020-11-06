@@ -28,7 +28,7 @@ import org.koin.core.component.KoinApiExtension
 @KoinApiExtension
 class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, MainViewModel::class), ProgressCallback, MessagesCallback {
 
-    private val progressBehavior by lazy { attachBehavior(ProgressViewBehavior(progress)) }
+    private val progressBehavior by lazy { attachBehavior(ProgressViewBehavior(progressRoot)) }
     private val messagesBehavior by lazy { attachBehavior(MessagesBehavior(this)) }
     private val topLevelDestinations = intArrayOf(R.id.nav_home, R.id.nav_categories, R.id.nav_chat_list, R.id.nav_profile) // TODO add destinations
     private val NavDestination.isTopLevelDestination
