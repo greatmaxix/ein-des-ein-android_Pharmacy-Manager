@@ -6,49 +6,72 @@ import Libraries.implementKoinDI
 import Libraries.implementLifecycle
 import Libraries.implementNetworking
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import com.android.build.gradle.internal.tasks.factory.dependsOn
+import com.pulse.buildsrc.SigningConfigs
+import com.pulse.buildsrc.task.GenerateNavArgsProguardRulesTask
+import com.pulse.buildsrc.task.NAVARGS_PROGUARD_RULES_PATH
 import io.github.rockerhieu.versionberg.Git.getCommitCount
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+apply(from = "${project.rootDir}/script/experimentalExtensions.gradle")
 
 plugins {
     id(BuildPlugins.androidApplicationPlugin)
     kotlin(BuildPlugins.kotlinAndroidPlugin)
     kotlin(BuildPlugins.kotlinAndroidExtensionsPlugin)
     kotlin(BuildPlugins.kaptPlugin)
+//    kotlin(BuildPlugins.parcelizePlugin) // TODO uncomment in future
     id(BuildPlugins.versionbergPlugin)
     id(BuildPlugins.safeargsPlugin)
     id(BuildPlugins.googleServicesPlugin)
     id(BuildPlugins.crashlyticsPlugin)
+    id(BuildPlugins.appDistributionPlugin)
 }
 
-tasks.withType<KotlinCompile>().all {
-    kotlinOptions.jvmTarget = "1.8"
-    kotlinOptions.freeCompilerArgs += listOf(
-        "-Xopt-in=kotlin.RequiresOptIn",
-        "-Xopt-in=kotlin.OptIn"
+with(tasks) {
+    withType<KotlinCompile>().all {
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+        kotlinOptions.freeCompilerArgs += listOf(
+            "-Xopt-in=kotlin.RequiresOptIn",
+            "-Xopt-in=kotlin.OptIn"
+        )
+    }
+    named("preBuild").dependsOn(
+        register(
+            "generateNavArgsProguardRules",
+            GenerateNavArgsProguardRulesTask::class
+        )
     )
 }
 
 versionberg {
-    setMajor(App.major)
-    setMinor(App.minor)
+    setMajor(DefaultConfig.versionMajor)
+    setMinor(DefaultConfig.versionMinor)
     nameTemplate = "$major.$minor.${getCommitCount(gitDir)}}"
     codeTemplate = "((($major * 100) + $minor) * 100) * 100000 + $build"
 }
 
 android {
-    compileSdkVersion(AndroidSdk.compile)
-    buildToolsVersion = Versions.buildTools
+    compileSdkVersion(DefaultConfig.compileSdk)
 
     defaultConfig {
-        applicationId = App.applicationId
-        minSdkVersion(AndroidSdk.min)
-        targetSdkVersion(AndroidSdk.target)
+        applicationId = DefaultConfig.applicationId
+
+        consumerProguardFile(File(buildDir, NAVARGS_PROGUARD_RULES_PATH))
+
+        with(DefaultConfig) {
+            minSdkVersion(minSdk)
+            targetSdkVersion(targetSdk)
+        }
         versionCode = versionberg.code
         versionName = versionberg.name
 
+        proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+
         applicationVariants.all {
             outputs.all {
-                (this as BaseVariantOutputImpl).outputFileName = "../../apk/$applicationId-$name-$versionName($versionCode).apk"
+                (this as BaseVariantOutputImpl).outputFileName =
+                    "../../apk/$applicationId-$name-$versionName($versionCode).apk"
             }
         }
 
@@ -61,42 +84,52 @@ android {
         }
     }
 
+    val debug = "debug"
+    val qa = "qa"
+    val release = "release"
+
     signingConfigs {
-        getByName("debug") {
-            storeFile = file("../keystore/debug.p12")
-            storePassword = "default_1Android_2Debug_3Key"
-            keyAlias = "defaultDebug"
-            keyPassword = "default_1Android_2Debug_3Key"
-        }
-        create("release") {
-            storeFile = file("../keystore/debug.p12") // TODO change to release key
-            storePassword = "default_1Android_2Debug_3Key"
-            keyAlias = "defaultDebug"
-            keyPassword = "default_1Android_2Debug_3Key"
+        create(release) {
+            with(SigningConfigs) {
+                keyAlias = alias
+                keyPassword = password_key
+                storePassword = password_store
+                storeFile = rootProject.file(keystore)
+            }
         }
     }
 
     buildTypes {
-        getByName("release") {
-            signingConfig = signingConfigs.getByName("release")
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-
-            isMinifyEnabled = false
+        getByName(release) {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            signingConfig = signingConfigs.getByName(release)
         }
-        getByName("debug") {
-            signingConfig = signingConfigs.getByName("debug")
-
-            versionNameSuffix = "-dg"
-            isDebuggable = true
+        create(qa) {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            signingConfig = signingConfigs.getByName(release)
+            versionNameSuffix = "-$qa"
+            firebaseAppDistribution {
+                releaseNotes = "Some text"
+                testers = "developereinios@gmail.com, ivan.kovalenko13@gmail.com"
+            }
+        }
+        getByName(debug) {
+            isMinifyEnabled = false
+            isShrinkResources = false
+            signingConfig = signingConfigs.getByName(release)
+            versionNameSuffix = "-$debug"
         }
     }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        isAbortOnError = false
     }
 
     sourceSets["main"].java.srcDir("src/main/kotlin")
