@@ -11,7 +11,6 @@ import com.pulse.buildsrc.SigningConfigs
 import com.pulse.buildsrc.task.GenerateNavArgsProguardRulesTask
 import com.pulse.buildsrc.task.NAVARGS_PROGUARD_RULES_PATH
 import io.github.rockerhieu.versionberg.Git.getCommitCount
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 apply(from = "${project.rootDir}/script/experimentalExtensions.gradle")
 
@@ -28,20 +27,8 @@ plugins {
     id(BuildPlugins.appDistributionPlugin)
 }
 
-with(tasks) {
-    withType<KotlinCompile>().all {
-        kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
-        kotlinOptions.freeCompilerArgs += listOf(
-            "-Xopt-in=kotlin.RequiresOptIn",
-            "-Xopt-in=kotlin.OptIn"
-        )
-    }
-    named("preBuild").dependsOn(
-        register(
-            "generateNavArgsProguardRules",
-            GenerateNavArgsProguardRulesTask::class
-        )
-    )
+tasks {
+    named("preBuild").dependsOn(register("generateNavArgsProguardRules", GenerateNavArgsProguardRulesTask::class))
 }
 
 versionberg {
@@ -126,6 +113,14 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs = mutableListOf<String>().apply {
+            addAll(freeCompilerArgs)
+            addAll(listOf("-Xopt-in=kotlin.RequiresOptIn", "-Xopt-in=kotlin.OptIn"))
+        }
     }
 
     lintOptions {

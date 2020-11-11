@@ -7,7 +7,7 @@ object Versions {
     const val navigationFragment = "2.3.1"
 
     // build tools
-    const val gradleBuildTools = "4.1.0"
+    const val gradleBuildTools = "4.1.1"
     const val kotlinGradlePlugin = kotlinVersion
     const val navigationSafeArgsGradle = navigationFragment
     const val crashlyticsPlugin = "2.3.0"
