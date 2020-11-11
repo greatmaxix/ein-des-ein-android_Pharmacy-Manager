@@ -1,5 +1,7 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
+apply(from = "${project.rootDir}/script/apk_upload.gradle")
+
 plugins {
     id(BuildPlugins.versionsPlugin) version Versions.versionsPlugin
 }
@@ -19,6 +21,7 @@ buildscript {
             )
         )
         classpath(BuildPlugins.crashlyticsClasspath)
+        classpath(BuildPlugins.appDistributionClasspath)
         classpath(BuildPlugins.safeargsClasspath)
         classpath(BuildPlugins.versionbergClasspath)
         classpath(BuildPlugins.googleServicesClasspath)
@@ -31,12 +34,12 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
-        maven { url = uri("https://jitpack.io") }
+        maven("https://jitpack.io")
     }
 }
 
-tasks.register("clean").configure {
-    delete("build")
+tasks.register("clean", Delete::class) {
+    delete(rootProject.buildDir)
 }
 
 tasks.withType<DependencyUpdatesTask> {

@@ -20,6 +20,7 @@
     <color name="primaryBlue">#2566F9</color>
     <color name="blueLight">#1A2566F9</color>
     <color name="primaryBlue20">#0D2566F9</color>
+    <color name="searchBackgroundBlue">#809CB7FB</color>
 
     <color name="primaryBlueLight20">#CCDAFA</color>
     <color name="greyText">#64738C</color>

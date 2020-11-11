@@ -1,3 +1,4 @@
+
 package com.pulse.manager.components.category
 
 import android.os.Bundle
@@ -5,13 +6,8 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.pulse.manager.R
-import com.pulse.manager.components.category.adapter.CategoriesAdapter
-import com.pulse.manager.components.category.adapter.NestedCategoriesAdapter
-import com.pulse.manager.components.category.model.Category
-import com.pulse.manager.core.adapter.BaseFilterRecyclerAdapter
+import com.pulse.manager.components.category.adapter.CategoryAdapter
 import com.pulse.manager.core.base.mvvm.BaseMVVMFragment
 import com.pulse.manager.core.extensions.*
 import kotlinx.android.synthetic.main.fragment_categories.*
@@ -25,10 +21,9 @@ class CategoriesFragment : BaseMVVMFragment(R.layout.fragment_categories) {
 
     private val args by navArgs<CategoriesFragmentArgs>()
     private val viewModel: CategoriesViewModel by viewModel { parametersOf(args.category) }
-
     private val clickAction by lazy { return@lazy viewModel::selectCategory }
-    private var adapter: BaseFilterRecyclerAdapter<Category, *>? = null
-    private val spacing by lazy { resources.getDimensionPixelSize(R.dimen._4sdp) }
+    private val categoryAdapter by lazy { CategoryAdapter(clickAction) }
+    private val spacing = dimensionPixelSize(R.dimen._2sdp)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,9 +39,16 @@ class CategoriesFragment : BaseMVVMFragment(R.layout.fragment_categories) {
             hideBackButton()
             true
         }
-        searchViewCategories.setSearchListener { text ->
-            viewLifecycleOwner.lifecycleScope.launch { adapter?.filter { it.name?.contains(text, true).falseIfNull() } }
+        initCategoryList()
+        searchViewCategories.setSearchListener { value ->
+            viewLifecycleOwner.lifecycleScope.launch { categoryAdapter.filter { it.name?.contains(value, true).falseIfNull() } }
         }
+    }
+
+    private fun initCategoryList() = with(rvCategories) {
+        adapter = categoryAdapter
+        addItemDecorator(true, spacing)
+        setHasFixedSize(true)
     }
 
     override fun navigationBack() {
@@ -64,25 +66,7 @@ class CategoriesFragment : BaseMVVMFragment(R.layout.fragment_categories) {
     override fun onBindLiveData() {
         observe(viewModel.directionLiveData, navController::navigate)
         observe(viewModel.navigateBackLiveData) { navigationBack() }
-        observe(viewModel.parentCategoriesLiveData) {
-            setAdapter(CategoriesAdapter(clickAction).apply { notifyDataSet(toMutableList()) })
-            rvCategories.layoutManager = GridLayoutManager(requireContext(), 2)
-            rvCategories.addGridItemDecorator()
-        }
-        observe(viewModel.nestedCategoriesLiveData) {
-            setAdapter(NestedCategoriesAdapter(clickAction).apply { notifyDataSet(toMutableList()) })
-            rvCategories.layoutManager = LinearLayoutManager(requireContext())
-            rvCategories.addItemDecorator(true, spacing, spacing, spacing, spacing)
-        }
-    }
-
-    private fun setAdapter(categoriesAdapter: BaseFilterRecyclerAdapter<Category, *>) {
-        adapter = categoriesAdapter
-        rvCategories.adapter = categoriesAdapter
-        clearItemDecoration()
-    }
-
-    private fun clearItemDecoration() {
-        if (rvCategories.itemDecorationCount > 0) rvCategories.removeItemDecorationAt(0)
+        observe(viewModel.parentCategoriesLiveData, categoryAdapter::notifyDataSet)
+        observe(viewModel.nestedCategoriesLiveData, categoryAdapter::notifyDataSet)
     }
 }

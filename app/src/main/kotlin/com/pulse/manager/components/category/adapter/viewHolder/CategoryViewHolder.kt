@@ -5,19 +5,24 @@ import android.view.ViewGroup
 import com.pulse.manager.R
 import com.pulse.manager.components.category.model.Category
 import com.pulse.manager.core.adapter.BaseViewHolder
+import com.pulse.manager.core.extensions.gone
 import com.pulse.manager.core.extensions.inflate
-import com.pulse.manager.core.extensions.setDebounceOnClickListener
-import kotlinx.android.synthetic.main.item_category.view.*
+import com.pulse.manager.core.extensions.visible
+import kotlinx.android.synthetic.main.item_category.*
 
-class CategoryViewHolder(view: View, val click: (Category) -> Unit) : BaseViewHolder<Category>(view) {
+class CategoryViewHolder(view: View) : BaseViewHolder<Category>(view) {
 
     override fun bind(item: Category) = with(itemView) {
-        tvCategoryName.text = item.name
-        mcvCategory.setDebounceOnClickListener { click(item) }
+        tvCategoryNameTile.text = item.name
+        if (item.drawableName != -1) {
+            ivCategoryIconTile.setImageResource(item.drawableName)
+            ivCategoryIconTile.visible()
+        } else {
+            ivCategoryIconTile.gone()
+        }
     }
 
     companion object {
-
-        fun newInstance(parent: ViewGroup, click: (Category) -> Unit) = CategoryViewHolder(parent.inflate(R.layout.item_category), click)
+        fun newInstance(parent: ViewGroup) = CategoryViewHolder(parent.inflate(R.layout.item_category))
     }
 }

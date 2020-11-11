@@ -2,6 +2,7 @@ package com.pulse.manager.core.extensions
 
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.annotation.DimenRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
@@ -88,3 +89,7 @@ fun Fragment.doWithDelay(delay: Long, action: () -> Unit) {
 }
 
 fun Fragment.doWithDelay(delay: Int, action: () -> Unit) = doWithDelay(delay.toLong(), action)
+
+fun Fragment.dimension(@DimenRes dimenRes: Int) = resources.getDimension(dimenRes)
+
+fun Fragment.dimensionPixelSize(@DimenRes dimenRes: Int) = resources.getDimensionPixelSize(dimenRes)
