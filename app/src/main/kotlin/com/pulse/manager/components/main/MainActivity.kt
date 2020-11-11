@@ -2,7 +2,6 @@ package com.pulse.manager.components.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavDestination
 import androidx.navigation.ui.setupWithNavController
@@ -86,7 +85,6 @@ class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, Mai
         setOnNavigationItemReselectedListener {}
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.isTopLevelDestination) bottomNavMain.translateYUp() else bottomNavMain.translateYDown()
-            if (destination.isTopDestinationAndHome) window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS) else window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             viewModel.setChatForeground(destination.id == R.id.nav_chat)
             changeSelection(destination)
         }

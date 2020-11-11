@@ -38,6 +38,7 @@ class SelectableBottomNavView @JvmOverloads constructor(
             value.forEach {
                 setItemColor(it, defaultColor)
             }
+            setItemColor(if (lastSelectedItem != null) lastSelectedItem!! else value.first(), selectedColor)
         }
 
     private fun setItemColor(it: NavItem, @ColorInt color: Int) {
@@ -96,6 +97,8 @@ class SelectableBottomNavView @JvmOverloads constructor(
                 it.iconUrl != null -> updateProfileIconState(true)
                 else -> setItemColor(it, selectedColor)
             }
+        } ?: run {
+            setItemColor(navItems.first(), selectedColor)
         }
 
         lastSelectedItem = currentNavItem
