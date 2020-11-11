@@ -50,7 +50,7 @@
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="@dimen/_8sdp"
                 android:fontFamily="@font/open_sans"
-                android:text="@string/searchHintHome"
+                android:text="@string/seach"
                 android:textColor="@color/colorGlobalWhite"
                 android:textSize="@dimen/_14ssp" />
 
