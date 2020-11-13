@@ -33,6 +33,12 @@ class GeneralErrorHandler : KoinComponent {
         error.response()?.errorBody()?.run { get<Gson>().fromJson(string(), type) }
 
     //TODO have to add valid response for errors
+    /*
+         "message": "Invalid JWT Token",
+         "status": "error",
+         "error_type": "unauthorized",
+     */
+
     private fun httpError(error: HttpException): GeneralException {
         val errorModel = errorBody(error, ErrorModel::class.java)
         return when (errorModel?.type) {
