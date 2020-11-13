@@ -6,8 +6,8 @@
     <LinearLayout
         android:id="@+id/llLogo"
         android:layout_width="wrap_content"
-        android:layout_gravity="center"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="vertical">
 
         <ImageView
@@ -18,12 +18,11 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/appNameShort"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/_16sdp"
-            android:textColor="@color/primaryBlue"
-            android:textSize="@dimen/_30ssp"
-            android:fontFamily="@font/open_sans_bold"
-            android:layout_gravity="center_horizontal" />
+            android:text="@string/appNameShort"
+            android:textAppearance="?attr/textAppearanceHeadline4"
+            android:textColor="@color/primaryBlue" />
 
     </LinearLayout>
 </FrameLayout>

@@ -23,7 +23,6 @@ buildscript {
         classpath(BuildPlugins.crashlyticsClasspath)
         classpath(BuildPlugins.appDistributionClasspath)
         classpath(BuildPlugins.safeargsClasspath)
-        classpath(BuildPlugins.versionbergClasspath)
         classpath(BuildPlugins.googleServicesClasspath)
         classpath(BuildPlugins.koinClasspath)
     }

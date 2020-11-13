@@ -49,10 +49,9 @@
                 android:layout_marginBottom="@dimen/_6sdp"
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="@dimen/_8sdp"
-                android:fontFamily="@font/open_sans"
                 android:text="@string/seach"
-                android:textColor="@color/colorGlobalWhite"
-                android:textSize="@dimen/_14ssp" />
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:textColor="@color/colorGlobalWhite" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -83,10 +82,10 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="@dimen/match_constraint"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/_12sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:paddingBottom="@dimen/_12sdp"
-        android:clipToPadding="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clToolbarContainerHome">
 
@@ -155,11 +154,10 @@
                     android:id="@+id/tvChatRequestsCounterHome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceHeadline4"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="@dimen/_24sdp"
-                    android:fontFamily="@font/open_sans_bold"
                     android:textColor="@color/colorGlobalWhite"
-                    android:textSize="@dimen/_28ssp"
                     tools:text="64" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -167,10 +165,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="@dimen/_8sdp"
-                    android:fontFamily="@font/open_sans_semibold"
                     android:text="@string/newRequests"
-                    android:textColor="@color/colorGlobalWhite"
-                    android:textSize="@dimen/_10ssp" />
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption.Caption2"
+                    android:textColor="@color/colorGlobalWhite" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -195,8 +192,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="@dimen/_24sdp"
-                    android:fontFamily="@font/open_sans_bold"
                     android:textColor="@color/colorGlobalWhite"
+                    android:textAppearance="?attr/textAppearanceHeadline4"
                     android:textSize="@dimen/_28ssp"
                     tools:text="64" />
 
@@ -205,10 +202,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="@dimen/_8sdp"
-                    android:fontFamily="@font/open_sans_semibold"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption.Caption2"
                     android:text="@string/willBeSoon"
-                    android:textColor="@color/colorGlobalWhite"
-                    android:textSize="@dimen/_10ssp" />
+                    android:textColor="@color/colorGlobalWhite" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -228,10 +224,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_12sdp"
-                android:fontFamily="@font/open_sans_bold"
+                android:textAppearance="?attr/textAppearanceButton"
                 android:text="@string/recentlyRecommended"
                 android:textColor="@color/darkBlue"
-                android:textSize="@dimen/_14ssp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

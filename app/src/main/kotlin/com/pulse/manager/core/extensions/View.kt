@@ -11,10 +11,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewTreeObserver
 import android.widget.TextView
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.annotation.MenuRes
-import androidx.annotation.RequiresApi
+import androidx.annotation.*
 import androidx.appcompat.widget.Toolbar
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
@@ -181,3 +178,5 @@ fun View.setTopRoundCornerBackground(
 
 val View.isKeyboardNotOpen
     get() = !isKeyboardOpen
+
+fun View.font(@FontRes fontId: Int) = resources.getFont(fontId)

@@ -6,8 +6,9 @@
     <string name="common_cancelButton">Отмена</string>
 
     <!-- Error -->
-    <string name="error_network">Network error</string>
-    <string name="error_unknown">Unknown error</string>
+    <string name="error_networkErrorMessage">Ошибка соединения</string>
+    <string name="error_errorGettingData">Ошибка получения данных</string>
+    <string name="error_serverNotResponding">Сервер не отвечает</string>
 
     <!-- Main -->
     <string name="menuTitleMain">Главная</string>
@@ -107,4 +108,5 @@
     <string name="chatEndedMessage">Благодарим за использования нашего сервиса! Оставайтесь здоровыми</string>
     <string name="appNameShort">Pulse</string>
     <string name="seach">Поиск</string>
+    <string name="have_questions">Есть вопросы?</string>
 </resources>

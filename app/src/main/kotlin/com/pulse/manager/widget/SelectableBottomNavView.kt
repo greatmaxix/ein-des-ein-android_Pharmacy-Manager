@@ -50,35 +50,31 @@ class SelectableBottomNavView @JvmOverloads constructor(
     }
 
     private fun updateProfileIconState(selected: Boolean = false) {
-        val item = navItems.firstOrNull { it.iconUrl != null }
+        val item = navItems.firstOrNull { it.isProfileItem }
         if (item != null) {
-            if (item.iconUrl.isNullOrEmpty().not()) {
-                Glide.with(context)
-                    .asBitmap()
-                    .load(item.iconUrl)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .placeholder(R.drawable.ic_avatar_placeholder)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(object : CustomTarget<Bitmap>(AVATAR_SIZE, AVATAR_SIZE) {
-                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                            menu.findItem(item.menuItemId)?.icon = resource.run {
-                                RoundedBitmapDrawableFactory.create(
-                                    resources,
-                                    if (selected) createBitmapWithBorder(selectedBorder, selectedColor) else this
-                                ).apply {
-                                    isCircular = true
-                                }
+            Glide.with(context)
+                .asBitmap()
+                .load(item.iconUrl ?: R.drawable.ic_avatar_placeholder)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .placeholder(R.drawable.ic_avatar_placeholder)
+                .apply(RequestOptions.circleCropTransform())
+                .into(object : CustomTarget<Bitmap>(AVATAR_SIZE, AVATAR_SIZE) {
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        menu.findItem(item.menuItemId)?.icon = resource.run {
+                            RoundedBitmapDrawableFactory.create(
+                                resources,
+                                if (selected) createBitmapWithBorder(selectedBorder, selectedColor) else this
+                            ).apply {
+                                isCircular = true
                             }
                         }
+                    }
 
-                        override fun onLoadCleared(placeholder: Drawable?) {
-                            // no op
-                        }
-                    })
-            } else {
-                menu.findItem(item.menuItemId)?.icon = context.compatDrawable(R.drawable.ic_avatar_placeholder)
-            }
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        // no op
+                    }
+                })
         }
     }
 
@@ -108,6 +104,7 @@ class SelectableBottomNavView @JvmOverloads constructor(
         @IdRes val menuItemId: Int,
         @IdRes val navigationItemResId: Int,
         @DrawableRes val iconResId: Int?,
+        val isProfileItem: Boolean = false,
         val iconUrl: String?
     )
 

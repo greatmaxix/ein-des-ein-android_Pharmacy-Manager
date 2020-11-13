@@ -17,7 +17,7 @@
         android:paddingHorizontal="@dimen/_16sdp"
         android:paddingVertical="@dimen/_8sdp"
         android:textColor="@color/darkBlue"
-        android:textSize="@dimen/_11sdp"
+        android:textAppearance="?attr/textAppearanceBody2"
         tools:text="Some text message Some text message Some text message Some text message Some text message " />
 
 </LinearLayout>

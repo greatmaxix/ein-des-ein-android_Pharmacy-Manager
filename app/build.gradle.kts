@@ -10,9 +10,6 @@ import com.android.build.gradle.internal.tasks.factory.dependsOn
 import com.pulse.buildsrc.SigningConfigs
 import com.pulse.buildsrc.task.GenerateNavArgsProguardRulesTask
 import com.pulse.buildsrc.task.NAVARGS_PROGUARD_RULES_PATH
-import io.github.rockerhieu.versionberg.Git.getCommitCount
-
-apply(from = "${project.rootDir}/script/experimentalExtensions.gradle")
 
 plugins {
     id(BuildPlugins.androidApplicationPlugin)
@@ -20,45 +17,39 @@ plugins {
     kotlin(BuildPlugins.kotlinAndroidExtensionsPlugin)
     kotlin(BuildPlugins.kaptPlugin)
 //    kotlin(BuildPlugins.parcelizePlugin) // TODO uncomment in future
-    id(BuildPlugins.versionbergPlugin)
     id(BuildPlugins.safeargsPlugin)
     id(BuildPlugins.googleServicesPlugin)
     id(BuildPlugins.crashlyticsPlugin)
     id(BuildPlugins.appDistributionPlugin)
 }
 
+apply(from = "${project.rootDir}/script/experimentalExtensions.gradle")
+
 tasks {
     named("preBuild").dependsOn(register("generateNavArgsProguardRules", GenerateNavArgsProguardRulesTask::class))
-}
-
-versionberg {
-    setMajor(DefaultConfig.versionMajor)
-    setMinor(DefaultConfig.versionMinor)
-    nameTemplate = "$major.$minor.${getCommitCount(gitDir)}}"
-    codeTemplate = "((($major * 100) + $minor) * 100) * 100000 + $build"
 }
 
 android {
     compileSdkVersion(DefaultConfig.compileSdk)
 
     defaultConfig {
-        applicationId = DefaultConfig.applicationId
+        applicationId = "com.pulse.manager"
 
         consumerProguardFile(File(buildDir, NAVARGS_PROGUARD_RULES_PATH))
 
         with(DefaultConfig) {
+            val buildCode = "git rev-list --count remotes/origin/master remotes/origin/develop".execute.toInt()
             minSdkVersion(minSdk)
             targetSdkVersion(targetSdk)
+            versionCode(buildCode)
+            versionName(versionName + buildCode)
         }
-        versionCode = versionberg.code
-        versionName = versionberg.name
 
         proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
 
         applicationVariants.all {
             outputs.all {
-                (this as BaseVariantOutputImpl).outputFileName =
-                    "../../apk/$applicationId-$name-$versionName($versionCode).apk"
+                (this as BaseVariantOutputImpl).outputFileName = "$applicationId-v.$versionName($versionCode)-$name.apk"
             }
         }
 
@@ -71,8 +62,6 @@ android {
         }
     }
 
-    val debug = "debug"
-    val qa = "qa"
     val release = "release"
 
     signingConfigs {
@@ -92,21 +81,30 @@ android {
             isShrinkResources = true
             signingConfig = signingConfigs.getByName(release)
         }
-        create(qa) {
+        create("qa") {
             isMinifyEnabled = true
             isShrinkResources = true
+            // isDebuggable = true
             signingConfig = signingConfigs.getByName(release)
-            versionNameSuffix = "-$qa"
+            versionNameSuffix = "-qa"
             firebaseAppDistribution {
-                releaseNotes = "Some text"
+                releaseNotes = "git log --pretty=format:${"%s"} -20 --merges".execute
+                    .split("\n")
+                    .filter { it.contains("fix/") || it.contains("feature/") || it.contains("hotfix/") }
+                    .joinToString("\n") {
+                        it.replace("(.*/+)", "")
+                            .replace("release(.)*\n", "")
+                            .replace("\"", "")
+                            .replace("('.*')", "")
+                    }
                 testers = "developereinios@gmail.com, ivan.kovalenko13@gmail.com"
             }
         }
-        getByName(debug) {
+        getByName("debug") {
             isMinifyEnabled = false
             isShrinkResources = false
             signingConfig = signingConfigs.getByName(release)
-            versionNameSuffix = "-$debug"
+            versionNameSuffix = "-dg"
         }
     }
 
@@ -115,6 +113,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    lintOptions {
+        isAbortOnError = false
+    }
+
+    sourceSets["main"].java.srcDir("src/main/kotlin")
+
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs = mutableListOf<String>().apply {
@@ -122,12 +126,6 @@ android {
             addAll(listOf("-Xopt-in=kotlin.RequiresOptIn", "-Xopt-in=kotlin.OptIn"))
         }
     }
-
-    lintOptions {
-        isAbortOnError = false
-    }
-
-    sourceSets["main"].java.srcDir("src/main/kotlin")
 }
 
 dependencies {
@@ -147,3 +145,12 @@ dependencies {
     implementAndroidUI()
     implementCoreUtils()
 }
+
+val String.execute
+    get() = org.apache.commons.io.output.ByteArrayOutputStream().run {
+        project.exec {
+            commandLine = split(" ")
+            standardOutput = this@run
+        }
+        String(toByteArray()).trim()
+    }
