@@ -82,9 +82,8 @@ android {
             signingConfig = signingConfigs.getByName(release)
         }
         create("qa") {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            // isDebuggable = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             signingConfig = signingConfigs.getByName(release)
             versionNameSuffix = "-qa"
             firebaseAppDistribution {
