@@ -12,7 +12,6 @@ object Versions {
     const val navigationSafeArgsGradle = navigationFragment
     const val crashlyticsPlugin = "2.3.0"
     const val appDistributionPlugin = "2.0.1"
-    const val versionberg = "1.0.2"
     const val versionsPlugin = "0.34.0"
     const val googleServices = "4.3.4"
 

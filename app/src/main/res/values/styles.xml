@@ -8,6 +8,25 @@
 
         <item name="android:windowBackground">@drawable/background_startup</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+
+        <!-- H1 -->
+        <item name="textAppearanceHeadline4">@style/TextAppearance.MaterialComponents.Headline4.H1</item>
+        <!-- H2 -->
+        <item name="textAppearanceHeadline5">@style/TextAppearance.MaterialComponents.Headline5.H2</item>
+        <!-- Button -->
+        <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button.Button</item>
+        <!-- Subhead-18 -->
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.MaterialComponents.Subtitle1.Subhead18</item>
+        <!-- Subhead-14 -->
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.MaterialComponents.Subtitle2.Subhead14</item>
+        <!-- Body -->
+        <item name="textAppearanceBody1">@style/TextAppearance.MaterialComponents.Body1.Body</item>
+        <!-- Small Body -->
+        <item name="textAppearanceBody2">@style/TextAppearance.MaterialComponents.Body2.SmallBody</item>
+        <!-- Caption -->
+        <item name="textAppearanceCaption">@style/TextAppearance.MaterialComponents.Caption.Caption</item>
+        <!-- Extra small -->
+        <item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline.ExtraSmall</item>
     </style>
 
     <!-- Theme for android layout preview with main background color -->
@@ -33,7 +52,8 @@
     </style>
 
     <style name="AppToolbarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-
+        <item name="android:textAppearance">?attr/textAppearanceButton</item>
+        <item name="android:background">@drawable/background_bottom_corners</item>
     </style>
 
     <style name="Logo">
@@ -55,6 +75,7 @@
     <style name="TextInputAuthStyle" parent="TextInputStyle">
         <item name="android:layout_marginStart">@dimen/_16sdp</item>
         <item name="android:layout_marginEnd">@dimen/_16sdp</item>
+        <item name="android:textAppearance">?attr/textAppearanceBody2</item>
     </style>
 
     <style name="AuthSearchView" parent="AppTheme">
@@ -66,8 +87,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/darkBlue</item>
-        <item name="android:textSize">@dimen/_14sdp</item>
-        <item name="android:fontFamily">@font/open_sans</item>
+        <item name="android:textAppearance">?attr/textAppearanceBody1</item>
         <item name="android:layout_marginStart">@dimen/_16sdp</item>
         <item name="android:layout_marginEnd">@dimen/_16sdp</item>
     </style>
@@ -76,28 +96,21 @@
         <item name="android:textDirection">locale</item>
     </style>
 
-    <style name="Text.BlockHeader" parent="TextDirectionLocale">
-        <item name="android:textSize">@dimen/_16ssp</item>
-        <item name="android:textColor">@color/darkBlue</item>
-    </style>
-
-    <style name="Text.BlockHeaderBold" parent="Text.BlockHeader">
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="Text.CheckoutFilled" parent="TextDirectionLocale">
-        <item name="android:textSize">@dimen/_12ssp</item>
-        <item name="android:textColor">@color/darkBlue</item>
-    </style>
-
-    <style name="Text.CheckoutEdit" parent="TextDirectionLocale">
-        <item name="android:textSize">@dimen/_10ssp</item>
-        <item name="android:textColor">@color/primaryBlue</item>
-    </style>
-
     <style name="Recycler">
         <item name="android:scrollbars">none</item>
         <item name="android:overScrollMode">never</item>
         <item name="android:splitMotionEvents">false</item>
     </style>
+
+    <!-- New styles -->
+    <style name="InactiveText">
+        <item name="android:textAppearance">?attr/textAppearanceOverline</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="ActiveText">
+        <item name="android:textAppearance">?attr/textAppearanceOverline</item>
+        <item name="android:textColor">@color/primaryBlue</item>
+    </style>
+
 </resources>
