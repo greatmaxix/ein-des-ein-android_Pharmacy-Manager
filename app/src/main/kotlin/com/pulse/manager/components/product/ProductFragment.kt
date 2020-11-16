@@ -59,6 +59,7 @@ class ProductFragment(private val viewModel: ProductViewModel) : BaseProductFrag
         tvPriceUnavailable.visibleOrGone(aggregation == null)
 
         tvAnalog.text = substance
+        mcvAnalog.animateVisibleOrGoneIfNot(substance != null)
 
         ivCategory.setImageResource(R.drawable.ic_vaccine)
         tvCategoryDes.text = category
