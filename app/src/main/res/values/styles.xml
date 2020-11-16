@@ -9,23 +9,14 @@
         <item name="android:windowBackground">@drawable/background_startup</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
 
-        <!-- H1 -->
         <item name="textAppearanceHeadline4">@style/TextAppearance.MaterialComponents.Headline4.H1</item>
-        <!-- H2 -->
         <item name="textAppearanceHeadline5">@style/TextAppearance.MaterialComponents.Headline5.H2</item>
-        <!-- Button -->
         <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button.Button</item>
-        <!-- Subhead-18 -->
         <item name="textAppearanceSubtitle1">@style/TextAppearance.MaterialComponents.Subtitle1.Subhead18</item>
-        <!-- Subhead-14 -->
         <item name="textAppearanceSubtitle2">@style/TextAppearance.MaterialComponents.Subtitle2.Subhead14</item>
-        <!-- Body -->
         <item name="textAppearanceBody1">@style/TextAppearance.MaterialComponents.Body1.Body</item>
-        <!-- Small Body -->
         <item name="textAppearanceBody2">@style/TextAppearance.MaterialComponents.Body2.SmallBody</item>
-        <!-- Caption -->
         <item name="textAppearanceCaption">@style/TextAppearance.MaterialComponents.Caption.Caption</item>
-        <!-- Extra small -->
         <item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline.ExtraSmall</item>
     </style>
 
