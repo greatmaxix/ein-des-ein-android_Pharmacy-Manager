@@ -13,7 +13,7 @@ class Product(
 ) : ProductLite(), Parcelable {
 
     val substance
-        get() = substances.first()
+        get() = if (substances.isEmpty()) "" else substances.firstOrNull()
 
     @ExperimentalPagingApi
     val getFullManufacture
