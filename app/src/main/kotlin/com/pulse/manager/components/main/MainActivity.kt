@@ -86,7 +86,7 @@ class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, Mai
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.isTopLevelDestination) bottomNavMain.translateYUp() else bottomNavMain.translateYDown()
             viewModel.setChatForeground(destination.id == R.id.nav_chat)
-            changeSelection(destination)
+            changeSelection(destination.id)
         }
         translationZ = 1f
     }

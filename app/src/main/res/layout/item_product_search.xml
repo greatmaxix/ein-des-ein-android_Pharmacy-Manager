@@ -26,7 +26,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -43,7 +43,7 @@
             app:layout_constraintTop_toTopOf="@+id/ivWish"
             tools:text="Название товара..." />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvSubTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             tools:text="Таблетки шипучие, 20 мг" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvManufacture"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
             app:layout_constraintVertical_bias="0.0"
             tools:text="Производитель, Россия" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvPriceUnavailable"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/ivProduct"
             app:layout_constraintStart_toStartOf="@+id/tvTitle" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvPricePrefix"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/ivProduct"
             app:layout_constraintStart_toStartOf="@+id/tvTitle" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvProductPrice"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
