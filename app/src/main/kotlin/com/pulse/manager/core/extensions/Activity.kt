@@ -5,6 +5,7 @@ import android.graphics.Rect
 import android.view.ViewGroup
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.FontRes
 import androidx.fragment.app.FragmentActivity
 import com.pulse.manager.core.base.fragment.dialog.AlertDialogData
 import com.pulse.manager.core.base.fragment.dialog.AlertDialogDataRes
@@ -60,3 +61,5 @@ fun Activity.alertRes(message: String, block: AlertDialogDataRes.() -> Unit) = A
             isCancelable = cancelable
         }
 }
+
+fun Activity.font(@FontRes fontId: Int) = resources.getFont(fontId)

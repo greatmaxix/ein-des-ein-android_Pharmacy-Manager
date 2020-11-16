@@ -16,9 +16,8 @@
         android:visibility="gone"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_4sdp"
-        android:fontFamily="@font/open_sans"
+        android:textAppearance="?attr/textAppearanceBody2"
         android:padding="@dimen/_16sdp"
-        android:textColor="@color/darkBlue"
-        android:textSize="@dimen/_12ssp" />
+        android:textColor="@color/darkBlue" />
 
 </LinearLayout>

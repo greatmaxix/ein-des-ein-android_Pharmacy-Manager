@@ -25,6 +25,7 @@ import com.pulse.manager.components.mercureService.model.MercureResponse
 import com.pulse.manager.components.mercureService.repository.MercureRepository
 import com.pulse.manager.core.extensions.notificationManager
 import com.pulse.manager.data.rest.response.SingleItemModel
+import com.pulse.manager.util.Constants
 import kotlinx.coroutines.*
 import okhttp3.Request
 import okhttp3.Response
@@ -141,7 +142,7 @@ class MercureEventListenerService : Service(), CoroutineScope, LifecycleObserver
             isRunning = true
             launch(Dispatchers.IO) {
                 val topicName = repository.getTopicName()
-                val path = "$SERVICE_BASE_URL?topic=$topicName"
+                val path = "${if (Constants.DEV_ENVIRONMENT) DEV_SERVICE_BASE_URL else RELEASE_SERVICE_BASE_URL}?topic=$topicName"
                 request = Request.Builder()
                     .url(path)
                     .build()
@@ -179,8 +180,8 @@ class MercureEventListenerService : Service(), CoroutineScope, LifecycleObserver
 
     companion object {
 
-        // DEV https://mercure.pharmacies.fmc-dev.com/ RELEASE https://mercure.pharmacies.release.fmc-dev.com/
-        private const val SERVICE_BASE_URL = "https://mercure.pharmacies.release.fmc-dev.com/.well-known/mercure"
+        private const val DEV_SERVICE_BASE_URL = "https://mercure.pharmacies.fmc-dev.com/.well-known/mercure"
+        private const val RELEASE_SERVICE_BASE_URL = "https://mercure.pharmacies.release.fmc-dev.com/.well-known/mercure"
         private val MERCURE_NOTIFICATION_CHANNEL_ID = UUID.randomUUID().toString()
         private const val MERCURE_NOTIFICATION_CHANNEL_NAME = "Chat notification channel" // TODO set proper value
 

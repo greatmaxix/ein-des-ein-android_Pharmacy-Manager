@@ -23,7 +23,8 @@
         android:layout_height="@dimen/bottomNavHeight"
         android:layout_gravity="bottom"
         android:translationY="@dimen/bottomNavHeight"
-        app:itemTextColor="@color/selector_navigation_item"
+        app:itemTextAppearanceActive="@style/ActiveText"
+        app:itemTextAppearanceInactive="@style/InactiveText"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_navigation"
         tools:translationY="0dp" />

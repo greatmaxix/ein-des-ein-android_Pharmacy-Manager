@@ -18,6 +18,34 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
+        <LinearLayout
+            android:id="@+id/llHeaderContainer"
+            android:layout_marginBottom="@dimen/_13sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:text="@string/have_questions"
+                android:textAppearance="?attr/textAppearanceHeadline4"
+                android:textColor="@color/colorGlobalWhite" />
+
+            <ImageView
+                android:id="@+id/ivSearch"
+                android:layout_width="wrap_content"
+                android:padding="@dimen/_8sdp"
+                android:background="@drawable/background_default_ripple_selector_circle"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_search" />
+
+        </LinearLayout>
+
         <com.pulse.manager.widget.AppSearchView
             android:id="@+id/searchViewNeedHelp"
             android:layout_width="match_parent"

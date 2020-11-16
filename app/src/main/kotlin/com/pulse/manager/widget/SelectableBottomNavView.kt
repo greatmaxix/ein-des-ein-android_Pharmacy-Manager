@@ -9,7 +9,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
-import androidx.navigation.NavDestination
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -34,11 +33,9 @@ class SelectableBottomNavView @JvmOverloads constructor(
     var navItems: List<NavItem> = listOf()
         set(value) {
             field = value
-            updateProfileIconState()
-            value.forEach {
-                setItemColor(it, defaultColor)
-            }
-            setItemColor(if (lastSelectedItem != null) lastSelectedItem!! else value.first(), selectedColor)
+            value.resetSelection()
+            val firstItem = value.first()
+            changeSelection(firstItem.navigationItemResId)
         }
 
     private fun setItemColor(it: NavItem, @ColorInt color: Int) {
@@ -50,64 +47,63 @@ class SelectableBottomNavView @JvmOverloads constructor(
     }
 
     private fun updateProfileIconState(selected: Boolean = false) {
-        val item = navItems.firstOrNull { it.iconUrl != null }
+        val item = navItems.firstOrNull { it.isProfileItem }
         if (item != null) {
-            if (item.iconUrl.isNullOrEmpty().not()) {
-                Glide.with(context)
-                    .asBitmap()
-                    .load(item.iconUrl)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .placeholder(R.drawable.ic_avatar_placeholder)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(object : CustomTarget<Bitmap>(AVATAR_SIZE, AVATAR_SIZE) {
-                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                            menu.findItem(item.menuItemId)?.icon = resource.run {
-                                RoundedBitmapDrawableFactory.create(
-                                    resources,
-                                    if (selected) createBitmapWithBorder(selectedBorder, selectedColor) else this
-                                ).apply {
-                                    isCircular = true
-                                }
+            Glide.with(context)
+                .asBitmap()
+                .load(item.iconUrl ?: R.drawable.ic_avatar_placeholder)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .placeholder(R.drawable.ic_avatar_placeholder)
+                .apply(RequestOptions.circleCropTransform())
+                .into(object : CustomTarget<Bitmap>(AVATAR_SIZE, AVATAR_SIZE) {
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        menu.findItem(item.menuItemId)?.icon = resource.run {
+                            RoundedBitmapDrawableFactory.create(
+                                resources,
+                                if (selected) createBitmapWithBorder(selectedBorder, selectedColor) else this
+                            ).apply {
+                                isCircular = true
                             }
                         }
+                    }
 
-                        override fun onLoadCleared(placeholder: Drawable?) {
-                            // no op
-                        }
-                    })
-            } else {
-                menu.findItem(item.menuItemId)?.icon = context.compatDrawable(R.drawable.ic_avatar_placeholder)
-            }
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        // no op
+                    }
+                })
         }
     }
 
-    fun changeSelection(destination: NavDestination) {
+    fun changeSelection(@IdRes destinationId: Int) {
         if (navItems.isEmpty()) throw Throwable("You must set navItems first")
 
-        val currentNavItem = navItems.find { it.navigationItemResId == destination.id }
+        val currentNavItem = navItems.find { it.navigationItemResId == destinationId } ?: return
         lastSelectedItem?.let {
             when {
-                it.iconUrl != null -> updateProfileIconState(false)
+                it.isProfileItem -> updateProfileIconState(false)
                 else -> setItemColor(it, defaultColor)
             }
         }
-        currentNavItem?.let {
-            when {
-                it.iconUrl != null -> updateProfileIconState(true)
-                else -> setItemColor(it, selectedColor)
-            }
-        } ?: run {
-            setItemColor(navItems.first(), selectedColor)
+        when {
+            currentNavItem.isProfileItem -> updateProfileIconState(true)
+            else -> setItemColor(currentNavItem, selectedColor)
         }
-
         lastSelectedItem = currentNavItem
+    }
+
+    private fun List<NavItem>.resetSelection() {
+        forEach {
+            if (it.isProfileItem) updateProfileIconState(false)
+            else setItemColor(it, defaultColor)
+        }
     }
 
     data class NavItem(
         @IdRes val menuItemId: Int,
         @IdRes val navigationItemResId: Int,
         @DrawableRes val iconResId: Int?,
+        val isProfileItem: Boolean = false,
         val iconUrl: String?
     )
 

@@ -10,6 +10,7 @@ import com.pulse.manager.data.rest.interceptor.HeaderInterceptor
 import com.pulse.manager.data.rest.serializer.CategoryDeserializer
 import com.pulse.manager.data.rest.serializer.DateTimeSerializer
 import com.pulse.manager.data.rest.serializer.StringDeserializer
+import com.pulse.manager.util.Constants
 import okhttp3.OkHttpClient
 import okhttp3.internal.platform.Platform
 import org.koin.dsl.module
@@ -18,8 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 
-// DEV - "https://api.pharmacies.fmc-dev.com" RELEASE - "https://api.pharmacies.release.fmc-dev.com"
-private const val BASE_URL = "https://api.pharmacies.release.fmc-dev.com"
+private const val DEV_BASE_URL = "https://api.pharmacies.fmc-dev.com"
+private const val RELEASE_BASE_URL = "https://api.pharmacies.release.fmc-dev.com"
 private const val READ_TIMEOUT = 30L
 private const val CONNECT_TIMEOUT = 60L
 private const val WRITE_TIMEOUT = 120L
@@ -30,7 +31,7 @@ val restModule = module {
 
     single {
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(if (Constants.DEV_ENVIRONMENT) DEV_BASE_URL else RELEASE_BASE_URL)
             .addCallAdapterFactory(FlowCallAdapterFactory.create)
             .addConverterFactory(GsonConverterFactory.create(get()))
             .client(get())

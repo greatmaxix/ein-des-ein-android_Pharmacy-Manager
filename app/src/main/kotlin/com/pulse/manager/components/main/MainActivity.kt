@@ -47,10 +47,10 @@ class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, Mai
     override fun onBindLiveData() {
         observe(viewModel.userLiveData) {
             bottomNavMain.navItems = listOf(
-                SelectableBottomNavView.NavItem(R.id.nav_home, R.id.nav_home, R.drawable.ic_home, null),
-                SelectableBottomNavView.NavItem(R.id.nav_categories, R.id.nav_categories, R.drawable.ic_category, null),
-                SelectableBottomNavView.NavItem(R.id.nav_chat_list, R.id.nav_chat_list, R.drawable.ic_chat, null),
-                SelectableBottomNavView.NavItem(R.id.graph_profile, R.id.nav_profile, null, avatar?.url)
+                SelectableBottomNavView.NavItem(R.id.nav_home, R.id.nav_home, R.drawable.ic_home, false, null),
+                SelectableBottomNavView.NavItem(R.id.nav_categories, R.id.nav_categories, R.drawable.ic_category, false, null),
+                SelectableBottomNavView.NavItem(R.id.nav_chat_list, R.id.nav_chat_list, R.drawable.ic_chat, false, null),
+                SelectableBottomNavView.NavItem(R.id.graph_profile, R.id.nav_profile, null, true, avatar?.url)
             )
         }
     }
@@ -75,10 +75,10 @@ class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, Mai
         setTopRoundCornerBackground()
         itemIconTintList = null
         navItems = listOf(
-            SelectableBottomNavView.NavItem(R.id.nav_home, R.id.nav_home, R.drawable.ic_home, null),
-            SelectableBottomNavView.NavItem(R.id.nav_categories, R.id.nav_categories, R.drawable.ic_category, null),
-            SelectableBottomNavView.NavItem(R.id.nav_chat_list, R.id.nav_chat_list, R.drawable.ic_chat, null),
-            SelectableBottomNavView.NavItem(R.id.graph_profile, R.id.nav_profile, null, null)
+            SelectableBottomNavView.NavItem(R.id.nav_home, R.id.nav_home, R.drawable.ic_home, false, null),
+            SelectableBottomNavView.NavItem(R.id.nav_categories, R.id.nav_categories, R.drawable.ic_category, false, null),
+            SelectableBottomNavView.NavItem(R.id.nav_chat_list, R.id.nav_chat_list, R.drawable.ic_chat, false, null),
+            SelectableBottomNavView.NavItem(R.id.graph_profile, R.id.nav_profile, null, true, null)
         )
 
         setupWithNavController(navController)
@@ -86,7 +86,7 @@ class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, Mai
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.isTopLevelDestination) bottomNavMain.translateYUp() else bottomNavMain.translateYDown()
             viewModel.setChatForeground(destination.id == R.id.nav_chat)
-            changeSelection(destination)
+            changeSelection(destination.id)
         }
         translationZ = 1f
     }

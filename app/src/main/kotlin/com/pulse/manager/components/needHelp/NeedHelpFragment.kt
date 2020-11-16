@@ -7,9 +7,10 @@ import androidx.lifecycle.lifecycleScope
 import com.pulse.manager.R
 import com.pulse.manager.components.needHelp.adapter.HelpAdapter
 import com.pulse.manager.core.base.mvvm.BaseMVVMFragment
-import com.pulse.manager.core.extensions.animateGoneIfNot
 import com.pulse.manager.core.extensions.animateVisibleIfNot
 import com.pulse.manager.core.extensions.falseIfNull
+import com.pulse.manager.core.extensions.gone
+import com.pulse.manager.core.extensions.setDebounceOnClickListener
 import com.pulse.manager.data.DummyData
 import kotlinx.android.synthetic.main.fragment_need_help.*
 import kotlinx.coroutines.launch
@@ -23,23 +24,16 @@ class NeedHelpFragment(private val vm: NeedHelpViewModel) : BaseMVVMFragment(R.l
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        showBackButton()
+        showBackButton { clickBack() }
 
-        initMenu(R.menu.search) {
-            it.isVisible = false
+        ivSearch.setDebounceOnClickListener {
+            llHeaderContainer.gone()
             searchViewNeedHelp.animateVisibleIfNot()
             searchViewNeedHelp.requestFocus()
-            true
+            toolbar?.title = getString(R.string.have_questions)
         }
 
-        attachBackPressCallback {
-            if (searchViewNeedHelp.isVisible) {
-                searchViewNeedHelp.animateGoneIfNot()
-                toolbar?.menu?.findItem(R.id.search)?.isVisible = true
-            } else {
-                navController.popBackStack()
-            }
-        }
+        attachBackPressCallback { clickBack() }
 
         searchViewNeedHelp.setSearchListener { text ->
             viewLifecycleOwner.lifecycleScope.launch {
@@ -51,6 +45,16 @@ class NeedHelpFragment(private val vm: NeedHelpViewModel) : BaseMVVMFragment(R.l
         }
 
         initHelpList()
+    }
+
+    private fun clickBack() {
+        if (searchViewNeedHelp.isVisible) {
+            searchViewNeedHelp.gone()
+            llHeaderContainer.animateVisibleIfNot()
+            toolbar?.title = null
+        } else {
+            navController.popBackStack()
+        }
     }
 
     private fun initHelpList() {

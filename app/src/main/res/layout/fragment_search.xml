@@ -67,7 +67,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvSearchResult"
-        style="@style/Text.CheckoutFilled"
+        android:textAppearance="?attr/textAppearanceBody2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_16sdp"
@@ -79,7 +79,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvSort"
-        style="@style/Text.CheckoutFilled"
+        android:textAppearance="?attr/textAppearanceBody2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_8sdp"

@@ -85,7 +85,7 @@
     <fragment
         android:id="@+id/nav_need_help"
         android:name="com.pulse.manager.components.needHelp.NeedHelpFragment"
-        android:label="Need Help"
+        android:label="@null"
         tools:layout="@layout/fragment_need_help" />
 
 </navigation>

@@ -14,7 +14,7 @@ data class BaseDataResponse<T>(
     val isSuccess
         get() = status == "success"
 
-    fun dataOrThrow() = if (isSuccess) data else throw GeneralException(message, errorType = errorType, data = violations)
+    fun dataOrThrow() = if (isSuccess) data else throw GeneralException.someException()
 }
 
 data class Violation(

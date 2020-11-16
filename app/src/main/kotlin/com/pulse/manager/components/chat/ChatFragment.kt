@@ -216,7 +216,7 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
                 toolbar?.title = customer.name
                 toolbar?.menu?.findItem(R.id.closeRequest)?.isVisible = isAbleToWrite && it.status != ChatItem.STATUS_OPENED
                 llMessageFieldChat.isVisible = isAbleToWrite
-
+                if (!isAbleToWrite) hideKeyboard()
                 if (args.chat.isAbleToWrite) {
                     if (isAutomaticClosed) showChatEndDialog()
                     else if (isClosed) showChatEndDialog()

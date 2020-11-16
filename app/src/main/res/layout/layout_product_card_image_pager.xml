@@ -39,7 +39,7 @@
         android:paddingEnd="@dimen/_12sdp"
         android:text="@string/productImageDiffDescription"
         android:textColor="@color/grey"
-        android:textSize="@dimen/_9ssp"
+        android:textAppearance="?attr/textAppearanceOverline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productImagePager" />
