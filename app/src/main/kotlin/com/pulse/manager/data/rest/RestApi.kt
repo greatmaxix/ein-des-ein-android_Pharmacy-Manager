@@ -20,7 +20,7 @@ interface RestApi {
 
     @WorkerThread
     @Headers(HEADER_IGNORE_AUTHORIZATION)
-    @POST("${API_PATH}/user/login")
+    @POST("${API_PATH}/user/pharmacist/login")
     suspend fun login(@Body body: LogInRequest): BaseDataResponse<LogInResponse>
 
     @WorkerThread

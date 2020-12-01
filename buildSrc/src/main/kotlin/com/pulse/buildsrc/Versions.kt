@@ -1,7 +1,7 @@
 object Versions {
 
     // kotlin
-    const val kotlinVersion = "1.4.20-RC"
+    const val kotlinVersion = "1.4.20"
 
     // nav components
     const val navigationFragment = "2.3.1"
@@ -22,7 +22,7 @@ object Versions {
     const val lifecycleCommon = lifecycleRuntime
 
     // coroutines
-    const val coroutinesCore = "1.4.1"
+    const val coroutinesCore = "1.4.2"
     const val coroutinesAndroid = coroutinesCore
 
     // koin di
@@ -53,7 +53,7 @@ object Versions {
     // coreUtils
     const val crashlytics = "17.3.0"
     const val timber = "4.7.1"
-    const val kPermissions = "3.1.2"
+    const val kPermissions = "3.1.3"
     const val cryptoPrefs = "1.1.0-alpha02"
     const val firebaseAnalytics = "18.0.0"
     const val firebaseMessaging = "21.0.0"
