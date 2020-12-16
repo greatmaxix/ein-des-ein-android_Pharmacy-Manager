@@ -4,7 +4,7 @@ class Constants {
 
     companion object {
 
-        const val DEV_ENVIRONMENT = false
+        const val DEV_ENVIRONMENT = true
 
         const val TEMP_PHOTO_FILE_NAME = "temp_photo.jpg"
         const val PAGE_SIZE = 20
