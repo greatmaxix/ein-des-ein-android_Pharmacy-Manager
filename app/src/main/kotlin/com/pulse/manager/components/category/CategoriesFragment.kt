@@ -63,6 +63,11 @@ class CategoriesFragment : BaseMVVMFragment(R.layout.fragment_categories) {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        searchViewCategories.setText("") // TODO review this case
+    }
+
     override fun onBindLiveData() {
         observe(viewModel.directionLiveData, navController::navigate)
         observe(viewModel.navigateBackLiveData) { navigationBack() }
