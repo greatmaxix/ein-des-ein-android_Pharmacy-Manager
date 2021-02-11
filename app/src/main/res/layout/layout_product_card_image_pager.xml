@@ -7,7 +7,7 @@
     android:paddingTop="@dimen/_4sdp">
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/productImagePager"
+        android:id="@+id/vp_image"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_190sdp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,22 +15,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/productImagePagerIndicator"
+        android:id="@+id/tabs_indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/transparent"
         android:layout_marginBottom="@dimen/_8sdp"
-        app:layout_constraintBottom_toBottomOf="@+id/productImagePager"
-        app:layout_constraintEnd_toEndOf="@+id/productImagePager"
-        app:layout_constraintStart_toStartOf="@+id/productImagePager"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/vp_image"
+        app:layout_constraintEnd_toEndOf="@+id/vp_image"
+        app:layout_constraintStart_toStartOf="@+id/vp_image"
         app:tabBackground="@drawable/selector_pager_indicator"
         app:tabGravity="center"
         app:tabIndicatorHeight="0dp"
         app:tabRippleColor="@null" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/productImageDiffDescription"
+        android:id="@+id/mtv_diff_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_12sdp"
@@ -38,21 +38,21 @@
         android:paddingStart="@dimen/_12sdp"
         android:paddingEnd="@dimen/_12sdp"
         android:text="@string/productImageDiffDescription"
-        android:textColor="@color/grey"
         android:textAppearance="?attr/textAppearanceOverline"
+        android:textColor="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/productImagePager" />
+        app:layout_constraintTop_toBottomOf="@+id/vp_image" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivProductDetailAbsent"
+        android:id="@+id/iv_detail_absent"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
         android:src="@drawable/default_product_image"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/productImageDiffDescription"
+        app:layout_constraintBottom_toTopOf="@id/mtv_diff_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

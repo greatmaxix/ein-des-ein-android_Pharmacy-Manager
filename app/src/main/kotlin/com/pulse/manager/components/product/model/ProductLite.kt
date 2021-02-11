@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.pulse.manager.App
-import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.FlowPreview
+import kotlinx.parcelize.Parcelize
 import org.koin.core.KoinExperimentalAPI
 import java.util.*
 

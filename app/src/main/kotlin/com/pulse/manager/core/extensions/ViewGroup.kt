@@ -15,3 +15,6 @@ fun ViewGroup.dimension(@DimenRes dimenResId: Int) = resources.getDimension(dime
 
 val ViewGroup.lastChild: View
     get() = getChildAt(childCount - 1)
+
+val ViewGroup.inflater
+    get() = context.inflater

@@ -4,10 +4,10 @@ import com.pulse.manager.components.chat.model.message.MessageDAO
 import com.pulse.manager.components.chat.model.message.MessageItem
 import com.pulse.manager.components.chat.model.remoteKeys.MessagesRemoteKeys.Companion.createRemoteKey
 import com.pulse.manager.components.chat.model.remoteKeys.MessagesRemoteKeysDAO
-import com.pulse.manager.components.chatList.model.chat.ChatItem
-import com.pulse.manager.components.chatList.model.chat.ChatItemDAO
-import com.pulse.manager.components.chatList.model.remoteKeys.ChatsRemoteKeys
-import com.pulse.manager.components.chatList.model.remoteKeys.ChatsRemoteKeysDAO
+import com.pulse.manager.components.chat_list.model.chat.ChatItem
+import com.pulse.manager.components.chat_list.model.chat.ChatItemDAO
+import com.pulse.manager.components.chat_list.model.remoteKeys.ChatsRemoteKeys
+import com.pulse.manager.components.chat_list.model.remoteKeys.ChatsRemoteKeysDAO
 import com.pulse.manager.components.signIn.model.UserDAO
 import com.pulse.manager.data.local.SPManager
 import java.time.LocalDateTime

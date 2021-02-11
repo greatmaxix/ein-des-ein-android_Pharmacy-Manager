@@ -2,7 +2,6 @@ package com.pulse.manager.components.chat.adapter
 
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import com.pulse.manager.components.chat.adapter.viewHolder.*
 import com.pulse.manager.components.chat.model.message.MessageItem
 import com.pulse.manager.core.adapter.BaseViewHolder
 

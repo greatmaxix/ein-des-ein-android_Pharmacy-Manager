@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-import com.pulse.manager.components.chatList.model.AvatarShort
+import com.pulse.manager.components.chat_list.model.AvatarShort
 
 @Entity
 data class User(

@@ -4,7 +4,7 @@ import com.pulse.manager.components.chat.dialog.SendBottomSheetDialogFragment
 import com.pulse.manager.components.chat.repository.ChatLocalDataSource
 import com.pulse.manager.components.chat.repository.ChatRemoteDataSource
 import com.pulse.manager.components.chat.repository.ChatRepository
-import com.pulse.manager.components.chatList.model.chat.ChatItem
+import com.pulse.manager.components.chat_list.model.chat.ChatItem
 import com.pulse.manager.data.local.DBManager
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.ext.koin.androidApplication

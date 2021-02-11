@@ -8,7 +8,7 @@
     android:paddingBottom="@dimen/bottomNavHeight">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clToolbarContainerHome"
+        android:id="@+id/cl_toolbar_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_bottom_corners"
@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
@@ -27,17 +27,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardSearchHome"
+            android:id="@+id/mcv_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_12sdp"
             android:backgroundTint="@color/searchBackgroundBlue"
             app:cardCornerRadius="@dimen/_16sdp"
             app:cardElevation="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/cardScanHome"
-            app:layout_constraintEnd_toStartOf="@id/cardScanHome"
+            app:layout_constraintBottom_toBottomOf="@+id/mcv_scan"
+            app:layout_constraintEnd_toStartOf="@id/mcv_scan"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/cardScanHome"
+            app:layout_constraintTop_toTopOf="@+id/mcv_scan"
             app:rippleColor="@color/colorRippleWhiteSemiTransparent">
 
             <com.google.android.material.textview.MaterialTextView
@@ -56,7 +56,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardScanHome"
+            android:id="@+id/mcv_scan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_12sdp"
@@ -68,11 +68,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:rippleColor="@color/colorRippleWhiteSemiTransparent">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/cardSearchHome"
-                android:layout_alignBottom="@id/cardSearchHome"
+                android:layout_alignTop="@id/mcv_search"
+                android:layout_alignBottom="@id/mcv_search"
                 android:padding="@dimen/_6sdp"
                 android:src="@drawable/ic_barcode" />
 
@@ -87,14 +87,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clToolbarContainerHome">
+        app:layout_constraintTop_toBottomOf="@+id/cl_toolbar_container">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardChatRequestsHome"
+                android:id="@+id/mcv_chat_requests"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="@dimen/_100sdp"
                 android:layout_marginStart="@dimen/_12sdp"
@@ -104,7 +104,7 @@
                 app:cardElevation="@dimen/_3sdp"
                 app:cardUseCompatPadding="true"
                 app:contentPadding="@dimen/_8sdp"
-                app:layout_constraintEnd_toStartOf="@+id/cardSoonHome"
+                app:layout_constraintEnd_toStartOf="@+id/mcv_soon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -113,50 +113,50 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|top">
 
-                    <ImageView
-                        android:id="@+id/ivAvatar4Home"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_avatar_4"
                         android:layout_width="@dimen/_32sdp"
                         android:layout_height="@dimen/_32sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:src="@drawable/ic_avatar_placeholder" />
 
-                    <ImageView
-                        android:id="@+id/ivAvatar3Home"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_avatar_3"
                         android:layout_width="@dimen/_32sdp"
                         android:layout_height="@dimen/_32sdp"
                         android:layout_marginEnd="@dimen/_12sdp"
-                        app:layout_constraintEnd_toEndOf="@+id/ivAvatar4Home"
+                        app:layout_constraintEnd_toEndOf="@+id/iv_avatar_4"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:src="@drawable/ic_avatar_placeholder" />
 
-                    <ImageView
-                        android:id="@+id/ivAvatar2Home"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_avatar_2"
                         android:layout_width="@dimen/_32sdp"
                         android:layout_height="@dimen/_32sdp"
                         android:layout_marginEnd="@dimen/_12sdp"
-                        app:layout_constraintEnd_toEndOf="@+id/ivAvatar3Home"
+                        app:layout_constraintEnd_toEndOf="@+id/iv_avatar_3"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:src="@drawable/ic_avatar_placeholder" />
 
-                    <ImageView
-                        android:id="@+id/ivAvatar1Home"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_avatar_1"
                         android:layout_width="@dimen/_32sdp"
                         android:layout_height="@dimen/_32sdp"
                         android:layout_marginEnd="@dimen/_12sdp"
-                        app:layout_constraintEnd_toEndOf="@+id/ivAvatar2Home"
+                        app:layout_constraintEnd_toEndOf="@+id/iv_avatar_2"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:src="@drawable/ic_avatar_placeholder" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tvChatRequestsCounterHome"
+                    android:id="@+id/mtv_chat_requests_counter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceHeadline4"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="@dimen/_24sdp"
+                    android:textAppearance="?attr/textAppearanceHeadline4"
                     android:textColor="@color/colorGlobalWhite"
                     tools:text="64" />
 
@@ -172,7 +172,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardSoonHome"
+                android:id="@+id/mcv_soon"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="@dimen/_100sdp"
                 android:layout_marginStart="@dimen/_4sdp"
@@ -183,17 +183,17 @@
                 app:cardUseCompatPadding="true"
                 app:contentPadding="@dimen/_8sdp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cardChatRequestsHome"
+                app:layout_constraintStart_toEndOf="@+id/mcv_chat_requests"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tvSoonCounterHome"
+                    android:id="@+id/mtv_soon_counter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="@dimen/_24sdp"
-                    android:textColor="@color/colorGlobalWhite"
                     android:textAppearance="?attr/textAppearanceHeadline4"
+                    android:textColor="@color/colorGlobalWhite"
                     android:textSize="@dimen/_28ssp"
                     tools:text="64" />
 
@@ -202,38 +202,38 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="@dimen/_8sdp"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption.Caption2"
                     android:text="@string/willBeSoon"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption.Caption2"
                     android:textColor="@color/colorGlobalWhite" />
 
             </com.google.android.material.card.MaterialCardView>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvChatListHome"
+                android:id="@+id/rv_chat_list"
                 style="@style/Recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardSoonHome" />
+                app:layout_constraintTop_toBottomOf="@+id/mcv_soon" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvRecommendedHome"
+                android:id="@+id/mtv_recommended"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_12sdp"
-                android:textAppearance="?attr/textAppearanceButton"
                 android:text="@string/recentlyRecommended"
+                android:textAppearance="?attr/textAppearanceButton"
                 android:textColor="@color/darkBlue"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rvChatListHome" />
+                app:layout_constraintTop_toBottomOf="@+id/rv_chat_list" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvProductsHome"
+                android:id="@+id/rv_products"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_12sdp"
@@ -246,7 +246,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvRecommendedHome"
+                app:layout_constraintTop_toBottomOf="@+id/mtv_recommended"
                 app:spanCount="2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

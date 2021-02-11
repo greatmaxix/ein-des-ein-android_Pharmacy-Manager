@@ -5,7 +5,7 @@ import androidx.room.*
 import com.google.gson.annotations.SerializedName
 import com.pulse.manager.components.chat.adapter.ChatMessageAdapter
 import com.pulse.manager.components.product.model.Picture
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

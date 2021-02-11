@@ -11,7 +11,7 @@
         layout="@layout/toolbar" />
 
     <com.pulse.manager.widget.AppSearchView
-        android:id="@+id/searchViewCategories"
+        android:id="@+id/view_search"
         android:layout_width="@dimen/match_constraint"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -25,7 +25,7 @@
         app:withBackButton="true" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCategories"
+        android:id="@+id/rv_categories"
         style="@style/Recycler"
         android:layout_width="match_parent"
         android:layout_height="@dimen/match_constraint"

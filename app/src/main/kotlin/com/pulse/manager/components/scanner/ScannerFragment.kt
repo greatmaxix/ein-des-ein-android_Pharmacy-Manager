@@ -8,12 +8,12 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import androidx.lifecycle.lifecycleScope
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.budiyev.android.codescanner.*
 import com.fondesa.kpermissions.allGranted
 import com.fondesa.kpermissions.anyDenied
 import com.fondesa.kpermissions.anyPermanentlyDenied
 import com.fondesa.kpermissions.anyShouldShowRationale
-import com.fondesa.kpermissions.extension.addListener
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.zxing.Result
 import com.pulse.manager.R
@@ -24,7 +24,7 @@ import com.pulse.manager.core.extensions.animateVisibleOrGoneIfNot
 import com.pulse.manager.core.extensions.doWithDelay
 import com.pulse.manager.core.extensions.setDebounceOnClickListener
 import com.pulse.manager.core.extensions.toast
-import kotlinx.android.synthetic.main.fragment_qr_code_scanner.*
+import com.pulse.manager.databinding.FragmentQrCodeScannerBinding
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinApiExtension
@@ -34,12 +34,13 @@ import timber.log.Timber
 class ScannerFragment(private val viewModel: ScannerViewModel) : BaseProductFragment<ScannerViewModel>(R.layout.fragment_qr_code_scanner, viewModel) {
 
     private var codeScanner: CodeScanner? = null
+    private val binding by viewBinding(FragmentQrCodeScannerBinding::bind)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
 
         showBackButton()
-        goToScanBtn.setDebounceOnClickListener { viewModel.descriptionViewed() }
+        mbGoToScan.setDebounceOnClickListener { viewModel.descriptionViewed() }
         checkCameraPermission { initQRCamera() }
     }
 
@@ -86,11 +87,11 @@ class ScannerFragment(private val viewModel: ScannerViewModel) : BaseProductFrag
 
     override fun onBindLiveData() {
         super.onBindLiveData()
-        observe(viewModel.descriptionVisibility) { qrCodeScannerInstructionGroup.animateVisibleOrGoneIfNot(this) }
+        observe(viewModel.descriptionVisibility) { binding.groupCodeScannerInstruction.animateVisibleOrGoneIfNot(this) }
     }
 
     private fun initQRCamera() {
-        codeScanner = CodeScanner(requireContext(), codeScannerView)
+        codeScanner = CodeScanner(requireContext(), binding.viewCodeScanner)
             .apply {
                 camera = CodeScanner.CAMERA_BACK // TODO check on devices with only front camera available
                 formats = CodeScanner.ONE_DIMENSIONAL_FORMATS

@@ -16,7 +16,7 @@
         android:padding="@dimen/_8sdp">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivProduct"
+            android:id="@+id/iv_product"
             android:layout_width="@dimen/_110sdp"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/_8sdp"
@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/mtv_title"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/_8sdp"
@@ -37,41 +37,41 @@
             android:gravity="center|start"
             android:maxLines="1"
             android:textAppearance="?attr/textAppearanceButton"
-            app:layout_constraintBottom_toBottomOf="@+id/ivWish"
-            app:layout_constraintEnd_toStartOf="@+id/ivWish"
-            app:layout_constraintStart_toEndOf="@+id/ivProduct"
-            app:layout_constraintTop_toTopOf="@+id/ivWish"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_wish"
+            app:layout_constraintEnd_toStartOf="@+id/iv_wish"
+            app:layout_constraintStart_toEndOf="@+id/iv_product"
+            app:layout_constraintTop_toTopOf="@+id/iv_wish"
             tools:text="Название товара..." />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvSubTitle"
+            android:id="@+id/mtv_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="3"
             android:textAppearance="?attr/textAppearanceBody2"
-            app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-            app:layout_constraintStart_toStartOf="@+id/tvTitle"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintEnd_toEndOf="@+id/mtv_title"
+            app:layout_constraintStart_toStartOf="@+id/mtv_title"
+            app:layout_constraintTop_toBottomOf="@+id/mtv_title"
             tools:text="Таблетки шипучие, 20 мг" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvManufacture"
+            android:id="@+id/mtv_manufacture"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
             android:ellipsize="end"
             android:maxLines="2"
             android:textAppearance="?attr/textAppearanceCaption"
-            app:layout_constraintBottom_toTopOf="@+id/tvProductPrice"
+            app:layout_constraintBottom_toTopOf="@+id/mtv_product_price"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tvTitle"
-            app:layout_constraintTop_toBottomOf="@+id/tvSubTitle"
+            app:layout_constraintStart_toStartOf="@+id/mtv_title"
+            app:layout_constraintTop_toBottomOf="@+id/mtv_subtitle"
             app:layout_constraintVertical_bias="0.0"
             tools:text="Производитель, Россия" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvPriceUnavailable"
+            android:id="@+id/mtv_price_unavailable"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_4sdp"
@@ -80,22 +80,22 @@
             android:textColor="@color/grey"
             android:textSize="@dimen/_11ssp"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/ivProduct"
-            app:layout_constraintStart_toStartOf="@+id/tvTitle" />
+            app:layout_constraintBottom_toBottomOf="@+id/iv_product"
+            app:layout_constraintStart_toStartOf="@+id/mtv_title" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvPricePrefix"
+            android:id="@+id/mtv_price_prefix"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_4sdp"
             android:text="@string/from"
             android:textAppearance="?attr/textAppearanceCaption"
             android:textColor="@color/primaryBlue"
-            app:layout_constraintBottom_toBottomOf="@+id/ivProduct"
-            app:layout_constraintStart_toStartOf="@+id/tvTitle" />
+            app:layout_constraintBottom_toBottomOf="@+id/iv_product"
+            app:layout_constraintStart_toStartOf="@+id/mtv_title" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvProductPrice"
+            android:id="@+id/mtv_product_price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_4sdp"
@@ -103,18 +103,18 @@
             android:maxLines="1"
             android:textAppearance="?attr/textAppearanceSubtitle1"
             android:textColor="@color/primaryBlue"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tvPricePrefix"
+            app:layout_constraintBaseline_toBaselineOf="@+id/mtv_price_prefix"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvPricePrefix"
+            app:layout_constraintStart_toEndOf="@+id/mtv_price_prefix"
             tools:text="500000 Р" />
 
-        <ImageView
-            android:id="@+id/ivWish"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_wish"
             android:layout_width="@dimen/_28sdp"
             android:layout_height="@dimen/_28sdp"
             android:padding="@dimen/_2sdp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ivProduct" />
+            app:layout_constraintTop_toTopOf="@+id/iv_product" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

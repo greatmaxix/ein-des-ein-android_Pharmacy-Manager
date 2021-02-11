@@ -4,11 +4,10 @@ import android.app.Application
 import androidx.paging.ExperimentalPagingApi
 import androidx.work.WorkManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.pulse.manager.components.aboutApp.aboutAppModule
+import com.pulse.manager.components.about.aboutAppModule
 import com.pulse.manager.components.category.categoriesModule
 import com.pulse.manager.components.chat.chatModule
-import com.pulse.manager.components.chatList.chatListModule
-import com.pulse.manager.components.devTools.devToolsModule
+import com.pulse.manager.components.chat_list.chatListModule
 import com.pulse.manager.components.home.homeModule
 import com.pulse.manager.components.main.mainModule
 import com.pulse.manager.components.mercureService.mercureModule
@@ -74,7 +73,6 @@ class App : Application() {
                 mainModule,
                 restModule,
                 managersModule,
-                devToolsModule,
                 splashModule,
                 signInModule,
                 homeModule,
