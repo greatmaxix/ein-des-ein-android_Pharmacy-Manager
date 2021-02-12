@@ -180,3 +180,7 @@ val View.isKeyboardNotOpen
     get() = !isKeyboardOpen
 
 fun View.font(@FontRes fontId: Int) = resources.getFont(fontId)
+
+fun View.mockToast(text: String = context.getString(R.string.expectSoonMock)) = this.setDebounceOnClickListener {
+    context.toast(text)
+}

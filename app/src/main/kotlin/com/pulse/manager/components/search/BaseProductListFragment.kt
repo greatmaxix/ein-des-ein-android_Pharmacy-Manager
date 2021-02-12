@@ -24,7 +24,7 @@ abstract class BaseProductListFragment<VM : BaseProductViewModel>(@LayoutRes pri
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<RecyclerView>(R.id.rvProducts)?.apply {
+        view.findViewById<RecyclerView>(R.id.rv_products)?.apply {
             adapter = productAdapter
             addAutoKeyboardCloser()
         }

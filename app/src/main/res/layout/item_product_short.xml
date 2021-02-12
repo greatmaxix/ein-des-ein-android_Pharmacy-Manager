@@ -14,8 +14,8 @@
         android:clipToPadding="false"
         android:padding="@dimen/_8sdp">
 
-        <ImageView
-            android:id="@+id/ivProductImage"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_product"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_80sdp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvProductTitle"
+            android:id="@+id/mtv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
@@ -34,11 +34,11 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivProductImage"
+            app:layout_constraintTop_toBottomOf="@+id/iv_product"
             tools:text="Название товара" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvProductDescription"
+            android:id="@+id/mtv_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
@@ -47,38 +47,38 @@
             android:maxLines="1"
             android:textColor="@color/darkBlue"
             android:textSize="@dimen/_10ssp"
-            app:layout_constraintBottom_toTopOf="@+id/tvProductPrice"
+            app:layout_constraintBottom_toTopOf="@+id/mtv_product_price"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvProductTitle"
+            app:layout_constraintTop_toBottomOf="@+id/mtv_title"
             tools:text="Название товара" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvPricePrefix"
+            android:id="@+id/mtv_price_prefix"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/from"
             android:textAppearance="?attr/textAppearanceCaption"
             android:textColor="@color/primaryBlue"
-            app:layout_constraintBottom_toBottomOf="@+id/tvProductPrice"
+            app:layout_constraintBottom_toBottomOf="@+id/mtv_product_price"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvProductPrice"
+            android:id="@+id/mtv_product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_4sdp"
             android:textColor="@color/primaryBlue"
             android:textSize="@dimen/_15ssp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/tvPricePrefix"
-            app:layout_constraintStart_toEndOf="@+id/tvPricePrefix"
+            app:layout_constraintBottom_toBottomOf="@+id/mtv_price_prefix"
+            app:layout_constraintStart_toEndOf="@+id/mtv_price_prefix"
             tools:text="568 ₽" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvRecipe"
+        android:id="@+id/mtv_recipe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/background_recipe_badge"

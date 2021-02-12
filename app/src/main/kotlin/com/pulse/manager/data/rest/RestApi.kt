@@ -4,8 +4,8 @@ import androidx.annotation.WorkerThread
 import com.pulse.manager.components.category.model.Category
 import com.pulse.manager.components.chat.model.SendMessageBody
 import com.pulse.manager.components.chat.model.message.MessageItem
-import com.pulse.manager.components.chatList.model.AvatarShort
-import com.pulse.manager.components.chatList.model.chat.ChatItem
+import com.pulse.manager.components.chat_list.model.AvatarShort
+import com.pulse.manager.components.chat_list.model.chat.ChatItem
 import com.pulse.manager.components.product.model.Product
 import com.pulse.manager.components.product.model.ProductLite
 import com.pulse.manager.components.signIn.model.User

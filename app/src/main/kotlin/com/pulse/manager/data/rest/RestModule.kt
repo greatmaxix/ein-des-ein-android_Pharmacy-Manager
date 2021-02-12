@@ -3,16 +3,16 @@ package com.pulse.manager.data.rest
 import com.google.gson.GsonBuilder
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
-import com.pulse.manager.BuildConfig
+import com.pulse.manager.BuildConfig.*
 import com.pulse.manager.components.category.model.Category
 import com.pulse.manager.core.network.FlowCallAdapterFactory
 import com.pulse.manager.data.rest.interceptor.HeaderInterceptor
 import com.pulse.manager.data.rest.serializer.CategoryDeserializer
 import com.pulse.manager.data.rest.serializer.DateTimeSerializer
 import com.pulse.manager.data.rest.serializer.StringDeserializer
-import com.pulse.manager.util.Constants
 import okhttp3.OkHttpClient
 import okhttp3.internal.platform.Platform
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -31,7 +31,7 @@ val restModule = module {
 
     single {
         Retrofit.Builder()
-            .baseUrl(if (Constants.DEV_ENVIRONMENT) DEV_BASE_URL else RELEASE_BASE_URL)
+            .baseUrl(if (DEVELOPER_SERVER) DEV_BASE_URL else RELEASE_BASE_URL)
             .addCallAdapterFactory(FlowCallAdapterFactory.create)
             .addConverterFactory(GsonConverterFactory.create(get()))
             .client(get())
@@ -46,6 +46,8 @@ val restModule = module {
         .tag("OkHttp")
         .build()
 
+    fun makeOkHttpLoggingInterceptor() = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+
     single {
         OkHttpClient.Builder().apply {
             readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
@@ -54,9 +56,7 @@ val restModule = module {
 
             with(interceptors()) {
                 add(get<HeaderInterceptor>())
-                if (BuildConfig.DEBUG) {
-                    add(makeLoggingInterceptor())
-                }
+                add(if (DEBUG && IHSANBAL) makeLoggingInterceptor() else makeOkHttpLoggingInterceptor())
             }
         }.build()
     }

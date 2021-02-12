@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:parentTag="android.widget.LinearLayout">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="@dimen/_164sdp"
         android:layout_height="@dimen/_164sdp"
         android:layout_gravity="center"
@@ -15,7 +15,7 @@
         android:src="@drawable/main_icon" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/titleEmptyContainer"
+        android:id="@+id/mtv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -28,7 +28,7 @@
         tools:text="@string/noGoodsFoundTitle" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/subtitleEmptyContainer"
+        android:id="@+id/mtv_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_16sdp"
@@ -40,7 +40,7 @@
         tools:text="@string/noGoodsFoundSubtitle" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/actionEmptyContainer"
+        android:id="@+id/mb_action"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_12sdp"

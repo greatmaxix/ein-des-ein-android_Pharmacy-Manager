@@ -1,9 +1,7 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
-apply(from = "${project.rootDir}/script/apk_upload.gradle")
-
 plugins {
-    id(BuildPlugins.versionsPlugin) version Versions.versionsPlugin
+    id("com.github.ben-manes.versions") version "0.36.0"
 }
 
 buildscript {
@@ -13,20 +11,17 @@ buildscript {
     }
 
     dependencies {
-        classpath(BuildPlugins.androidGradlePluginClasspath)
-        classpath(
-            kotlin(
-                BuildPlugins.kotlinGradlePluginClasspath,
-                version = Versions.kotlinGradlePlugin
-            )
-        )
-        classpath(BuildPlugins.crashlyticsClasspath)
-        classpath(BuildPlugins.appDistributionClasspath)
-        classpath(BuildPlugins.safeargsClasspath)
-        classpath(BuildPlugins.googleServicesClasspath)
-        classpath(BuildPlugins.koinClasspath)
+        classpath("com.android.tools.build:gradle:4.1.1")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}")
+        classpath("com.google.gms:google-services:4.3.5")
+        classpath("org.koin:koin-gradle-plugin:${Versions.koin}")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:2.4.1")
+        classpath("com.google.firebase:firebase-appdistribution-gradle:2.0.1")
     }
 }
+
+apply(from = "${project.rootDir}/script/apk_upload.gradle")
 
 allprojects {
     repositories {

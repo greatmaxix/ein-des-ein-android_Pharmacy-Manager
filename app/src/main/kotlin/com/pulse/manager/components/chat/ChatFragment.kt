@@ -20,11 +20,11 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.paging.ExperimentalPagingApi
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.fondesa.kpermissions.allGranted
 import com.fondesa.kpermissions.anyDenied
 import com.fondesa.kpermissions.anyPermanentlyDenied
 import com.fondesa.kpermissions.anyShouldShowRationale
-import com.fondesa.kpermissions.extension.addListener
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.pulse.manager.BuildConfig
 import com.pulse.manager.R
@@ -35,10 +35,10 @@ import com.pulse.manager.components.chat.adapter.ProductAttachSearchAdapter
 import com.pulse.manager.components.chat.dialog.SendBottomSheetDialogFragment
 import com.pulse.manager.components.chat.dialog.SendBottomSheetDialogFragment.Companion.RESULT_BUTTON_EXTRA_KEY
 import com.pulse.manager.components.chat.dialog.SendBottomSheetDialogFragment.Companion.SEND_PHOTO_KEY
-import com.pulse.manager.components.chatList.model.chat.ChatItem
+import com.pulse.manager.components.chat_list.model.chat.ChatItem
 import com.pulse.manager.core.base.mvvm.BaseMVVMFragment
 import com.pulse.manager.core.extensions.*
-import kotlinx.android.synthetic.main.fragment_chat.*
+import com.pulse.manager.databinding.FragmentChatBinding
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -52,67 +52,54 @@ import org.koin.core.parameter.parametersOf
 class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
 
     private val args by navArgs<ChatFragmentArgs>()
-    private val vm: ChatViewModel by viewModel(parameters = { parametersOf(args.chat) })
-    private val uri by lazy { FileProvider.getUriForFile(requireContext(), "${BuildConfig.APPLICATION_ID}.fileprovider", vm.tempPhotoFile) }
+    private val binding by viewBinding(FragmentChatBinding::bind)
+    private val viewModel: ChatViewModel by viewModel(parameters = { parametersOf(args.chat) })
+    private val uri by lazy { FileProvider.getUriForFile(requireContext(), "${BuildConfig.APPLICATION_ID}.fileprovider", viewModel.tempPhotoFile) }
     private lateinit var choosePhotoLauncher: ActivityResultLauncher<Intent>
     private lateinit var takePhotoLauncher: ActivityResultLauncher<Uri>
-
     private val chatAdapter by lazy { ChatMessageAdapter() }
     private val productAdapter by lazy {
         ProductAttachSearchAdapter {
-            observeResult(vm.sendProduct(it))
-            searchViewChatList.setText("")
+            observeResult(viewModel.sendProduct(it))
+            binding.viewSearch.setText("")
             hideProducts()
         }
     }
     private var scrollerJob: Job? = null
 
     @FlowPreview
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
 
         showBackButton()
         initMenu(R.menu.close_request) {
             if (it.itemId == R.id.closeRequest) {
-                observeResult(vm.requestCloseChat())
+                observeResult(viewModel.requestCloseChat())
             }
             true
         }
         initChatList()
         initProductList()
 
-        choosePhotoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) onActivityResult(it)
-        }
-        takePhotoLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) {
-            if (it) sendPhotoMessage(uri)
-        }
-
-        tilMessageChat.editText?.doAfterTextChanged {
-            ivButtonSendChat.animateVisibleOrGoneIfNot(!it.isNullOrBlank())
-        }
-        tilMessageChat.editText?.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEND) {
-                sendMessage()
-            }
+        choosePhotoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { if (it.resultCode == Activity.RESULT_OK) onActivityResult(it) }
+        takePhotoLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { if (it) sendPhotoMessage(uri) }
+        tilMessage.editText?.doAfterTextChanged { ivButtonSend.animateVisibleOrGoneIfNot(!it.isNullOrBlank()) }
+        tilMessage.editText?.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEND) sendMessage()
             false
         }
-        ivButtonSendChat.setDebounceOnClickListener {
-            sendMessage()
-        }
-        ivFileAttachment.setDebounceOnClickListener {
-            navController.navigate(fromChatToSendImageBottomSheet())
-        }
+        ivButtonSend.setDebounceOnClickListener { sendMessage() }
+        ivFileAttachment.setDebounceOnClickListener { navController.navigate(fromChatToSendImageBottomSheet()) }
         ivProductAttachment.setDebounceOnClickListener {
             if (llProductContainer.isVisible) {
                 hideProducts()
             } else {
                 llProductContainer.animateVisibleIfNot()
                 ivProductAttachment.isSelected = true
-                searchViewChatList.requestFocus()
+                viewSearch.requestFocus()
             }
         }
-        llMessageFieldChat.setTopRoundCornerBackground()
+        llMessageField.setTopRoundCornerBackground()
 
         attachBackPressCallback {
             if (llProductContainer.isVisible) {
@@ -121,8 +108,8 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
                 navController.popBackStack()
             }
         }
-        searchViewChatList.setSearchListener { text ->
-            vm.doSearch(text.toString())
+        viewSearch.setSearchListener { text ->
+            viewModel.doSearch(text.toString())
         }
         setFragmentResultListener(SEND_PHOTO_KEY) { _, bundle ->
             when (bundle.getString(RESULT_BUTTON_EXTRA_KEY)) {
@@ -130,18 +117,18 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
                 SendBottomSheetDialogFragment.Button.CAMERA.name -> requestTakePhoto()
             }
         }
-        llMessageFieldChat.visible()
+        llMessageField.visible()
     }
 
-    private fun hideProducts() {
+    private fun hideProducts() = with(binding) {
         llProductContainer.animateGoneIfNot()
         ivProductAttachment.isSelected = false
-        searchViewChatList.clearFocus()
+        viewSearch.clearFocus()
     }
 
-    private fun initProductList() {
-        rvProductChat.adapter = productAdapter
-        rvProductChat.setHasFixedSize(true)
+    private fun initProductList() = with(binding.rvProduct) {
+        adapter = productAdapter
+        setHasFixedSize(true)
     }
 
     private fun onActivityResult(result: ActivityResult) {
@@ -152,7 +139,7 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
     }
 
     private fun sendPhotoMessage(uri: Uri) {
-        observeResult(vm.sendPhoto(uri))
+        observeResult(viewModel.sendPhoto(uri))
     }
 
     @FlowPreview
@@ -203,29 +190,31 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
     }
 
     private fun sendMessage() {
-        val message = tilMessageChat.editText?.text?.toString()?.trim().orEmpty()
-        tilMessageChat.editText?.text = null
-        observeResult(vm.sendMessage(message))
+        val message = binding.tilMessage.editText?.text?.toString()?.trim().orEmpty()
+        binding.tilMessage.editText?.text = null
+        observeResult(viewModel.sendMessage(message))
     }
 
     @ExperimentalPagingApi
     override fun onBindLiveData() {
         super.onBindLiveData()
-        observe(vm.chatLiveData) {
+        observe(viewModel.chatLiveData) {
             this?.let {
-                toolbar?.title = customer.name
-                toolbar?.menu?.findItem(R.id.closeRequest)?.isVisible = isAbleToWrite && it.status != ChatItem.STATUS_OPENED
-                llMessageFieldChat.isVisible = isAbleToWrite
-                if (!isAbleToWrite) hideKeyboard()
-                if (args.chat.isAbleToWrite) {
-                    if (isAutomaticClosed) showChatEndDialog()
-                    else if (isClosed) showChatEndDialog()
+                with(binding) {
+                    toolbar.toolbar.title = customer.name
+                    toolbar.toolbar.menu?.findItem(R.id.closeRequest)?.isVisible = isAbleToWrite && it.status != ChatItem.STATUS_OPENED
+                    llMessageField.isVisible = isAbleToWrite
+                    if (!isAbleToWrite) hideKeyboard()
+                    if (args.chat.isAbleToWrite) {
+                        if (isAutomaticClosed) showChatEndDialog()
+                        else if (isClosed) showChatEndDialog()
+                    }
                 }
             }
         }
-        observe(vm.chatMessagesLiveData) { chatAdapter.submitData(lifecycle, this) }
-        observe(vm.lastMessageLiveData) { scrollToLastMessage() }
-        observe(vm.pagedSearchLiveData) { productAdapter.submitData(lifecycle, this) }
+        observe(viewModel.chatMessagesLiveData) { chatAdapter.submitData(lifecycle, this) }
+        observe(viewModel.lastMessageLiveData) { scrollToLastMessage() }
+        observe(viewModel.pagedSearchLiveData) { productAdapter.submitData(lifecycle, this) }
     }
 
     private fun showChatEndDialog() {
@@ -237,7 +226,7 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
         }
     }
 
-    private fun initChatList() = with(rvMessagesChat) {
+    private fun initChatList() = with(binding.rvMessages) {
         adapter = chatAdapter
     }
 
@@ -246,7 +235,7 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
         if (chatAdapter.itemCount != 0) {
             scrollerJob = viewLifecycleOwner.lifecycleScope.launch {
                 delay(500)
-                rvMessagesChat.smoothScrollToPosition(0)
+                binding.rvMessages.smoothScrollToPosition(0)
             }
         }
     }

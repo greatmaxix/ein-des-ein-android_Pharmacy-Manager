@@ -1,6 +1,7 @@
 package com.pulse.manager.components.search.repository
 
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.pulse.manager.components.product.model.ProductLite
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
@@ -19,4 +20,6 @@ class SearchPagingSource(private val text: String? = null, private val category:
     } catch (e: Exception) {
         LoadResult.Error(e)
     }
+
+    override fun getRefreshKey(state: PagingState<Int, ProductLite>) = state.anchorPosition
 }

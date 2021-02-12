@@ -7,5 +7,5 @@
 
 -keepnames class com.pulse.manager.components.product.model.ProductLite{}
 -keepnames class com.pulse.manager.components.product.model.Product
--keepnames class com.pulse.manager.components.chatList.model.chat.ChatItem
+-keepnames class com.pulse.manager.components.chat_list.model.chat.ChatItem
 -keepnames class com.pulse.manager.components.category.model.Category

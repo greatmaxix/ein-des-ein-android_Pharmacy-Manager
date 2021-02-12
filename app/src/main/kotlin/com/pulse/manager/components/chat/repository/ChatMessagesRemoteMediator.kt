@@ -7,7 +7,7 @@ import androidx.paging.RemoteMediator
 import com.pulse.manager.components.chat.adapter.ChatMessageAdapter.Companion.TYPE_DATE_HEADER
 import com.pulse.manager.components.chat.model.message.MessageItem
 import com.pulse.manager.components.chat.model.remoteKeys.MessagesRemoteKeys
-import com.pulse.manager.components.chatList.model.chat.ChatItem
+import com.pulse.manager.components.chat_list.model.chat.ChatItem
 import com.pulse.manager.data.GeneralErrorHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

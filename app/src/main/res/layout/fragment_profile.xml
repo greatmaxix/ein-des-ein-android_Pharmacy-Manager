@@ -11,8 +11,8 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <ImageView
-        android:id="@+id/ivAvatarProfile"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_avatar"
         android:layout_width="@dimen/_64sdp"
         android:layout_height="@dimen/_64sdp"
         android:layout_marginStart="@dimen/_16sdp"
@@ -22,46 +22,46 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvNameProfile"
+        android:id="@+id/mtv_name"
         android:layout_width="@dimen/match_constraint"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginEnd="@dimen/_16sdp"
-        android:textColor="@color/darkBlue"
         android:textAppearance="?attr/textAppearanceSubtitle1"
-        app:layout_constraintBottom_toTopOf="@+id/tvEmailProfile"
-        app:layout_constraintEnd_toStartOf="@+id/tvRatingProfile"
-        app:layout_constraintStart_toEndOf="@+id/ivAvatarProfile"
-        app:layout_constraintTop_toTopOf="@+id/ivAvatarProfile"
+        android:textColor="@color/darkBlue"
+        app:layout_constraintBottom_toTopOf="@+id/mtv_email"
+        app:layout_constraintEnd_toStartOf="@+id/mtv_rating"
+        app:layout_constraintStart_toEndOf="@+id/iv_avatar"
+        app:layout_constraintTop_toTopOf="@+id/iv_avatar"
         tools:text="Тимофей Лекарь" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvEmailProfile"
+        android:id="@+id/mtv_email"
         android:layout_width="@dimen/match_constraint"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_16sdp"
-        android:textColor="@color/darkBlue"
         android:textAppearance="?attr/textAppearanceBody2"
-        app:layout_constraintBottom_toBottomOf="@+id/ivAvatarProfile"
-        app:layout_constraintEnd_toStartOf="@+id/tvRatingProfile"
-        app:layout_constraintStart_toEndOf="@+id/ivAvatarProfile"
-        app:layout_constraintTop_toBottomOf="@+id/tvNameProfile"
+        android:textColor="@color/darkBlue"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_avatar"
+        app:layout_constraintEnd_toStartOf="@+id/mtv_rating"
+        app:layout_constraintStart_toEndOf="@+id/iv_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/mtv_name"
         tools:text="medpharm23@gmail.com" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvRatingProfile"
+        android:id="@+id/mtv_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_21sdp"
-        android:textColor="@color/darkBlue"
         android:textAppearance="?attr/textAppearanceHeadline5"
-        app:layout_constraintBottom_toBottomOf="@+id/ivAvatarProfile"
+        android:textColor="@color/darkBlue"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_avatar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ivAvatarProfile"
+        app:layout_constraintTop_toTopOf="@+id/iv_avatar"
         tools:text="4.9 ⭐" />
 
     <com.pulse.manager.widget.ProfileItemView
-        android:id="@+id/itemStatisticsProfile"
+        android:id="@+id/item_statistics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_12sdp"
@@ -71,12 +71,12 @@
         app:iconProfile="@drawable/ic_statistic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvEmailProfile"
+        app:layout_constraintTop_toBottomOf="@+id/mtv_email"
         app:mainColorProfile="@color/grey"
         app:titleProfile="@string/statisticTitle" />
 
     <com.pulse.manager.widget.ProfileItemView
-        android:id="@+id/itemNotificationsProfile"
+        android:id="@+id/item_notifications"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_12sdp"
@@ -86,11 +86,11 @@
         app:iconProfile="@drawable/ic_notification"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemStatisticsProfile"
+        app:layout_constraintTop_toBottomOf="@+id/item_statistics"
         app:titleProfile="@string/notificationTitle" />
 
     <com.pulse.manager.widget.ProfileItemView
-        android:id="@+id/itemAboutAppProfile"
+        android:id="@+id/item_about_app"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_12sdp"
@@ -100,11 +100,11 @@
         app:iconProfile="@drawable/ic_exclamation_point"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemNotificationsProfile"
+        app:layout_constraintTop_toBottomOf="@+id/item_notifications"
         app:titleProfile="@string/aboutAppTitle" />
 
     <com.pulse.manager.widget.ProfileItemView
-        android:id="@+id/itemHelpProfile"
+        android:id="@+id/item_help"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_12sdp"
@@ -114,11 +114,11 @@
         app:iconProfile="@drawable/ic_question"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemAboutAppProfile"
+        app:layout_constraintTop_toBottomOf="@+id/item_about_app"
         app:titleProfile="@string/helpTitle" />
 
     <com.pulse.manager.widget.ProfileItemView
-        android:id="@+id/itemLogoutProfile"
+        android:id="@+id/item_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_12sdp"
@@ -128,7 +128,7 @@
         app:iconProfile="@drawable/ic_logout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemHelpProfile"
+        app:layout_constraintTop_toBottomOf="@+id/item_help"
         app:mainColorProfile="@color/red"
         app:secondaryColorProfile="@color/profileIconBackgroundRed"
         app:titleProfile="@string/accountLogoutTitle" />

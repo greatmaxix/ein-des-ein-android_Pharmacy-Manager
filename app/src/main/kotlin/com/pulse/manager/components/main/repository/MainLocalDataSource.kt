@@ -1,6 +1,6 @@
 package com.pulse.manager.components.main.repository
 
-import com.pulse.manager.components.chatList.model.chat.ChatItemDAO
+import com.pulse.manager.components.chat_list.model.chat.ChatItemDAO
 import com.pulse.manager.components.signIn.model.UserDAO
 import com.pulse.manager.data.local.SPManager
 

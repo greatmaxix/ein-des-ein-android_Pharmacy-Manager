@@ -3,6 +3,7 @@ package com.pulse.manager.components.profile
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.pulse.manager.R
 import com.pulse.manager.components.mercureService.MercureEventListenerService
 import com.pulse.manager.components.profile.ProfileFragmentDirections.Companion.actionFromProfileToSplash
@@ -13,28 +14,24 @@ import com.pulse.manager.core.base.fragment.dialog.AlertDialogFragment
 import com.pulse.manager.core.base.mvvm.BaseMVVMFragment
 import com.pulse.manager.core.extensions.isServiceRunning
 import com.pulse.manager.core.extensions.loadCircularImage
-import kotlinx.android.synthetic.main.fragment_profile.*
+import com.pulse.manager.databinding.FragmentProfileBinding
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
-class ProfileFragment(private val vm: ProfileViewModel) : BaseMVVMFragment(R.layout.fragment_profile) {
+class ProfileFragment(private val viewModel: ProfileViewModel) : BaseMVVMFragment(R.layout.fragment_profile) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    private val binding by viewBinding(FragmentProfileBinding::bind)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
 
 //        itemStatisticsProfile.setOnClick {
 //          TODO uncomment in future and set proper color in xml
 //        }
-        itemNotificationsProfile.setOnClick {
-            navController.navigate(fromProfileToNotifications())
-        }
-        itemAboutAppProfile.setOnClick {
-            navController.navigate(fromProfileToAboutApp())
-        }
-        itemHelpProfile.setOnClick {
-            navController.navigate(fromProfileToNeedHelp())
-        }
-        itemLogoutProfile.setOnClick {
+        itemNotifications.setOnClick { navController.navigate(fromProfileToNotifications()) }
+        itemAboutApp.setOnClick { navController.navigate(fromProfileToAboutApp()) }
+        itemHelp.setOnClick { navController.navigate(fromProfileToNeedHelp()) }
+        itemLogout.setOnClick {
             AlertDialogFragment.newInstance(
                 getString(R.string.areYouSureWantExit),
                 getString(R.string.logoutDescription),
@@ -49,7 +46,7 @@ class ProfileFragment(private val vm: ProfileViewModel) : BaseMVVMFragment(R.lay
     }
 
     private fun performLogout() {
-        observeResult(vm.logout()) {
+        observeResult(viewModel.logout()) {
             onEmmit = {
                 if (!requireContext().isServiceRunning(MercureEventListenerService::class.java)) {
                     requireContext().stopService(Intent(requireContext(), MercureEventListenerService::class.java))
@@ -59,15 +56,15 @@ class ProfileFragment(private val vm: ProfileViewModel) : BaseMVVMFragment(R.lay
         }
     }
 
-    override fun onBindLiveData() {
+    override fun onBindLiveData() = with(binding) {
         super.onBindLiveData()
 
-        observe(vm.profileLiveData) {
+        observe(viewModel.profileLiveData) {
             val fullName = "$firstName $lastName"
-            tvNameProfile.text = fullName
-            tvEmailProfile.text = email
-            ivAvatarProfile.loadCircularImage(avatar?.url)
-            tvRatingProfile.text = getString(R.string.ratingHolder, chatRatingInfo?.rating ?: 0.0f)
+            mtvName.text = fullName
+            mtvEmail.text = email
+            ivAvatar.loadCircularImage(avatar?.url)
+            mtvRating.text = getString(R.string.ratingHolder, chatRatingInfo?.rating ?: 0.0f)
         }
     }
 }

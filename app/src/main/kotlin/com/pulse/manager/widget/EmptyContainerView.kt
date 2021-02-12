@@ -5,18 +5,15 @@ import android.util.AttributeSet
 import android.view.Gravity.CENTER
 import android.widget.LinearLayout
 import com.pulse.manager.R
-import com.pulse.manager.core.extensions.inflate
+import com.pulse.manager.core.extensions.inflater
 import com.pulse.manager.core.extensions.setDebounceOnClickListener
 import com.pulse.manager.core.extensions.use
 import com.pulse.manager.core.extensions.visibleOrGone
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.layout_empty_container.view.*
+import com.pulse.manager.databinding.LayoutEmptyContainerBinding
 
-class EmptyContainerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr),
-    LayoutContainer {
+class EmptyContainerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr) {
 
-    override val containerView = inflate(R.layout.layout_empty_container, true)
-
+    private val binding = LayoutEmptyContainerBinding.inflate(inflater, this)
     private var title = ""
     private var subtitle = ""
     private var buttonText = ""
@@ -36,18 +33,16 @@ class EmptyContainerView @JvmOverloads constructor(context: Context, attrs: Attr
         orientation = VERTICAL
     }
 
-    override fun onFinishInflate() {
+    override fun onFinishInflate() = with(binding) {
         super.onFinishInflate()
-        titleEmptyContainer.text = title
-        subtitleEmptyContainer.text = subtitle
+        mtvTitle.text = title
+        mtvSubtitle.text = subtitle
 
-        with(actionEmptyContainer) {
-            visibleOrGone(isButtonVisible)
-            if (isButtonVisible && buttonText.isNotEmpty()) {
-                text = buttonText
-            }
+        if (isButtonVisible && buttonText.isNotEmpty()) {
+            mbAction.text = buttonText
         }
+        mbAction.visibleOrGone(isButtonVisible)
     }
 
-    fun setButtonAction(action: () -> Unit) = actionEmptyContainer.setDebounceOnClickListener { action() }
+    fun setButtonAction(action: () -> Unit) = binding.mbAction.setDebounceOnClickListener { action() }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavDestination
 import androidx.navigation.ui.setupWithNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.pulse.manager.GraphMainDirections.Companion.globalToChat
 import com.pulse.manager.R
 import com.pulse.manager.components.mercureService.MercureEventListenerService.Companion.EXTRA_CHAT_ID
@@ -19,15 +20,16 @@ import com.pulse.manager.core.general.interfaces.MessagesCallback
 import com.pulse.manager.core.general.interfaces.ProgressCallback
 import com.pulse.manager.core.network.Resource
 import com.pulse.manager.core.network.Resource.*
+import com.pulse.manager.databinding.ActivityMainBinding
 import com.pulse.manager.widget.SelectableBottomNavView
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.layout_progress.*
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
 class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, MainViewModel::class), ProgressCallback, MessagesCallback {
 
-    private val progressBehavior by lazy { attachBehavior(ProgressViewBehavior(progressRoot)) }
+    private val binding by viewBinding(ActivityMainBinding::bind, R.id.cl_container)
+
+    private val progressBehavior by lazy { attachBehavior(ProgressViewBehavior(binding.layoutProgress.root)) }
     private val messagesBehavior by lazy { attachBehavior(MessagesBehavior(this)) }
     private val topLevelDestinations = intArrayOf(R.id.nav_home, R.id.nav_categories, R.id.nav_chat_list, R.id.nav_profile) // TODO add destinations
     private val NavDestination.isTopLevelDestination
@@ -46,7 +48,7 @@ class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, Mai
 
     override fun onBindLiveData() {
         observe(viewModel.userLiveData) {
-            bottomNavMain.navItems = listOf(
+            binding.bottomNavigation.navItems = listOf(
                 SelectableBottomNavView.NavItem(R.id.nav_home, R.id.nav_home, R.drawable.ic_home, false, null),
                 SelectableBottomNavView.NavItem(R.id.nav_categories, R.id.nav_categories, R.drawable.ic_category, false, null),
                 SelectableBottomNavView.NavItem(R.id.nav_chat_list, R.id.nav_chat_list, R.drawable.ic_chat, false, null),
@@ -71,7 +73,7 @@ class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, Mai
         checkIntentChatId(intent)
     }
 
-    private fun setupNavigation() = with(bottomNavMain) {
+    private fun setupNavigation() = with(binding.bottomNavigation) {
         setTopRoundCornerBackground()
         itemIconTintList = null
         navItems = listOf(
@@ -84,7 +86,7 @@ class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, Mai
         setupWithNavController(navController)
         setOnNavigationItemReselectedListener {}
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.isTopLevelDestination) bottomNavMain.translateYUp() else bottomNavMain.translateYDown()
+            if (destination.isTopLevelDestination) binding.bottomNavigation.translateYUp() else binding.bottomNavigation.translateYDown()
             viewModel.setChatForeground(destination.id == R.id.nav_chat)
             changeSelection(destination.id)
         }

@@ -4,21 +4,24 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.pulse.manager.R
 import com.pulse.manager.core.base.fragment.dialog.BaseBottomSheetDialogFragment
 import com.pulse.manager.core.extensions.setDebounceOnClickListener
-import kotlinx.android.synthetic.main.dialog_send_photo_bottom_sheet.view.*
+import com.pulse.manager.databinding.DialogSendPhotoBottomSheetBinding
 
 class SendBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layout.dialog_send_photo_bottom_sheet) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    private val binding by viewBinding(DialogSendPhotoBottomSheetBinding::bind)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.send_photo_bottom_sheet_gallery.setDebounceOnClickListener {
+        mtvGallery.setDebounceOnClickListener {
             setFragmentResult(SEND_PHOTO_KEY, bundleOf(RESULT_BUTTON_EXTRA_KEY to Button.GALLERY.name))
             dismiss()
         }
-        view.send_photo_bottom_sheet_camera.setDebounceOnClickListener {
+        mtvCamera.setDebounceOnClickListener {
             setFragmentResult(SEND_PHOTO_KEY, bundleOf(RESULT_BUTTON_EXTRA_KEY to Button.CAMERA.name))
             dismiss()
         }

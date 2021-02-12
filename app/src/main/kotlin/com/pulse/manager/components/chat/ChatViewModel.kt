@@ -11,7 +11,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.pulse.manager.components.chat.repository.ChatMessagesRemoteMediator
 import com.pulse.manager.components.chat.repository.ChatRepository
-import com.pulse.manager.components.chatList.model.chat.ChatItem
+import com.pulse.manager.components.chat_list.model.chat.ChatItem
 import com.pulse.manager.components.product.model.ProductLite
 import com.pulse.manager.components.search.SearchViewModel
 import com.pulse.manager.core.extensions.getMultipartBody

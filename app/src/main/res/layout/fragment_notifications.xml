@@ -10,7 +10,7 @@
         layout="@layout/toolbar" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switchPushNotifications"
+        android:id="@+id/switch_push_notifications"
         style="@style/NotificationSwitch"
         android:layout_marginTop="@dimen/_30sdp"
         android:text="@string/pushNotifications" />
@@ -18,7 +18,7 @@
     <include layout="@layout/divider_notifications" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switchEmailNotifications"
+        android:id="@+id/switch_email_notifications"
         style="@style/NotificationSwitch"
         android:layout_marginTop="@dimen/_8sdp"
         android:text="@string/emailDistribution" />
@@ -26,7 +26,7 @@
     <include layout="@layout/divider_notifications" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switchNewChatRequestNotifications"
+        android:id="@+id/switch_new_chat_request_notifications"
         style="@style/NotificationSwitch"
         android:layout_marginTop="@dimen/_40sdp"
         android:text="@string/newChatRequest" />
@@ -34,7 +34,7 @@
     <include layout="@layout/divider_notifications" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switchRatingUpdateNotifications"
+        android:id="@+id/switch_rating_update_notifications"
         style="@style/NotificationSwitch"
         android:layout_marginTop="@dimen/_8sdp"
         android:text="@string/ratingUpdate" />

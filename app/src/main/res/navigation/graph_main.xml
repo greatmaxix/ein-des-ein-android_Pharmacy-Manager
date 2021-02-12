@@ -160,7 +160,7 @@
 
     <fragment
         android:id="@+id/nav_chat_list"
-        android:name="com.pulse.manager.components.chatList.ChatListFragment"
+        android:name="com.pulse.manager.components.chat_list.ChatListFragment"
         android:label="Chat List"
         tools:layout="@layout/fragment_chat_list">
 
@@ -182,7 +182,7 @@
 
         <argument
             android:name="chat"
-            app:argType="com.pulse.manager.components.chatList.model.chat.ChatItem" />
+            app:argType="com.pulse.manager.components.chat_list.model.chat.ChatItem" />
 
         <action
             android:id="@+id/fromChatToSendImageBottomSheet"
@@ -221,5 +221,4 @@
             app:nullable="true" />
 
     </fragment>
-
 </navigation>

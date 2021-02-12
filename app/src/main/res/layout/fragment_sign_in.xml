@@ -8,18 +8,18 @@
     android:paddingBottom="@dimen/_16sdp"
     tools:context=".components.main.MainActivity">
 
-    <ImageView
-        android:id="@+id/ivLogoSignIn"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_logo"
         android:layout_width="@dimen/_64sdp"
         android:layout_height="@dimen/_64sdp"
         android:layout_marginBottom="@dimen/_16sdp"
         android:src="@drawable/ic_logo"
-        app:layout_constraintBottom_toTopOf="@+id/tvTitleSignIn"
+        app:layout_constraintBottom_toTopOf="@+id/mtv_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvTitleSignIn"
+        android:id="@+id/mtv_title"
         style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,12 +29,12 @@
         android:textAppearance="?attr/textAppearanceHeadline5"
         android:textColor="@color/darkBlue"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tvSubTitleSignIn"
+        app:layout_constraintBottom_toTopOf="@+id/mtv_sub_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvSubTitleSignIn"
+        android:id="@+id/mtv_sub_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_12sdp"
@@ -44,16 +44,16 @@
         android:text="@string/pleaseAuth"
         android:textAppearance="?attr/textAppearanceBody1"
         android:textColor="@color/darkBlue"
-        app:layout_constraintBottom_toTopOf="@+id/tilEmailSignIn"
+        app:layout_constraintBottom_toTopOf="@+id/til_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilEmailSignIn"
+        android:id="@+id/til_email"
         style="@style/TextInputAuthStyle"
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginEnd="@dimen/_16sdp"
-        android:nextFocusDown="@+id/tilPasswordSignIn"
+        android:nextFocusDown="@+id/til_password"
         android:paddingTop="@dimen/_8sdp"
         app:endIconMode="clear_text"
         app:endIconTint="@color/grey"
@@ -68,7 +68,7 @@
         app:layout_constraintVertical_bias="0.6">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEmailSignIn"
+            android:id="@+id/et_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/emailHintAuth"
@@ -82,7 +82,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilPasswordSignIn"
+        android:id="@+id/til_password"
         style="@style/TextInputAuthStyle"
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginEnd="@dimen/_16sdp"
@@ -95,10 +95,10 @@
         app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilEmailSignIn">
+        app:layout_constraintTop_toBottomOf="@+id/til_email">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPasswordSignIn"
+            android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
@@ -112,7 +112,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
-        android:id="@+id/llButtonContainer"
+        android:id="@+id/ll_button_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_8sdp"
@@ -122,7 +122,7 @@
         android:paddingHorizontal="@dimen/_4sdp"
         android:paddingVertical="@dimen/_4sdp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilPasswordSignIn">
+        app:layout_constraintTop_toBottomOf="@id/til_password">
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
@@ -134,7 +134,7 @@
             android:textAppearance="?attr/textAppearanceSubtitle1"
             android:textColor="@color/selector_text_button" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/_42sdp"
             android:layout_height="@dimen/_42sdp"
             android:background="@drawable/selector_round_button"

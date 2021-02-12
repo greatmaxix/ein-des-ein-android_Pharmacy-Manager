@@ -1,7 +1,7 @@
 package com.pulse.manager.components.mercureService.repository
 
 import com.pulse.manager.components.chat.model.message.MessageItem
-import com.pulse.manager.components.chatList.model.chat.ChatItem
+import com.pulse.manager.components.chat_list.model.chat.ChatItem
 import java.time.LocalDateTime
 
 class MercureRepository(

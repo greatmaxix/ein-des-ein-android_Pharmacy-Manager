@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.pulse.manager.R
 import com.pulse.manager.components.home.HomeFragmentDirections.Companion.fromHomeToChat
 import com.pulse.manager.components.home.HomeFragmentDirections.Companion.fromHomeToScanner
@@ -15,35 +16,37 @@ import com.pulse.manager.components.home.adapter.ProductAdapter
 import com.pulse.manager.components.mercureService.MercureEventListenerService
 import com.pulse.manager.core.base.mvvm.BaseMVVMFragment
 import com.pulse.manager.core.extensions.*
-import kotlinx.android.synthetic.main.fragment_home.*
+import com.pulse.manager.databinding.FragmentHomeBinding
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
-class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fragment_home) {
+class HomeFragment(private val viewModel: HomeViewModel) : BaseMVVMFragment(R.layout.fragment_home) {
+
+    private val binding by viewBinding(FragmentHomeBinding::bind)
 
     private val customerAvatars by lazy {
         listOf(
-            ivAvatar4Home,
-            ivAvatar3Home,
-            ivAvatar2Home,
-            ivAvatar1Home
+            binding.ivAvatar4,
+            binding.ivAvatar3,
+            binding.ivAvatar2,
+            binding.ivAvatar1
         )
     }
     private val chatAdapter by lazy { ChatListAdapter { navController.navigate(fromHomeToChat(it)) } }
     private val productAdapter by lazy {
         ProductAdapter {
-            observeResult(vm.requestProductInfo(it.globalProductId)) {
+            observeResult(viewModel.requestProductInfo(it.globalProductId)) {
                 onEmmit = { navController.navigate(globalToProductCard(this)) }
             }
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
 
-        cardScanHome.setDebounceOnClickListener { navController.navigate(fromHomeToScanner()) }
-        cardSearchHome.setDebounceOnClickListener { navController.navigate(fromHomeToSearch()) }
-        tvSoonCounterHome.text = "∞"
+        mcvScan.setDebounceOnClickListener { navController.navigate(fromHomeToScanner()) }
+        mcvSearch.setDebounceOnClickListener { navController.navigate(fromHomeToSearch()) }
+        mtvSoonCounter.text = "∞"
 
         initChatList()
         initProductList()
@@ -59,11 +62,11 @@ class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fr
     }
 
     @ExperimentalPagingApi
-    override fun onBindLiveData() {
-        observeResult(vm.openedChats) {
+    override fun onBindLiveData() = with(binding) {
+        observeResult(viewModel.openedChats) {
             onEmmit = {
                 val openedChatsCount = totalCount
-                tvChatRequestsCounterHome.text = openedChatsCount.toString()
+                mtvChatRequestsCounter.text = openedChatsCount.toString()
                 val customerImages = items.map { it.customer.avatar?.url ?: "" }
                 customerAvatars.forEachIndexed { index, imageView ->
                     val avatarUrl = customerImages.getOrNull(index)
@@ -77,19 +80,19 @@ class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fr
                     } ?: run { imageView.animateGoneIfNot() }
                 }
                 chatAdapter.setList(this.items.take(2))
-                rvChatListHome.animateVisibleOrGoneIfNot(!chatAdapter.isEmpty())
+                rvChatList.animateVisibleOrGoneIfNot(!chatAdapter.isEmpty())
             }
         }
-        observeResult(vm.recentProductListLiveData) {
+        observeResult(viewModel.recentProductListLiveData) {
             onEmmit = {
                 productAdapter.notifyDataSet(this)
-                tvRecommendedHome.animateVisibleOrGoneIfNot(!productAdapter.isEmpty())
-                rvProductsHome.animateVisibleOrGoneIfNot(!productAdapter.isEmpty())
+                mtvRecommended.animateVisibleOrGoneIfNot(!productAdapter.isEmpty())
+                rvProducts.animateVisibleOrGoneIfNot(!productAdapter.isEmpty())
             }
         }
     }
 
-    private fun initChatList() = with(rvChatListHome) {
+    private fun initChatList() = with(binding.rvChatList) {
         adapter = chatAdapter
         setHasFixedSize(true)
         layoutManager = object : LinearLayoutManager(requireContext()) {
@@ -97,7 +100,7 @@ class HomeFragment(private val vm: HomeViewModel) : BaseMVVMFragment(R.layout.fr
         }
     }
 
-    private fun initProductList() = with(rvProductsHome) {
+    private fun initProductList() = with(binding.rvProducts) {
         adapter = productAdapter
         setHasFixedSize(true)
     }

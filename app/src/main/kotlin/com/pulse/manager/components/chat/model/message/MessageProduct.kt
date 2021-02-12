@@ -5,7 +5,7 @@ import androidx.room.Embedded
 import com.google.gson.annotations.SerializedName
 import com.pulse.manager.components.product.model.Aggregation
 import com.pulse.manager.components.product.model.Picture
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class MessageProduct(

@@ -3,7 +3,7 @@ package com.pulse.manager.components.product.model
 import android.os.Parcelable
 import androidx.paging.ExperimentalPagingApi
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class Product(

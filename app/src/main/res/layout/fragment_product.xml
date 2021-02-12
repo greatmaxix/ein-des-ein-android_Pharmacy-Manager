@@ -20,15 +20,21 @@
             android:clipToPadding="false"
             android:orientation="vertical">
 
-            <include layout="@layout/layout_product_card_image_pager" />
+            <include
+                android:id="@+id/layout_product_card_image_pager"
+                layout="@layout/layout_product_card_image_pager" />
 
             <include layout="@layout/view_product_card_divider" />
 
-            <include layout="@layout/layout_product_card_main_info" />
+            <include
+                android:id="@+id/layout_product_card_main_info"
+                layout="@layout/layout_product_card_main_info" />
 
             <include layout="@layout/view_product_card_divider" />
 
-            <include layout="@layout/layout_product_card_additional_info" />
+            <include
+                android:id="@+id/layout_product_card_additional_info"
+                layout="@layout/layout_product_card_additional_info" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
