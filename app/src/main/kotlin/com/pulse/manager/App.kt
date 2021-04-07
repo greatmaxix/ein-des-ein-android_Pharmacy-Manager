@@ -19,6 +19,7 @@ import com.pulse.manager.components.scanner.codeScannerModule
 import com.pulse.manager.components.search.searchModule
 import com.pulse.manager.components.signIn.signInModule
 import com.pulse.manager.components.splash.splashModule
+import com.pulse.manager.components.statistic.statisticModule
 import com.pulse.manager.components.textInfo.textInfoModule
 import com.pulse.manager.data.local.DBManager
 import com.pulse.manager.data.local.SPManager
@@ -87,7 +88,8 @@ class App : Application() {
                 searchModule,
                 productCardModule,
                 categoriesModule,
-                mercureModule
+                mercureModule,
+                statisticModule
             )
         }
     }

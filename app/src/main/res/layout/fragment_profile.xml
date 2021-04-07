@@ -72,7 +72,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mtv_email"
-        app:mainColorProfile="@color/grey"
         app:titleProfile="@string/statisticTitle" />
 
     <com.pulse.manager.widget.ProfileItemView

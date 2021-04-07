@@ -46,6 +46,14 @@
             app:popUpTo="@id/graph_main"
             app:popUpToInclusive="true" />
 
+        <action
+            android:id="@+id/fromProfileToStatistic"
+            app:destination="@id/nav_statistic"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
     </fragment>
 
     <fragment
@@ -87,5 +95,11 @@
         android:name="com.pulse.manager.components.needHelp.NeedHelpFragment"
         android:label="@null"
         tools:layout="@layout/fragment_need_help" />
+
+    <fragment
+        android:id="@+id/nav_statistic"
+        android:name="com.pulse.manager.components.statistic.StatisticFragment"
+        android:label="@string/statisticTitle"
+        tools:layout="@layout/fragment_statistic" />
 
 </navigation>

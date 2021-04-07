@@ -109,4 +109,13 @@
     <string name="appNameShort">Pulse</string>
     <string name="seach">Поиск</string>
     <string name="have_questions">Есть вопросы?</string>
+    <string name="rating">Рейтинг</string>
+    <string name="recommendations">Рекомендации</string>
+    <string name="opened_chats">Открытых чатов</string>
+    <string name="income_statistic">Статистика дохода</string>
+    <string name="today_title">Сегодня</string>
+    <string name="week_title">Неделя</string>
+    <string name="month_title">Месяц</string>
+    <string name="recommendation_holder">%d 💊</string>
+    <string name="opened_chats_holder">%d 💬</string>
 </resources>
