@@ -16,9 +16,9 @@ class ChatRepository(
 
     fun getMessagePagingSource(chatId: Int) = lds.getMessagePagingSource(chatId)
 
-    fun getLastMessageLiveData(chatId: Int) = lds.getLastMessageLiveData(chatId)
+    fun getLastMessageFlow(chatId: Int) = lds.getLastMessageFlow(chatId)
 
-    fun getChatLiveData(chatId: Int) = lds.getChatLiveData(chatId)
+    fun getChatFlow(chatId: Int) = lds.getChatFlow(chatId)
 
     suspend fun clearMessages(chatId: Int) = lds.clearMessages(chatId)
 

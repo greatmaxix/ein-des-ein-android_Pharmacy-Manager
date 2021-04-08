@@ -1,7 +1,5 @@
 package com.pulse.manager.components.product
 
-import android.os.Bundle
-import android.view.View
 import androidx.navigation.fragment.navArgs
 import androidx.paging.ExperimentalPagingApi
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -14,15 +12,13 @@ import com.pulse.manager.util.ColorFilterUtil.blackWhiteFilter
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
-class ProductFragment(private val viewModel: ProductViewModel) : BaseProductFragment<ProductViewModel>(R.layout.fragment_product, viewModel) {
+class ProductFragment: BaseProductFragment<ProductViewModel>(R.layout.fragment_product, ProductViewModel::class) {
 
     private val args: ProductFragmentArgs by navArgs()
     private val binding by viewBinding(FragmentProductBinding::bind)
 
     @ExperimentalPagingApi
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initUI() = with(binding) {
         showBackButton()
         toolbar.toolbar.title = args.product.rusName
 
@@ -41,12 +37,6 @@ class ProductFragment(private val viewModel: ProductViewModel) : BaseProductFrag
             mcvInstruction.mockToast()
         }
     }
-
-    private fun onAnalog() = requireContext().toast(getString(R.string.expectSoonMock))
-
-    private fun onCategory() = requireContext().toast("TODO: Category")
-
-    private fun onInstruction() = requireContext().toast(getString(R.string.expectSoonMock))
 
     @ExperimentalPagingApi
     private fun setProductInfo() = with(args.product) {

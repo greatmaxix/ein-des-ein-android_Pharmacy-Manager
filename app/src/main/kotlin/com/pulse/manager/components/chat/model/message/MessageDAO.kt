@@ -1,11 +1,11 @@
 package com.pulse.manager.components.chat.model.message
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import com.pulse.manager.components.chat.adapter.ChatMessageAdapter
 import com.pulse.manager.data.local.db.BaseDao
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MessageDAO : BaseDao<MessageItem> {
@@ -14,7 +14,7 @@ interface MessageDAO : BaseDao<MessageItem> {
     fun getMessagePagingSource(chatId: Int): PagingSource<Int, MessageItem>
 
     @Query("SELECT * FROM MessageItem WHERE chatId = :chatId ORDER BY messageCreatedAt DESC LIMIT 1")
-    fun getLastMessageLiveData(chatId: Int): LiveData<MessageItem?>
+    fun getLastMessageFlow(chatId: Int): Flow<MessageItem?>
 
     @Query("DELETE FROM MessageItem WHERE chatId = :chatId")
     suspend fun clearChat(chatId: Int)

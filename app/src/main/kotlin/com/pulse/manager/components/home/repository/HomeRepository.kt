@@ -9,5 +9,5 @@ class HomeRepository(
 
     suspend fun lastRecommendedProducts() = rds.lastRecommendedProducts()
 
-    fun getOpenedChatsLiveData() = lds.getOpenedChatsLiveData()
+    fun getOpenedChatsFlow() = lds.getOpenedChatsFlow()
 }

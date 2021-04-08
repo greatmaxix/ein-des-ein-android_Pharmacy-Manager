@@ -14,6 +14,7 @@ object Versions {
 
     const val oksse = "0.9.0"
     const val notificationsDsl = "0.1.0"
+    const val flowBinding = "1.0.0"
 }
 
 object DefaultConfig {

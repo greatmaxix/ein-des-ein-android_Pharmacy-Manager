@@ -1,9 +1,7 @@
 package com.pulse.manager.components.search
 
-import android.os.Bundle
-import android.view.View
 import androidx.annotation.LayoutRes
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.RecyclerView
 import com.pulse.manager.R
@@ -13,30 +11,33 @@ import com.pulse.manager.components.product.model.ProductLite
 import com.pulse.manager.components.search.adapter.ProductListAdapter
 import com.pulse.manager.core.extensions.addAutoKeyboardCloser
 import com.pulse.manager.core.extensions.addStateListener
+import com.pulse.manager.core.extensions.observe
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import org.koin.core.component.KoinApiExtension
+import kotlin.reflect.KClass
 
+@ExperimentalCoroutinesApi
 @KoinApiExtension
-abstract class BaseProductListFragment<VM : BaseProductViewModel>(@LayoutRes private val layoutResourceId: Int, private val viewModel: VM) :
-    BaseProductFragment<VM>(layoutResourceId, viewModel) {
+abstract class BaseProductListFragment<VM : BaseProductViewModel>(@LayoutRes private val layoutResourceId: Int, viewModelClass: KClass<VM>) :
+    BaseProductFragment<VM>(layoutResourceId, viewModelClass) {
 
     protected val productAdapter = ProductListAdapter(::performProductInfoRequest)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        view.findViewById<RecyclerView>(R.id.rv_products)?.apply {
+    override fun initUI() {
+        requireView().findViewById<RecyclerView>(R.id.rv_products)?.apply {
             adapter = productAdapter
             addAutoKeyboardCloser()
         }
-
-        productAdapter.addStateListener { progressCallback?.setInProgress(it) }
+        productAdapter.addStateListener { uiHelper.showLoading(it) }
     }
 
-    abstract val productLiveData: LiveData<PagingData<ProductLite>>
+    abstract val productFlow: Flow<PagingData<ProductLite>>
 
-    override fun onBindLiveData() {
-        super.onBindLiveData()
-
-        observe(productLiveData) { productAdapter.submitData(lifecycle, this) }
+    override fun onBindStates() {
+        super.onBindStates()
+        with(lifecycleScope) {
+            observe(productFlow) { productAdapter.submitData(lifecycle, it) }
+        }
     }
 }

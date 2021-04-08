@@ -12,6 +12,4 @@ class ProductAdapter(private val itemClick: (ProductLite) -> Unit) : BaseFilterR
         .apply { itemView.setDebounceOnClickListener { itemClick(getItem(bindingAdapterPosition)) } }
 
     override fun diffResult(origin: List<ProductLite>, new: List<ProductLite>) = ProductDiff(origin, new)
-
-
 }

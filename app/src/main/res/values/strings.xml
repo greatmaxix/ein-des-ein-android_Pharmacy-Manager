@@ -118,4 +118,7 @@
     <string name="month_title">Месяц</string>
     <string name="recommendation_holder">%d 💊</string>
     <string name="opened_chats_holder">%d 💬</string>
+
+    <string name="cancel">Отмена</string>
+    <string name="common_permissionDialog_settingsButton">Настройки</string>
 </resources>

@@ -1,14 +1,12 @@
 package com.pulse.manager.components.category
 
-import android.os.Bundle
-import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.pulse.manager.R
 import com.pulse.manager.components.category.adapter.CategoryAdapter
-import com.pulse.manager.core.base.mvvm.BaseMVVMFragment
+import com.pulse.manager.core.base.fragment.BaseToolbarFragment
 import com.pulse.manager.core.extensions.*
 import com.pulse.manager.databinding.FragmentCategoriesBinding
 import kotlinx.coroutines.launch
@@ -17,29 +15,19 @@ import org.koin.core.component.KoinApiExtension
 import org.koin.core.parameter.parametersOf
 
 @KoinApiExtension
-class CategoriesFragment : BaseMVVMFragment(R.layout.fragment_categories) {
+class CategoriesFragment : BaseToolbarFragment<CategoriesViewModel>(R.layout.fragment_categories, CategoriesViewModel::class, R.menu.search) {
 
     private val args by navArgs<CategoriesFragmentArgs>()
     private val binding by viewBinding(FragmentCategoriesBinding::bind)
-    private val viewModel: CategoriesViewModel by viewModel { parametersOf(args.category) }
+    override val viewModel: CategoriesViewModel by viewModel { parametersOf(args.category) }
     private val clickAction by lazy { return@lazy viewModel::selectCategory }
     private val categoryAdapter by lazy { CategoryAdapter(clickAction) }
     private val spacing by lazy { dimensionPixelSize(R.dimen._2sdp) }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        super.onViewCreated(view, savedInstanceState)
-
-        showBackButton { viewModel.handleBackPress() }
+    override fun initUI() = with(binding) {
+        showBackButton()
         attachBackPressCallback { viewModel.handleBackPress() }
         viewSearch.onBackClick = { viewModel.handleBackPress() }
-        initMenu(R.menu.search) {
-            it.isVisible = false
-            toolbar.toolbar.title = null
-            viewSearch.animateVisibleIfNot()
-            viewSearch.requestFocus()
-            hideBackButton()
-            true
-        }
         initCategoryList()
         viewSearch.setSearchListener { value ->
             viewLifecycleOwner.lifecycleScope.launch { categoryAdapter.filter { it.name?.contains(value, true).falseIfNull() } }
@@ -50,6 +38,11 @@ class CategoriesFragment : BaseMVVMFragment(R.layout.fragment_categories) {
         adapter = categoryAdapter
         addItemDecorator(true, spacing)
         setHasFixedSize(true)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.viewSearch.setText("") // TODO review this case
     }
 
     override fun navigationBack() {
@@ -66,15 +59,25 @@ class CategoriesFragment : BaseMVVMFragment(R.layout.fragment_categories) {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.viewSearch.setText("") // TODO review this case
+    override fun onClickNavigation() {
+        navigationBack()
     }
 
-    override fun onBindLiveData() {
-        observe(viewModel.directionLiveData, navController::navigate)
-        observe(viewModel.navigateBackLiveData) { navigationBack() }
-        observe(viewModel.parentCategoriesLiveData, categoryAdapter::notifyDataSet)
-        observe(viewModel.nestedCategoriesLiveData, categoryAdapter::notifyDataSet)
+    override fun onBindEvents() = with(lifecycleScope) {
+        observe(viewModel.navigateBackEvent.events) { onClickNavigation() }
+        observe(menuItemsFlow) {
+            it.isVisible = false
+            binding.apply {
+                toolbar.toolbar.title = null
+                viewSearch.animateVisibleIfNot()
+                viewSearch.requestFocus()
+                hideBackButton()
+            }
+        }
+    }
+
+    override fun onBindStates() = with(lifecycleScope) {
+        observe(viewModel.parentCategoriesState) { it?.let(categoryAdapter::notifyDataSet) }
+        observe(viewModel.nestedCategoriesState) { it?.let(categoryAdapter::notifyDataSet) }
     }
 }

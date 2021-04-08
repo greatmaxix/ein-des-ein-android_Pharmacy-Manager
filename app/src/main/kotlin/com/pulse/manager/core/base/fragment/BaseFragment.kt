@@ -1,107 +1,31 @@
 package com.pulse.manager.core.base.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.CallSuper
-import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
-import androidx.annotation.MenuRes
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.pulse.manager.R
-import com.pulse.manager.core.extensions.asyncWithContext
 import com.pulse.manager.core.extensions.hideKeyboard
 import com.pulse.manager.core.extensions.isKeyboardOpen
-import com.pulse.manager.core.extensions.setMenu
-import com.pulse.manager.core.general.behavior.IBehavior
-import com.pulse.manager.core.general.interfaces.MessagesCallback
-import com.pulse.manager.core.general.interfaces.ProgressCallback
 
 abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutResourceId) {
 
-    protected val label by lazy { navController.currentDestination?.label?.toString() }
-
-    protected var progressCallback: ProgressCallback? = null
-        private set
-
-    protected var messageCallback: MessagesCallback? = null
-        private set
-
-    private val behaviors = mutableListOf<IBehavior>()
-
     protected val navController by lazy { findNavController() }
 
-    protected var toolbar: Toolbar? = null
-        private set(value) {
-            field = value
-            initToolbar()
-        }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        toolbar = view.findViewById(R.id.toolbar)
         super.onViewCreated(view, savedInstanceState)
+        initUI()
     }
 
-    @CallSuper
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is ProgressCallback) {
-            progressCallback = context
-        }
-        if (context is MessagesCallback) {
-            messageCallback = context
+    protected fun hideKeyboardOrPopBackStack() {
+        when {
+            requireView().isKeyboardOpen -> hideKeyboard()
+            else -> requireActivity().onBackPressed() // backPress needed for execute MainActivity back press logic
         }
     }
 
-    @CallSuper
-    override fun onDetach() {
-        progressCallback = null
-        super.onDetach()
-    }
-
-    @CallSuper
-    override fun onDestroy() {
-        behaviors.forEach { it.detach() }
-        behaviors.clear()
-        super.onDestroy()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        hideKeyboard()
-    }
-
-    protected fun <T : IBehavior> attachBehavior(behavior: T) = behavior.also {
-        behaviors.add(it)
-    }
-
-    protected fun attachBackPressCallback(
-        enabled: Boolean = true,
-        action: OnBackPressedCallback.() -> Unit
-    ) {
-        requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
-            object : OnBackPressedCallback(enabled) {
-                override fun handleOnBackPressed() {
-                    action()
-                }
-            })
-    }
-
-    private fun initToolbar() {
-        toolbar?.title = label
-        toolbar?.setNavigationOnClickListener { navigationBack() }
-    }
-
-    protected fun initMenu(@MenuRes menu: Int, itemClick: Toolbar.OnMenuItemClickListener? = null) =
-        toolbar?.setMenu(
-            menu,
-            itemClick ?: Toolbar.OnMenuItemClickListener { onOptionsItemSelected(it) })
-
+    // TODO review this case
     open fun navigationBack() {
         if (isKeyboardOpen) {
             hideKeyboard()
@@ -112,21 +36,15 @@ abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutR
         }
     }
 
-    protected fun showBackButton(
-        @DrawableRes drawable: Int = R.drawable.ic_arrow_back,
-        navigation: ((View) -> Unit)? = null
-    ) {
-        changeNavigationIcon(drawable)
-        navigation?.let { toolbar?.setNavigationOnClickListener(it::invoke) }
-    }
+    // TODO implement using @callbackFlow
+    protected fun attachBackPressCallback(enabled: Boolean = true, action: OnBackPressedCallback.() -> Unit) =
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(enabled) {
+            override fun handleOnBackPressed() = action(this)
+        })
 
-    protected fun hideBackButton() {
-        toolbar?.navigationIcon = null
-    }
-
-    protected fun changeNavigationIcon(@DrawableRes drawable: Int) {
-        asyncWithContext(
-            { ContextCompat.getDrawable(requireContext(), drawable) },
-            { toolbar?.navigationIcon = this })
-    }
+    /**
+     * Here we may init UI components.
+     * This method will be executed after parent [onCreateView] method
+     */
+    protected abstract fun initUI()
 }

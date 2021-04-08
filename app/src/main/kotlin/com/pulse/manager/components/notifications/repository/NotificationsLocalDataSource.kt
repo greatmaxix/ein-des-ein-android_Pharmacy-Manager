@@ -1,5 +1,6 @@
 package com.pulse.manager.components.notifications.repository
 
-import com.pulse.manager.data.local.SPManager
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 
-class NotificationsLocalDataSource(private val sp: SPManager)
+class NotificationsLocalDataSource(private val dataStore: DataStore<Preferences>)

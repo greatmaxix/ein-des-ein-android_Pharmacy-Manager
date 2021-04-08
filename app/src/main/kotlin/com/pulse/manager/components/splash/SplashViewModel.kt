@@ -1,14 +1,12 @@
 package com.pulse.manager.components.splash
 
-import androidx.lifecycle.LiveData
-import androidx.navigation.NavDirections
+import androidx.lifecycle.viewModelScope
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.pulse.manager.components.splash.SplashFragmentDirections.Companion.fromSplashToSignIn
 import com.pulse.manager.components.splash.SplashFragmentDirections.Companion.globalToHome
 import com.pulse.manager.components.splash.repository.SplashRepository
 import com.pulse.manager.core.base.mvvm.BaseViewModel
-import com.pulse.manager.core.general.SingleLiveEvent
 import kotlinx.coroutines.delay
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
@@ -21,17 +19,12 @@ class SplashViewModel(
     private val workManager: WorkManager
 ) : BaseViewModel(), KoinComponent {
 
-    private val _directionLiveData by lazy { SingleLiveEvent<NavDirections>() }
-    val directionLiveData: LiveData<NavDirections> by lazy { _directionLiveData }
-
-    fun checkAuthentication() {
-        launchIO {
-            if (repository.isUserLoggedIn) {
-                workManager.enqueue(get<OneTimeWorkRequest>(named(UPDATE_PROFILE_INFO))).state
-            }
-            delay(DELAY)
-            _directionLiveData.postValue(repository.isUserLoggedIn.toNavDirection)
+    fun checkAuthentication() = viewModelScope.execute {
+        if (repository.isUserLoggedIn) {
+            workManager.enqueue(get<OneTimeWorkRequest>(named(UPDATE_PROFILE_INFO))).state
         }
+        delay(DELAY)
+        navEvent.postEvent(repository.isUserLoggedIn.toNavDirection)
     }
 
     private val Boolean.toNavDirection

@@ -1,21 +1,17 @@
 package com.pulse.manager.components.statistic
 
-import android.os.Bundle
-import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.pulse.manager.R
-import com.pulse.manager.core.base.mvvm.BaseMVVMFragment
+import com.pulse.manager.core.base.fragment.BaseToolbarFragment
 import com.pulse.manager.databinding.FragmentStatisticBinding
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
-class StatisticFragment : BaseMVVMFragment(R.layout.fragment_statistic) {
+class StatisticFragment : BaseToolbarFragment<StatisticViewModel>(R.layout.fragment_statistic, StatisticViewModel::class) {
 
     private val binding by viewBinding(FragmentStatisticBinding::bind)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initUI() = with(binding) {
         showBackButton()
 
         mtvRatingValue.text = getString(R.string.ratingHolder, 4.9f)

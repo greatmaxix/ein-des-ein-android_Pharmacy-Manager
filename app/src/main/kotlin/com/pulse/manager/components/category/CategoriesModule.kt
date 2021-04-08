@@ -5,7 +5,6 @@ import com.pulse.manager.components.category.repository.CategoriesLocalDataSourc
 import com.pulse.manager.components.category.repository.CategoriesRemoteDataSource
 import com.pulse.manager.components.category.repository.CategoriesRepository
 import com.pulse.manager.data.local.DBManager
-import org.koin.androidx.fragment.dsl.fragment
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.component.KoinApiExtension
 import org.koin.dsl.module
@@ -16,8 +15,6 @@ val categoriesModule = module {
     single { CategoriesRepository(get(), get()) }
     single { CategoriesRemoteDataSource(get()) }
     single { CategoriesLocalDataSource(get<DBManager>().categoryDAO) }
-
-    fragment { CategoriesFragment() }
 
     viewModel { (category: Category?) -> CategoriesViewModel(get(), category) }
 }

@@ -6,11 +6,22 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.FontRes
+import androidx.annotation.IdRes
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.fragment.NavHostFragment
+import com.pulse.manager.R
 import com.pulse.manager.core.base.fragment.dialog.AlertDialogData
 import com.pulse.manager.core.base.fragment.dialog.AlertDialogDataRes
 import com.pulse.manager.core.base.fragment.dialog.AlertDialogFragment
 import kotlin.math.roundToInt
+
+fun FragmentActivity.lazyNavController(@IdRes resId: Int = R.id.nav_host) = lazyNotSynchronized {
+    try {
+        (supportFragmentManager.findFragmentById(resId) as NavHostFragment).navController
+    } catch (e: IllegalArgumentException) {
+        throw IllegalArgumentException("${this::class.java.simpleName} does not use \"navController\"")
+    }
+}
 
 val Activity.rootView: ViewGroup
     get() = findViewById(Window.ID_ANDROID_CONTENT)

@@ -1,27 +1,22 @@
 package com.pulse.manager.components.textInfo
 
-import android.os.Bundle
-import android.view.View
+import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.pulse.manager.R
-import com.pulse.manager.core.base.mvvm.BaseMVVMFragment
+import com.pulse.manager.core.base.fragment.BaseToolbarFragment
 import com.pulse.manager.databinding.FragmentTextInfoBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinApiExtension
-import org.koin.core.parameter.parametersOf
 
 @KoinApiExtension
-class TextInfoFragment : BaseMVVMFragment(R.layout.fragment_text_info) {
+class TextInfoFragment : BaseToolbarFragment<TextInfoViewModel>(R.layout.fragment_text_info, TextInfoViewModel::class) {
 
+    private val args by navArgs<TextInfoFragmentArgs>()
     private val binding by viewBinding(FragmentTextInfoBinding::bind)
-    private val viewModel: TextInfoViewModel by viewModel(parameters = { parametersOf(TextInfoFragmentArgs.fromBundle(requireArguments())) })
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initUI() = with(binding) {
         showBackButton()
 
-        val titleResId = when (viewModel.args.infoType) {
+        val titleResId = when (args.infoType) {
             KEY_USER_AGREEMENT -> R.string.userAgreement
             KEY_PRIVACY_POLICY -> R.string.privacyPolicy
             KEY_TERMS_AND_CONDITIONS -> R.string.termsAndConditions

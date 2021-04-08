@@ -1,5 +1,6 @@
 package com.pulse.manager.components.needHelp.repository
 
-import com.pulse.manager.data.local.SPManager
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 
-class NeedHelpLocalDataSource(private val sp: SPManager)
+class NeedHelpLocalDataSource(private val dataStore: DataStore<Preferences>)

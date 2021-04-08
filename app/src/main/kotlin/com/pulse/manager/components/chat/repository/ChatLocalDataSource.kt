@@ -6,11 +6,9 @@ import com.pulse.manager.components.chat.model.remoteKeys.MessagesRemoteKeys.Com
 import com.pulse.manager.components.chat.model.remoteKeys.MessagesRemoteKeysDAO
 import com.pulse.manager.components.chat_list.model.chat.ChatItemDAO
 import com.pulse.manager.components.signIn.model.UserDAO
-import com.pulse.manager.data.local.SPManager
 import java.time.LocalDateTime
 
 class ChatLocalDataSource(
-    private val sp: SPManager,
     private val userDao: UserDAO,
     private val messagesRemoteKeysDAO: MessagesRemoteKeysDAO,
     private val messageDAO: MessageDAO,
@@ -21,7 +19,7 @@ class ChatLocalDataSource(
 
     fun getMessagePagingSource(chatId: Int) = messageDAO.getMessagePagingSource(chatId)
 
-    fun getLastMessageLiveData(chatId: Int) = messageDAO.getLastMessageLiveData(chatId)
+    fun getLastMessageFlow(chatId: Int) = messageDAO.getLastMessageFlow(chatId)
 
     suspend fun getRemoteKeys(messageId: Int) = messagesRemoteKeysDAO.getRemoteKeys(messageId)
 
@@ -41,5 +39,5 @@ class ChatLocalDataSource(
     suspend fun isHeaderExist(chatId: Int, createdAt: LocalDateTime) = messageDAO.getHeaderMessages(chatId)
         .find { it.createdAt.year == createdAt.year && it.createdAt.month == createdAt.month && it.createdAt.dayOfMonth == createdAt.dayOfMonth } != null
 
-    fun getChatLiveData(chatId: Int) = chatItemDAO.getChatLiveData(chatId)
+    fun getChatFlow(chatId: Int) = chatItemDAO.getChatFlow(chatId)
 }

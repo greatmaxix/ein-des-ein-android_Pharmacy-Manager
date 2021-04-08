@@ -3,43 +3,35 @@ package com.pulse.manager.core.base.mvvm
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.pulse.manager.core.base.BaseActivity
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.component.KoinApiExtension
 import kotlin.reflect.KClass
 
-@KoinApiExtension
-abstract class BaseMVVMActivity<out VM : BaseViewModel>(
-    @LayoutRes layoutResourceId: Int,
-    viewModelClass: KClass<VM>
-) : BaseActivity(layoutResourceId) {
+abstract class BaseMVVMActivity<out VM : ViewModel>(@LayoutRes layoutResourceId: Int, viewModelClass: KClass<VM>) : BaseActivity(layoutResourceId), IBind {
 
     protected val viewModel: VM by lazy { getViewModel(clazz = viewModelClass) }
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        onBindLiveData()
+        onBindEvents()
+        onBindStates()
     }
 
     /**
-     * Here we may bind our observers to LiveData if some.
+     * Here we may bind our observers for events as Navigation, Show dialog, Toast ect.
      * This method will be executed after parent [onCreate] method
      */
-    protected open fun onBindLiveData() {
+    override fun onBindEvents() {
         //Optional
     }
 
-    protected fun <T, LD : LiveData<T>> observeNullable(liveData: LD, onChanged: T?.() -> Unit) {
-        liveData.observe(this, { value ->
-            onChanged(value)
-        })
-    }
-
-    protected fun <T, LD : LiveData<T>> observe(liveData: LD, onChanged: T.() -> Unit) {
-        liveData.observe(this, { value ->
-            value?.let(onChanged)
-        })
+    /**
+     * Here we may bind our observers for state changes as updating view ect.
+     * This method will be executed after parent [onCreate] method
+     */
+    override fun onBindStates() {
+        //Optional
     }
 }

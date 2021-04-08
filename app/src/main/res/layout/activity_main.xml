@@ -29,9 +29,4 @@
         app:menu="@menu/bottom_navigation"
         tools:translationY="0dp" />
 
-    <include
-        android:id="@+id/layout_progress"
-        layout="@layout/layout_progress"
-        tools:visibility="gone" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

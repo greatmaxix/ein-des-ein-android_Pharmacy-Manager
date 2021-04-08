@@ -1,34 +1,27 @@
 package com.pulse.manager.components.needHelp
 
-import android.os.Bundle
-import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.pulse.manager.R
 import com.pulse.manager.components.needHelp.adapter.HelpAdapter
-import com.pulse.manager.core.base.mvvm.BaseMVVMFragment
-import com.pulse.manager.core.extensions.animateVisibleIfNot
-import com.pulse.manager.core.extensions.falseIfNull
-import com.pulse.manager.core.extensions.gone
-import com.pulse.manager.core.extensions.setDebounceOnClickListener
+import com.pulse.manager.core.base.fragment.BaseToolbarFragment
+import com.pulse.manager.core.extensions.*
 import com.pulse.manager.data.DummyData
 import com.pulse.manager.databinding.FragmentNeedHelpBinding
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
-class NeedHelpFragment(private val viewModel: NeedHelpViewModel) : BaseMVVMFragment(R.layout.fragment_need_help) {
+class NeedHelpFragment : BaseToolbarFragment<NeedHelpViewModel>(R.layout.fragment_need_help, NeedHelpViewModel::class) {
 
     // TODO change items
 
     private val helpAdapter by lazy { HelpAdapter() }
     private val binding by viewBinding(FragmentNeedHelpBinding::bind)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        super.onViewCreated(view, savedInstanceState)
-
-        showBackButton { clickBack() }
+    override fun initUI() = with(binding) {
+        showBackButton()
         attachBackPressCallback { clickBack() }
 
         ivSearch.setDebounceOnClickListener {
@@ -49,8 +42,13 @@ class NeedHelpFragment(private val viewModel: NeedHelpViewModel) : BaseMVVMFragm
         initHelpList()
     }
 
+    override fun onClickNavigation() {
+        clickBack()
+    }
+
     private fun clickBack() = with(binding) {
         if (viewSearch.isVisible) {
+            hideKeyboard()
             viewSearch.gone()
             llHeaderContainer.animateVisibleIfNot()
             toolbar.toolbar.title = null

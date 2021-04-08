@@ -19,9 +19,9 @@ class ProductViewHolder(itemView: View) : BaseViewHolder<ProductLite>(itemView) 
     override fun bind(item: ProductLite) {
         with(binding) {
 //                tvRecipe.text = "Рецепт" // TODO
-            mtvSubtitle.text = item.releaseForm
             item.aggregation?.let { mtvProductPrice.text = context.getString(R.string.price, it.minPrice.toString()) }
             mtvTitle.setTextHtml(item.rusName)
+            mtvSubtitle.setTextHtml(item.releaseForm)
             ivProduct.setProductImage(item)
         }
     }

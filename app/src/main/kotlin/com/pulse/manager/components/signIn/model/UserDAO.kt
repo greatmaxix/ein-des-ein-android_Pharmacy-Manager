@@ -1,13 +1,13 @@
 package com.pulse.manager.components.signIn.model
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDAO {
 
     @Query("select * from user limit 1")
-    fun get(): LiveData<User>
+    fun get(): Flow<User?>
 
     @Query("select * from user limit 1")
     suspend fun getUser(): User?

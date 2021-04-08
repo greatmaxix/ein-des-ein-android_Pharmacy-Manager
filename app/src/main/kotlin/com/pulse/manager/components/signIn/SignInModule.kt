@@ -4,7 +4,6 @@ import com.pulse.manager.components.signIn.repository.SignInLocalDataSource
 import com.pulse.manager.components.signIn.repository.SignInRemoteDataSource
 import com.pulse.manager.components.signIn.repository.SignInRepository
 import com.pulse.manager.data.local.DBManager
-import org.koin.androidx.fragment.dsl.fragment
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.component.KoinApiExtension
 import org.koin.dsl.module
@@ -17,6 +16,4 @@ val signInModule = module {
     single { SignInRemoteDataSource(get()) }
 
     viewModel { SignInViewModel(get()) }
-
-    fragment { SignInFragment(get()) }
 }

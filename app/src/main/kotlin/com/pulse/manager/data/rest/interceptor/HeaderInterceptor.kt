@@ -1,17 +1,20 @@
 package com.pulse.manager.data.rest.interceptor
 
-import com.pulse.manager.data.local.SPManager
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import com.pulse.manager.core.extensions.getOnes
+import com.pulse.manager.data.local.Preferences.Token.FIELD_ACCESS_TOKEN
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class HeaderInterceptor(private val sp: SPManager) : Interceptor {
+class HeaderInterceptor(private val dataStore: DataStore<Preferences>) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val newRequestBuilder = request.newBuilder()
         with(newRequestBuilder) {
             header(CONTENT_TYPE, APPLICATION_JSON)
-            val token = sp.accessToken
+            val token = dataStore.getOnes(FIELD_ACCESS_TOKEN, "")
             if (request.headers[HEADER_IGNORE_AUTHORIZATION].isNullOrBlank() && token.isNotBlank()) {
                 header(AUTHORIZATION, "$BEARER $token")
             }

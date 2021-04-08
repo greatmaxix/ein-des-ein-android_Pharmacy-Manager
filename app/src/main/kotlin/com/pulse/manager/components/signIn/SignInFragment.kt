@@ -1,24 +1,19 @@
 package com.pulse.manager.components.signIn
 
-import android.os.Bundle
-import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.pulse.manager.R
-import com.pulse.manager.components.signIn.SignInFragmentDirections.Companion.globalToHome
 import com.pulse.manager.core.base.mvvm.BaseMVVMFragment
 import com.pulse.manager.core.extensions.*
 import com.pulse.manager.databinding.FragmentSignInBinding
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
-class SignInFragment(private val viewModel: SignInViewModel) : BaseMVVMFragment(R.layout.fragment_sign_in) {
+class SignInFragment : BaseMVVMFragment<SignInViewModel>(R.layout.fragment_sign_in, SignInViewModel::class) {
 
     private val binding by viewBinding(FragmentSignInBinding::bind)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initUI()  = with(binding) {
         llButtonContainer.isEnabled = false
         var isEmailAccepted = false
         var isPasswordAccepted = false
@@ -33,9 +28,7 @@ class SignInFragment(private val viewModel: SignInViewModel) : BaseMVVMFragment(
             updateSignInButtonState(isEmailAccepted && isPasswordAccepted)
         }
         llButtonContainer.setDebounceOnClickListener {
-            observeResult(viewModel.performSignIn(etEmail.text?.toTrim.orEmpty(), etPassword.text?.toTrim.orEmpty())) {
-                onEmmit = { navController.navigate(globalToHome()) }
-            }
+            viewModel.performSignIn(etEmail.text?.toTrim.orEmpty(), etPassword.text?.toTrim.orEmpty())
         }
 
         debug {

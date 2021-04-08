@@ -4,85 +4,88 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.asLiveData
+import androidx.annotation.StringRes
 import androidx.lifecycle.lifecycleScope
+import com.fondesa.kpermissions.allGranted
+import com.fondesa.kpermissions.anyDenied
+import com.fondesa.kpermissions.anyPermanentlyDenied
+import com.fondesa.kpermissions.anyShouldShowRationale
+import com.fondesa.kpermissions.extension.permissionsBuilder
+import com.pulse.manager.R
 import com.pulse.manager.core.base.fragment.BaseFragment
-import com.pulse.manager.core.dsl.ObserveGeneral
-import com.pulse.manager.core.network.Resource
-import com.pulse.manager.core.network.Resource.*
-import kotlinx.coroutines.flow.Flow
+import com.pulse.manager.core.base.helper.UiHelper
+import com.pulse.manager.core.extensions.observe
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import kotlin.reflect.KClass
 
-abstract class BaseMVVMFragment(@LayoutRes layoutResourceId: Int) : BaseFragment(layoutResourceId) {
+abstract class BaseMVVMFragment<VM : BaseViewModel>(@LayoutRes private val layoutResourceId: Int, private val viewModelClass: KClass<VM>) :
+    BaseFragment(layoutResourceId), IBind {
+
+    protected open val viewModel: VM by lazy { getViewModel(clazz = viewModelClass) }
+    protected val uiHelper by lazy { UiHelper(requireActivity()) }
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onBindLiveData()
+        viewModel.theme.postEvent(requireActivity().theme)
+        onBindBase()
+
+        onBindEvents()
+        onBindStates()
+    }
+
+    @CallSuper
+    protected open fun onBindBase() = with(lifecycleScope) {
+        observe(viewModel.loadingState, uiHelper::showLoading)
+        observe(viewModel.messageEvent) { it.contentOrNull?.let(uiHelper::showMessage) }
+        observe(viewModel.navEvent) { it.contentOrNull?.let(navController::navigate) }
     }
 
     /**
-     * Here we may bind our observers to LiveData if some.
+     * Here we may bind our observers for events as Navigation, Show dialog, Toast ect.
      * This method will be executed after parent [onCreateView] method
      */
-    protected open fun onBindLiveData() {
+    override fun onBindEvents() {
         //Optional
     }
 
-    protected fun <T, LD : LiveData<T>> observeSingle(liveData: LD, onChanged: (T?) -> Unit) {
-        liveData.observe(viewLifecycleOwner, object : Observer<T> {
-            override fun onChanged(t: T?) {
-                onChanged.invoke(t)
-                liveData.removeObserver(this)
-            }
-        })
+    /**
+     * Here we may bind our observers for state changes as updating view ect.
+     * This method will be executed after parent [onCreateView] method
+     */
+    override fun onBindStates() {
+        //Optional
     }
 
-    protected fun <T, LD : LiveData<T>> observeNullable(liveData: LD, onChanged: T?.() -> Unit) {
-        liveData.observe(this, { value ->
-            onChanged(value)
-        })
-    }
-
-    protected fun <T, LD : LiveData<T>> observe(liveData: LD, onChanged: T.() -> Unit) {
-        liveData.observe(this, { value ->
-            value?.let(onChanged)
-        })
-    }
-
-    protected fun <T> observeResult(liveData: LiveData<Resource<T>>, block: (ObserveGeneral<T>.() -> Unit)? = null) {
-        block?.let {
-            ObserveGeneral<T>().apply(block).apply {
-                observe(liveData) {
-                    when (this) {
-                        is Success<T> -> {
-                            progressCallback?.setInProgress(false)
-                            onEmmit(data)
-                        }
-                        is Progress -> {
-                            onProgress?.invoke(isLoading) ?: progressCallback?.setInProgress(isLoading)
-                        }
-                        is Error -> {
-                            progressCallback?.setInProgress(false)
-                            onError?.invoke(exception) ?: messageCallback?.showError(exception.resId)
-                        }
+    protected fun requestPermissions(
+        firstPermission: String,
+        vararg otherPermissions: String = arrayOf(),
+        @StringRes openSettingsMessage: Int,
+        @StringRes rationaleMessage: Int,
+        @StringRes deniedMessage: Int,
+        action: () -> Unit
+    ) {
+        val request = permissionsBuilder(firstPermission, *otherPermissions).build()
+        request.addListener { result ->
+            when {
+                result.anyPermanentlyDenied() -> uiHelper.openSettingsMessage(getString(openSettingsMessage))
+                result.anyShouldShowRationale() -> {
+                    uiHelper.showDialog(getString(rationaleMessage)) {
+                        cancelable = false
+                        positive = getString(R.string.common_okButton)
+                        positiveAction = { request.send() }
+                        negative = getString(R.string.cancel)
                     }
                 }
-            }
-        } ?: observe(liveData) {
-            when (this) {
-                is Success<T> -> progressCallback?.setInProgress(false)
-                is Progress -> progressCallback?.setInProgress(isLoading)
-                is Error -> {
-                    progressCallback?.setInProgress(false)
-                    messageCallback?.showError(exception.resId)
-                }
+                result.anyDenied() -> uiHelper.showMessage(getString(deniedMessage))
+                result.allGranted() -> action()
             }
         }
+        request.send()
     }
 
-    protected fun <T, F : Flow<T>> observeFlow(flow: F, onChanged: T.() -> Unit) {
-        observe(flow.asLiveData(viewLifecycleOwner.lifecycleScope.coroutineContext), onChanged)
+    // TODO change it
+    protected fun <T> observeSavedStateHandler(key: String, onChanged: (T) -> Unit) {
+        navController.currentBackStackEntry?.savedStateHandle?.getLiveData<T>(key)?.let { it.observe(viewLifecycleOwner, onChanged) }
     }
 }

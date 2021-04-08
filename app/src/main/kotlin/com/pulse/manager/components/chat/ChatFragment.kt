@@ -5,10 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Bundle
 import android.provider.MediaStore
-import android.provider.Settings
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -21,11 +18,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.paging.ExperimentalPagingApi
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.fondesa.kpermissions.allGranted
-import com.fondesa.kpermissions.anyDenied
-import com.fondesa.kpermissions.anyPermanentlyDenied
-import com.fondesa.kpermissions.anyShouldShowRationale
-import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.pulse.manager.BuildConfig
 import com.pulse.manager.R
 import com.pulse.manager.components.chat.ChatFragmentDirections.Companion.fromChatToSendImageBottomSheet
@@ -36,48 +28,37 @@ import com.pulse.manager.components.chat.dialog.SendBottomSheetDialogFragment
 import com.pulse.manager.components.chat.dialog.SendBottomSheetDialogFragment.Companion.RESULT_BUTTON_EXTRA_KEY
 import com.pulse.manager.components.chat.dialog.SendBottomSheetDialogFragment.Companion.SEND_PHOTO_KEY
 import com.pulse.manager.components.chat_list.model.chat.ChatItem
-import com.pulse.manager.core.base.mvvm.BaseMVVMFragment
+import com.pulse.manager.core.base.fragment.BaseToolbarFragment
 import com.pulse.manager.core.extensions.*
 import com.pulse.manager.databinding.FragmentChatBinding
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.parameter.parametersOf
 
+@ExperimentalCoroutinesApi
 @KoinApiExtension
 @FlowPreview
-class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
+class ChatFragment : BaseToolbarFragment<ChatViewModel>(R.layout.fragment_chat, ChatViewModel::class, R.menu.close_request) {
 
     private val args by navArgs<ChatFragmentArgs>()
     private val binding by viewBinding(FragmentChatBinding::bind)
-    private val viewModel: ChatViewModel by viewModel(parameters = { parametersOf(args.chat) })
+    override val viewModel: ChatViewModel by viewModel(parameters = { parametersOf(args.chat) })
     private val uri by lazy { FileProvider.getUriForFile(requireContext(), "${BuildConfig.APPLICATION_ID}.fileprovider", viewModel.tempPhotoFile) }
     private lateinit var choosePhotoLauncher: ActivityResultLauncher<Intent>
     private lateinit var takePhotoLauncher: ActivityResultLauncher<Uri>
     private val chatAdapter by lazy { ChatMessageAdapter() }
     private val productAdapter by lazy {
         ProductAttachSearchAdapter {
-            observeResult(viewModel.sendProduct(it))
+            viewModel.sendProduct(it)
             binding.viewSearch.setText("")
             hideProducts()
         }
     }
     private var scrollerJob: Job? = null
 
-    @FlowPreview
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initUI() = with(binding) {
         showBackButton()
-        initMenu(R.menu.close_request) {
-            if (it.itemId == R.id.closeRequest) {
-                observeResult(viewModel.requestCloseChat())
-            }
-            true
-        }
         initChatList()
         initProductList()
 
@@ -138,9 +119,7 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
         }
     }
 
-    private fun sendPhotoMessage(uri: Uri) {
-        observeResult(viewModel.sendPhoto(uri))
-    }
+    private fun sendPhotoMessage(uri: Uri) = viewModel.sendPhoto(uri)
 
     @FlowPreview
     private fun requestPickPhoto() {
@@ -153,68 +132,50 @@ class ChatFragment : BaseMVVMFragment(R.layout.fragment_chat) {
             PackageManager.FEATURE_CAMERA_ANY
         ) ?: false
         if (isDeviceSupportCamera) {
-            val request = permissionsBuilder(Manifest.permission.CAMERA).build()
-            request.addListener { result ->
-                when {
-                    result.anyPermanentlyDenied() -> openSettings()
-                    result.anyShouldShowRationale() -> {
-                        showAlertRes(getString(R.string.cameraPermissionRationaleMessageChat)) {
-                            cancelable = false
-                            positive = R.string.common_okButton
-                            positiveAction = { request.send() }
-                            negative = R.string.common_closeButton
-                        }
-                    }
-                    result.anyDenied() -> messageCallback?.showError(getString(R.string.cameraPermissionDenied))
-                    result.allGranted() -> takePhotoLauncher.launch(uri)
-                }
-            }
-            request.send()
+            requestPermissions(
+                firstPermission = Manifest.permission.CAMERA,
+                openSettingsMessage = R.string.cameraPermissionPermanentlyDenied,
+                rationaleMessage = R.string.cameraPermissionRationaleMessage,
+                deniedMessage = R.string.cameraPermissionDenied
+            ) { takePhotoLauncher.launch(uri) }
         } else {
-            messageCallback?.showError(getString(R.string.cameraPermissionNoCameraOnDevice))
-        }
-    }
-
-    private fun openSettings() {
-        showAlertRes(getString(R.string.cameraPermissionPermanentlyDenied)) {
-            cancelable = false
-            positive = R.string.permissionDialogSettingsButton
-            positiveAction = {
-                val intent = Intent()
-                intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                intent.data = Uri.fromParts("package", requireActivity().packageName, null)
-                requireContext().startActivity(intent)
-            }
-            negative = R.string.permissionDialogCancel
+            uiHelper.showMessage(getString(R.string.cameraPermissionNoCameraOnDevice))
         }
     }
 
     private fun sendMessage() {
         val message = binding.tilMessage.editText?.text?.toString()?.trim().orEmpty()
         binding.tilMessage.editText?.text = null
-        observeResult(viewModel.sendMessage(message))
+        viewModel.sendMessage(message)
+    }
+
+    override fun onBindEvents() = with(lifecycleScope) {
+        observe(menuItemsFlow) {
+            if (it.itemId == R.id.closeRequest) {
+                viewModel.requestCloseChat()
+            }
+        }
     }
 
     @ExperimentalPagingApi
-    override fun onBindLiveData() {
-        super.onBindLiveData()
-        observe(viewModel.chatLiveData) {
-            this?.let {
+    override fun onBindStates() = with(lifecycleScope) {
+        observe(viewModel.chatMessagesFlow) { chatAdapter.submitData(lifecycle, it) }
+        observe(viewModel.lastMessageFlow) { scrollToLastMessage() }
+        observe(viewModel.pagedSearchFlow) { productAdapter.submitData(lifecycle, it) }
+        observe(viewModel.chatFlow) {
+            it?.let {
                 with(binding) {
-                    toolbar.toolbar.title = customer.name
-                    toolbar.toolbar.menu?.findItem(R.id.closeRequest)?.isVisible = isAbleToWrite && it.status != ChatItem.STATUS_OPENED
-                    llMessageField.isVisible = isAbleToWrite
-                    if (!isAbleToWrite) hideKeyboard()
+                    toolbar.toolbar.title = it.customer.name
+                    toolbar.toolbar.menu?.findItem(R.id.closeRequest)?.isVisible = it.isAbleToWrite && it.status != ChatItem.STATUS_OPENED
+                    llMessageField.isVisible = it.isAbleToWrite
+                    if (!it.isAbleToWrite) hideKeyboard()
                     if (args.chat.isAbleToWrite) {
-                        if (isAutomaticClosed) showChatEndDialog()
-                        else if (isClosed) showChatEndDialog()
+                        if (it.isAutomaticClosed) showChatEndDialog()
+                        else if (it.isClosed) showChatEndDialog()
                     }
                 }
             }
         }
-        observe(viewModel.chatMessagesLiveData) { chatAdapter.submitData(lifecycle, this) }
-        observe(viewModel.lastMessageLiveData) { scrollToLastMessage() }
-        observe(viewModel.pagedSearchLiveData) { productAdapter.submitData(lifecycle, this) }
     }
 
     private fun showChatEndDialog() {

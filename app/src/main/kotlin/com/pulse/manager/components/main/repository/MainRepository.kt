@@ -5,9 +5,9 @@ class MainRepository(
     private val rds: MainRemoteDataSource
 ) {
 
-    fun getUserLiveData() = lds.getUserLiveData()
+    fun getUserFlow() = lds.getUserFlow()
 
-    fun setChatForeground(isForeground: Boolean) = lds.setChatForeground(isForeground)
+    suspend fun setChatForeground(isForeground: Boolean) = lds.setChatForeground(isForeground)
 
     suspend fun getChat(chatId: Int) = lds.getChat(chatId) ?: rds.getChat(chatId)
 }
