@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGrey"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_15sdp"
+        app:cardBackgroundColor="@color/colorGlobalWhite"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/_16sdp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtv_rating_value"
+                style="@style/TextAppearance.MaterialComponents.Headline5.H2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="@color/darkBlue"
+                app:layout_constraintBottom_toTopOf="@+id/mtv_rating_title"
+                app:layout_constraintEnd_toStartOf="@+id/divider_left"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="4.9 ⭐" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtv_rating_title"
+                style="@style/TextAppearance.MaterialComponents.Caption.Caption2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/rating"
+                android:textColor="@color/darkBlue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/divider_left"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mtv_rating_value" />
+
+            <View
+                android:id="@+id/divider_left"
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/_4sdp"
+                android:background="@color/grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/divider_right"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtv_recommendation_value"
+                style="@style/TextAppearance.MaterialComponents.Headline5.H2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="@color/darkBlue"
+                app:layout_constraintBottom_toTopOf="@+id/mtv_recommendation_title"
+                app:layout_constraintEnd_toStartOf="@+id/divider_right"
+                app:layout_constraintStart_toEndOf="@+id/divider_left"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="122 💊" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtv_recommendation_title"
+                style="@style/TextAppearance.MaterialComponents.Caption.Caption2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/recommendations"
+                android:textColor="@color/darkBlue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/divider_right"
+                app:layout_constraintStart_toEndOf="@+id/divider_left"
+                app:layout_constraintTop_toBottomOf="@+id/mtv_recommendation_value" />
+
+            <View
+                android:id="@+id/divider_right"
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/_4sdp"
+                android:background="@color/grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/divider_left"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtv_opened_chats_value"
+                style="@style/TextAppearance.MaterialComponents.Headline5.H2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="@color/darkBlue"
+                app:layout_constraintBottom_toTopOf="@+id/mtv_opened_chats_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/divider_right"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="98 💬" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtv_opened_chats_title"
+                style="@style/TextAppearance.MaterialComponents.Caption.Caption2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/opened_chats"
+                android:textColor="@color/darkBlue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/divider_right"
+                app:layout_constraintTop_toBottomOf="@+id/mtv_opened_chats_value" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/TextAppearance.MaterialComponents.Button.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:text="@string/income_statistic" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        app:cardBackgroundColor="@color/colorGlobalWhite"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="1dp"
+        app:contentPadding="@dimen/_8sdp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtv_today_title"
+            style="@style/TextAppearance.MaterialComponents.Subtitle2.Subhead14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/_4sdp"
+            android:text="@string/today_title"
+            android:textColor="@color/darkBlue" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtv_today_value"
+            style="@style/TextAppearance.MaterialComponents.Body1.Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:paddingVertical="@dimen/_4sdp"
+            android:textColor="@color/primaryBlue"
+            tools:text="450 ₸" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:cardBackgroundColor="@color/colorGlobalWhite"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="1dp"
+        app:contentPadding="@dimen/_8sdp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtv_week_title"
+            style="@style/TextAppearance.MaterialComponents.Subtitle2.Subhead14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/_4sdp"
+            android:text="@string/week_title"
+            android:textColor="@color/darkBlue" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtv_week_value"
+            style="@style/TextAppearance.MaterialComponents.Body1.Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:paddingVertical="@dimen/_4sdp"
+            android:textColor="@color/primaryBlue"
+            tools:text="2350 ₸" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:cardBackgroundColor="@color/colorGlobalWhite"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="1dp"
+        app:contentPadding="@dimen/_8sdp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtv_month_title"
+            style="@style/TextAppearance.MaterialComponents.Subtitle2.Subhead14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/_4sdp"
+            android:text="@string/month_title"
+            android:textColor="@color/darkBlue" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtv_month_value"
+            style="@style/TextAppearance.MaterialComponents.Body1.Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:paddingVertical="@dimen/_4sdp"
+            android:textColor="@color/primaryBlue"
+            tools:text="16670 ₸" />
+
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

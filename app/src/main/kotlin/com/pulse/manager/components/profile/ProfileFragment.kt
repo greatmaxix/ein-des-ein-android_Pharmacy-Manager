@@ -10,6 +10,7 @@ import com.pulse.manager.components.profile.ProfileFragmentDirections.Companion.
 import com.pulse.manager.components.profile.ProfileFragmentDirections.Companion.fromProfileToAboutApp
 import com.pulse.manager.components.profile.ProfileFragmentDirections.Companion.fromProfileToNeedHelp
 import com.pulse.manager.components.profile.ProfileFragmentDirections.Companion.fromProfileToNotifications
+import com.pulse.manager.components.profile.ProfileFragmentDirections.Companion.fromProfileToStatistic
 import com.pulse.manager.core.base.fragment.dialog.AlertDialogFragment
 import com.pulse.manager.core.base.mvvm.BaseMVVMFragment
 import com.pulse.manager.core.extensions.isServiceRunning
@@ -25,9 +26,7 @@ class ProfileFragment(private val viewModel: ProfileViewModel) : BaseMVVMFragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
 
-//        itemStatisticsProfile.setOnClick {
-//          TODO uncomment in future and set proper color in xml
-//        }
+        itemStatistics.setOnClick { navController.navigate(fromProfileToStatistic()) }
         itemNotifications.setOnClick { navController.navigate(fromProfileToNotifications()) }
         itemAboutApp.setOnClick { navController.navigate(fromProfileToAboutApp()) }
         itemHelp.setOnClick { navController.navigate(fromProfileToNeedHelp()) }
