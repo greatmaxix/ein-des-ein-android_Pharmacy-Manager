@@ -5,4 +5,4 @@ import com.pulse.manager.core.base.mvvm.BaseViewModel
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
-class TextInfoViewModel(private val repository: TextInfoRepository, val args: TextInfoFragmentArgs) : BaseViewModel()
+class TextInfoViewModel(private val repository: TextInfoRepository) : BaseViewModel()

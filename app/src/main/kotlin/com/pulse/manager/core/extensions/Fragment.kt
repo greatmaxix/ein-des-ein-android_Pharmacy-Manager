@@ -1,6 +1,7 @@
 package com.pulse.manager.core.extensions
 
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import androidx.annotation.DimenRes
 import androidx.annotation.FontRes
@@ -22,6 +23,8 @@ import org.koin.androidx.viewmodel.ViewModelParameter
 import org.koin.androidx.viewmodel.koin.getViewModel
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.qualifier.Qualifier
+
+fun <T : View> Fragment.findViewById(@IdRes id: Int) = view?.findViewById<T>(id)
 
 fun Fragment.getFragmentTag(suffix: String? = null): String =
     this::class.java.simpleName + (suffix ?: "")

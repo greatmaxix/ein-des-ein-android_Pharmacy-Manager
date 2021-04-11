@@ -21,8 +21,8 @@ import com.pulse.manager.components.signIn.signInModule
 import com.pulse.manager.components.splash.splashModule
 import com.pulse.manager.components.statistic.statisticModule
 import com.pulse.manager.components.textInfo.textInfoModule
+import com.pulse.manager.core.extensions.dataStore
 import com.pulse.manager.data.local.DBManager
-import com.pulse.manager.data.local.SPManager
 import com.pulse.manager.data.rest.restModule
 import com.pulse.manager.util.CrashlyticsCrashReportingTree
 import com.pulse.manager.util.HyperlinkedDebugTree
@@ -95,7 +95,7 @@ class App : Application() {
     }
 
     private val managersModule = module {
-        single { SPManager(androidApplication()) }
+        single { androidContext().dataStore }
         single { DBManager(androidApplication()) }
         single { WorkManager.getInstance(androidApplication()) }
     }

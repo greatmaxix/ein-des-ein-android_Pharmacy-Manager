@@ -29,6 +29,7 @@
         style="@style/Recycler"
         android:layout_width="match_parent"
         android:layout_height="@dimen/match_constraint"
+        android:layout_marginBottom="@dimen/bottomNavHeight"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"

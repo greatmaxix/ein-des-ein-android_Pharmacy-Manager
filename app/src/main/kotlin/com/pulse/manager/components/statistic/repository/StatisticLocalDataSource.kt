@@ -1,5 +1,6 @@
 package com.pulse.manager.components.statistic.repository
 
-import com.pulse.manager.data.local.SPManager
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 
-class StatisticLocalDataSource(private val sp: SPManager)
+class StatisticLocalDataSource(private val dataStore: DataStore<Preferences>)

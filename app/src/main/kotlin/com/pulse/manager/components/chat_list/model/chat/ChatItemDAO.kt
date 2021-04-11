@@ -1,10 +1,10 @@
 package com.pulse.manager.components.chat_list.model.chat
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import com.pulse.manager.data.local.db.BaseDao
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ChatItemDAO : BaseDao<ChatItem> {
@@ -22,10 +22,10 @@ interface ChatItemDAO : BaseDao<ChatItem> {
     suspend fun getChat(chatId: Int): ChatItem?
 
     @Query("SELECT * FROM ChatItem WHERE id = :chatId  LIMIT 1")
-    fun getChatLiveData(chatId: Int): LiveData<ChatItem?>
+    fun getChatFlow(chatId: Int): Flow<ChatItem?>
 
     @Query("SELECT * FROM ChatItem WHERE status LIKE '%opened%'")
-    fun getOpenedChatsLiveData(): LiveData<List<ChatItem>?>
+    fun getOpenedChatsFlow(): Flow<List<ChatItem>?>
 
     @Query("SELECT * FROM ChatItem ORDER BY createdAt DESC LIMIT 1")
     suspend fun getLastChat(): ChatItem?

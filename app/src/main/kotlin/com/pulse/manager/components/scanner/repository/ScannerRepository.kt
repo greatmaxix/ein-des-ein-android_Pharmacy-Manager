@@ -8,9 +8,7 @@ class ScannerRepository(
 
     fun isQrCodeDescriptionShown(): Boolean = lds.isQrCodeDescriptionShown()
 
-    fun setDescriptionShown() {
-        lds.setDescriptionShown()
-    }
+    suspend fun setDescriptionShown() = lds.setDescriptionShown()
 
     suspend fun searchBarcode(code: String) = rds.searchBarcode(barCode = code)
         .dataOrThrow()

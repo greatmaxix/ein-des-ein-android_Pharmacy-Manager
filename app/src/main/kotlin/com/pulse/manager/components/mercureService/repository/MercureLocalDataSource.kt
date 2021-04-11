@@ -1,5 +1,7 @@
 package com.pulse.manager.components.mercureService.repository
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.pulse.manager.components.chat.model.message.MessageDAO
 import com.pulse.manager.components.chat.model.message.MessageItem
 import com.pulse.manager.components.chat.model.remoteKeys.MessagesRemoteKeys.Companion.createRemoteKey
@@ -9,11 +11,12 @@ import com.pulse.manager.components.chat_list.model.chat.ChatItemDAO
 import com.pulse.manager.components.chat_list.model.remoteKeys.ChatsRemoteKeys
 import com.pulse.manager.components.chat_list.model.remoteKeys.ChatsRemoteKeysDAO
 import com.pulse.manager.components.signIn.model.UserDAO
-import com.pulse.manager.data.local.SPManager
+import com.pulse.manager.core.extensions.getOnes
+import com.pulse.manager.data.local.Preferences.Chat.FIELD_IS_CHAT_FOREGROUND
 import java.time.LocalDateTime
 
 class MercureLocalDataSource(
-    private val sp: SPManager,
+    private val dataStore: DataStore<Preferences>,
     private val userDao: UserDAO,
     private val messagesRemoteKeysDAO: MessagesRemoteKeysDAO,
     private val messageDAO: MessageDAO,
@@ -22,7 +25,7 @@ class MercureLocalDataSource(
 ) {
 
     val isChatForeground: Boolean
-        get() = sp.isChatForeground ?: false
+        get() = dataStore.getOnes(FIELD_IS_CHAT_FOREGROUND,false)
 
     suspend fun getUserUuid() = userDao.getUser()?.uuid
 

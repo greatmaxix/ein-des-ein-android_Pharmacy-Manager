@@ -8,6 +8,8 @@ import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Point
 import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.provider.Settings
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.util.TypedValue.COMPLEX_UNIT_DIP
@@ -20,8 +22,20 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import com.pulse.manager.BuildConfig
 import timber.log.Timber
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "${BuildConfig.APPLICATION_ID}_prefs")
+
+fun Context.openSettings() {
+    startActivity(Intent().apply {
+        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        data = Uri.fromParts("package", applicationContext.packageName, null)
+    })
+}
 
 @ColorInt
 fun Context.compatColor(@ColorRes colorRes: Int): Int = ContextCompat.getColor(this, colorRes)

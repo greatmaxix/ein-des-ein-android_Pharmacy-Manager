@@ -17,13 +17,11 @@ import org.koin.dsl.module
 @OptIn(KoinApiExtension::class)
 val chatModule = module {
 
-    single { ChatLocalDataSource(get(), get<DBManager>().userDAO, get<DBManager>().messageRemoteKeysDAO, get<DBManager>().messageDAO, get<DBManager>().chatItemDAO) }
+    single { ChatLocalDataSource(get<DBManager>().userDAO, get<DBManager>().messageRemoteKeysDAO, get<DBManager>().messageDAO, get<DBManager>().chatItemDAO) }
     single { ChatRemoteDataSource(get()) }
     single { ChatRepository(get(), get()) }
 
     viewModel { (chat: ChatItem) -> ChatViewModel(androidApplication(), get(), chat) }
-
-    fragment { ChatFragment() }
 
     fragment { SendBottomSheetDialogFragment() }
 }

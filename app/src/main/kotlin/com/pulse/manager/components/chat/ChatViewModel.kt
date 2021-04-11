@@ -2,8 +2,6 @@ package com.pulse.manager.components.chat
 
 import android.content.Context
 import android.net.Uri
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
@@ -17,9 +15,11 @@ import com.pulse.manager.components.search.SearchViewModel
 import com.pulse.manager.core.extensions.getMultipartBody
 import com.pulse.manager.util.Constants
 import com.pulse.manager.util.ImageFileUtil
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.core.component.KoinApiExtension
 import java.io.File
 
+@ExperimentalCoroutinesApi
 @KoinApiExtension
 class ChatViewModel(
     private val context: Context,
@@ -27,34 +27,32 @@ class ChatViewModel(
     private val chat: ChatItem
 ) : SearchViewModel() {
 
-    val chatLiveData = repository.getChatLiveData(chat.id)
-        .distinctUntilChanged()
-    val lastMessageLiveData = repository.getLastMessageLiveData(chat.id)
-        .distinctUntilChanged()
+    val chatFlow = repository.getChatFlow(chat.id)
+    val lastMessageFlow = repository.getLastMessageFlow(chat.id)
 
     @ExperimentalPagingApi
-    val chatMessagesLiveData by lazy {
+    val chatMessagesFlow by lazy {
         Pager(
             config = PagingConfig(Constants.PAGE_SIZE, enablePlaceholders = false),
             remoteMediator = ChatMessagesRemoteMediator(repository, errorHandler, chat),
             pagingSourceFactory = { repository.getMessagePagingSource(chat.id) }
-        ).flow
+        )
+            .flow
             .cachedIn(viewModelScope)
-            .asLiveData()
     }
 
     val tempPhotoFile = File(context.externalCacheDir, Constants.TEMP_PHOTO_FILE_NAME)
 
-    fun sendMessage(message: String) = requestLiveData {
+    fun sendMessage(message: String) = viewModelScope.execute {
         repository.sendMessage(chat.id, message)
     }
 
-    fun sendProduct(product: ProductLite) = requestLiveData {
+    fun sendProduct(product: ProductLite) = viewModelScope.execute {
         saveRecentlyRecommended(product)
         repository.sendProductMessage(chat.id, product.globalProductId)
     }
 
-    fun sendPhoto(uri: Uri) = requestLiveData {
+    fun sendPhoto(uri: Uri) = viewModelScope.execute {
         ImageFileUtil.saveImageByUriToFile(context, tempPhotoFile, uri)
         ImageFileUtil.compressImage(context, tempPhotoFile, uri)
 
@@ -66,7 +64,7 @@ class ChatViewModel(
         }
     }
 
-    fun requestCloseChat() = requestLiveData {
+    fun requestCloseChat() = viewModelScope.execute {
         repository.requestCloseChat(chat.id)
     }
 }

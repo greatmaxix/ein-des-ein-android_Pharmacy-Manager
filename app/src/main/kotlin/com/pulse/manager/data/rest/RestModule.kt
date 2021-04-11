@@ -5,7 +5,6 @@ import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
 import com.pulse.manager.BuildConfig.*
 import com.pulse.manager.components.category.model.Category
-import com.pulse.manager.core.network.FlowCallAdapterFactory
 import com.pulse.manager.data.rest.interceptor.HeaderInterceptor
 import com.pulse.manager.data.rest.serializer.CategoryDeserializer
 import com.pulse.manager.data.rest.serializer.DateTimeSerializer
@@ -32,7 +31,6 @@ val restModule = module {
     single {
         Retrofit.Builder()
             .baseUrl(if (DEVELOPER_SERVER) DEV_BASE_URL else RELEASE_BASE_URL)
-            .addCallAdapterFactory(FlowCallAdapterFactory.create)
             .addConverterFactory(GsonConverterFactory.create(get()))
             .client(get())
             .build()

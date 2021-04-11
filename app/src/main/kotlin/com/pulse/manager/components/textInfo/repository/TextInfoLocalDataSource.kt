@@ -1,5 +1,6 @@
 package com.pulse.manager.components.textInfo.repository
 
-import com.pulse.manager.data.local.SPManager
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 
-class TextInfoLocalDataSource(private val sp: SPManager)
+class TextInfoLocalDataSource(private val dataStore: DataStore<Preferences>)

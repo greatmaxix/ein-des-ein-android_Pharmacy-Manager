@@ -1,24 +1,20 @@
 package com.pulse.manager.components.about
 
-import android.os.Bundle
-import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.pulse.manager.BuildConfig
 import com.pulse.manager.R
 import com.pulse.manager.components.about.AboutAppFragmentDirections.Companion.fromAboutAppToTextInfo
 import com.pulse.manager.components.textInfo.TextInfoFragment
-import com.pulse.manager.core.base.mvvm.BaseMVVMFragment
+import com.pulse.manager.core.base.fragment.BaseToolbarFragment
 import com.pulse.manager.databinding.FragmentAboutAppBinding
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
-class AboutAppFragment(private val viewModel: AboutAppViewModel) : BaseMVVMFragment(R.layout.fragment_about_app) {
+class AboutAppFragment : BaseToolbarFragment<AboutAppViewModel>(R.layout.fragment_about_app, AboutAppViewModel::class) {
 
     private val binding by viewBinding(FragmentAboutAppBinding::bind)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initUI() = with(binding) {
         showBackButton()
 
         // TODO set proper data

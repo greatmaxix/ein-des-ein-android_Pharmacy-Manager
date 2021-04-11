@@ -1,34 +1,34 @@
 package com.pulse.manager.components.search
 
-import androidx.lifecycle.*
+import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.pulse.core.utils.flow.StateEventFlow
 import com.pulse.manager.components.product.BaseProductViewModel
 import com.pulse.manager.components.search.repository.SearchPagingSource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flatMapLatest
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
+@ExperimentalCoroutinesApi
 open class SearchViewModel : BaseProductViewModel() {
 
-    private val searchLiveData by lazy { MutableLiveData("") }
+    private val searchState = StateEventFlow("")
     private var searchCategoryCode: String? = null
 
-    private val _productCountLiveData by lazy { MutableLiveData<Int>() }
-    val productCountLiveData: LiveData<Int> by lazy { _productCountLiveData.distinctUntilChanged() }
+    val productCountState = StateEventFlow(0)
 
-    val pagedSearchLiveData by lazy {
-        searchLiveData.distinctUntilChanged().switchMap {
-            Pager(PagingConfig(PAGE_SIZE, initialLoadSize = INIT_LOAD_SIZE)) { SearchPagingSource(it, searchCategoryCode, _productCountLiveData::postValue) }
+    val pagedSearchFlow by lazy {
+        searchState.flatMapLatest {
+            Pager(PagingConfig(PAGE_SIZE, initialLoadSize = INIT_LOAD_SIZE)) { SearchPagingSource(it, searchCategoryCode, productCountState::postState) }
                 .flow
                 .cachedIn(viewModelScope)
-                .asLiveData()
         }
     }
 
-    fun doSearch(value: String) {
-        searchLiveData.value = value
-    }
+    fun doSearch(value: String) = searchState.postState(value)
 
     fun setSearchCategory(code: String?) {
         searchCategoryCode = code

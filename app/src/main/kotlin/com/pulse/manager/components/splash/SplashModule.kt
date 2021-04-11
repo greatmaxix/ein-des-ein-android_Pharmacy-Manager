@@ -9,7 +9,6 @@ import com.pulse.manager.components.splash.repository.SplashRemoteDataSource
 import com.pulse.manager.components.splash.repository.SplashRepository
 import com.pulse.manager.components.splash.worker.UpdateProfileInfoWorker
 import com.pulse.manager.data.local.DBManager
-import org.koin.androidx.fragment.dsl.fragment
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.qualifier.named
@@ -23,8 +22,6 @@ val splashModule = module {
     single { SplashRemoteDataSource(get()) }
 
     viewModel { SplashViewModel(get(), get()) }
-
-    fragment { SplashFragment(get()) }
 
     factory(named(UPDATE_PROFILE_INFO)) {
         OneTimeWorkRequestBuilder<UpdateProfileInfoWorker>().setConstraints(

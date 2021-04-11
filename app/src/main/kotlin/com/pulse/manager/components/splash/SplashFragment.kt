@@ -1,7 +1,5 @@
 package com.pulse.manager.components.splash
 
-import android.os.Bundle
-import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -14,22 +12,15 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
-class SplashFragment(private val viewModel: SplashViewModel) :
-    BaseMVVMFragment(R.layout.fragment_splash) {
+class SplashFragment : BaseMVVMFragment<SplashViewModel>(R.layout.fragment_splash, SplashViewModel::class) {
 
     private val binding by viewBinding(FragmentSplashBinding::bind)
     private val duration by lazy { resources.getInteger(R.integer.animation_time).toLong() }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initUI()  = with(binding) {
         viewModel.checkAuthentication()
         llLogo.animateVisible(duration)
         setupMainBackground()
-    }
-
-    override fun onBindLiveData() {
-        super.onBindLiveData()
-        observe(viewModel.directionLiveData, navController::navigate)
     }
 
     // App theme have image background, will change after Splash screen to main background color

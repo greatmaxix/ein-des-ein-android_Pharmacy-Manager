@@ -1,17 +1,23 @@
 package com.pulse.manager.components.profile.repository
 
-import com.pulse.manager.components.product.model.RecentlyRecommendedDAO
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.pulse.manager.components.signIn.model.UserDAO
-import com.pulse.manager.data.local.SPManager
+import com.pulse.manager.core.extensions.clearAll
+import com.pulse.manager.core.extensions.getOnes
+import com.pulse.manager.data.local.Preferences.Token.FIELD_REFRESH_TOKEN
 
-class ProfileLocalDataSource(private val sp: SPManager, private val userDAO: UserDAO, private val recentlyRecommendedDAO: RecentlyRecommendedDAO) {
+class ProfileLocalDataSource(
+    private val dataStore: DataStore<Preferences>,
+    private val userDAO: UserDAO
+) {
 
-    val refreshToken = sp.refreshToken
+    val refreshToken = dataStore.getOnes(FIELD_REFRESH_TOKEN, "")
 
     fun getUser() = userDAO.get()
 
-    fun logout() {
-        sp.clear()
-        val user = userDAO.clear()
+    suspend fun logout() {
+        dataStore.clearAll()
+        userDAO.clear()
     }
 }
