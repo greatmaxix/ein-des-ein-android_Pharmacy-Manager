@@ -23,8 +23,8 @@ object Preferences {
         val FIELD_QR_CODE_DESCRIPTION_SHOWN = booleanPreferencesKey(QR_CODE_DESCRIPTION_SHOWN)
     }
 
-    object Email {
-        private const val EMAIL = "email"
-        val FIELD_EMAIL = stringPreferencesKey(EMAIL)
+    object Locale {
+        private const val LOCALE = "locale"
+        val FIELD_LOCALE = stringPreferencesKey(LOCALE)
     }
 }

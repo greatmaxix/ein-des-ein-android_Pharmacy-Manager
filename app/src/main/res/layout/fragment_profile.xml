@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/bottomNavHeight"
-    android:orientation="vertical"
     android:background="@color/lightGrey"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
@@ -19,8 +19,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:paddingBottom="@dimen/_24sdp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/_24sdp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_avatar"
@@ -75,9 +75,8 @@
                 android:id="@+id/item_statistics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginHorizontal="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_30sdp"
-                android:layout_marginEnd="@dimen/_12sdp"
                 app:arrowVisibilityProfile="true"
                 app:iconProfile="@drawable/ic_statistic"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -86,26 +85,36 @@
                 app:titleProfile="@string/statisticTitle" />
 
             <com.pulse.manager.widget.ProfileItemView
+                android:id="@+id/item_language"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                app:iconProfile="@drawable/ic_language"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_statistics"
+                app:titleProfile="@string/language" />
+
+            <com.pulse.manager.widget.ProfileItemView
                 android:id="@+id/item_notifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginHorizontal="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginEnd="@dimen/_12sdp"
                 app:arrowVisibilityProfile="true"
                 app:iconProfile="@drawable/ic_notification"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_statistics"
+                app:layout_constraintTop_toBottomOf="@+id/item_language"
                 app:titleProfile="@string/notificationTitle" />
 
             <com.pulse.manager.widget.ProfileItemView
                 android:id="@+id/item_about_app"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginHorizontal="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_32sdp"
-                android:layout_marginEnd="@dimen/_12sdp"
                 app:arrowVisibilityProfile="true"
                 app:iconProfile="@drawable/ic_exclamation_point"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -117,9 +126,8 @@
                 android:id="@+id/item_help"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginHorizontal="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginEnd="@dimen/_12sdp"
                 app:arrowVisibilityProfile="true"
                 app:iconProfile="@drawable/ic_question"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -131,9 +139,8 @@
                 android:id="@+id/item_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginHorizontal="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_32sdp"
-                android:layout_marginEnd="@dimen/_12sdp"
                 app:arrowVisibilityProfile="false"
                 app:iconProfile="@drawable/ic_logout"
                 app:layout_constraintEnd_toEndOf="parent"

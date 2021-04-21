@@ -1,29 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Pulse-Manager</string>
-
     <string name="common_closeButton">@android:string/cancel</string>
     <string name="common_okButton">@android:string/ok</string>
     <string name="common_cancelButton">Отмена</string>
-
-    <!-- Error -->
     <string name="error_networkErrorMessage">Ошибка соединения</string>
     <string name="error_errorGettingData">Ошибка получения данных</string>
     <string name="error_serverNotResponding">Сервер не отвечает</string>
-
-    <!-- Main -->
     <string name="menuTitleMain">Главная</string>
     <string name="menuTitleCategories">Каталог</string>
     <string name="menuTitleChat">Чат</string>
     <string name="menuTitleProfile">Профиль</string>
-
-    <!-- Sign in -->
     <string name="welcomeBackAuth">С возвращением!</string>
     <string name="pleaseAuth">Что бы войти в систему, введите зарегестрированный адрес электронной почты</string>
     <string name="emailHintAuth">Email</string>
     <string name="signIn">Войти</string>
     <string name="password">Password</string>
-
-    <!-- Chat -->
     <string name="chatMessageFieldHint">Что Вас волнует?</string>
     <string name="readDateHolder">Прочитано %s</string>
     <string name="sendPhotoGallery">Галерея</string>
@@ -35,8 +27,6 @@
     <string name="permissionDialogCancel">Отмена</string>
     <string name="cameraPermissionDenied">Доступ к камере запрещен</string>
     <string name="cameraPermissionNoCameraOnDevice">На устройстве отсутствует камера</string>
-
-    <!-- Profile -->
     <string name="statisticTitle">Статистика</string>
     <string name="notificationTitle">Уведомления</string>
     <string name="aboutAppTitle">О приложении</string>
@@ -55,15 +45,11 @@
     <string name="termsAndConditions">Условия использования данных</string>
     <string name="cashback">Про кешбек</string>
     <string name="versionHolder">Версия %s</string>
-
-    <!-- Home -->
     <string name="startSearching">Начните поиск</string>
     <string name="searchHintHome">Ношпа</string>
     <string name="recentlyRecommended">Вы недавно рекомендовали</string>
     <string name="willBeSoon">Ожидается в разработке</string>
     <string name="newRequests">Новых запросов</string>
-
-    <!-- Code scanner -->
     <string name="qrCodeLabel">Штрих код</string>
     <string name="cameraPermissionRationaleMessage">Разрешение на доступ к камере необходимо для сканирования QR кода</string>
     <string name="grantPermissionButton">Разрешить</string>
@@ -80,7 +66,6 @@
     <string name="from">от </string>
     <string name="price">%1$s ₸</string>
     <string name="manufacture">Производитель, %1$s</string>
-
     <string name="productDescription">Описание :</string>
     <string name="instruction">Инструкция</string>
     <string name="instructionAttention">Перед употреблением, рекомендуем проконсультироваться с врачом и изучить инструкцию.</string>
@@ -90,7 +75,6 @@
     <string name="analoguesAndMain">Аналоги и основное действующее вещетсво</string>
     <string name="productCategory">Категория</string>
     <string name="findInPharmacies">Найти в аптеках</string>
-
     <string name="expectSoonMock">Ожидайте в ближайшее время</string>
     <string name="noGoodsFoundTitle">Ой, кажется такого товара\nнет в нашей базе</string>
     <string name="noGoodsFoundSubtitle">Повторите поиск или попробуйте\nнайти другой препарат</string>
@@ -99,7 +83,6 @@
     <string name="scanDrugsContentDescription">Сканировать товар</string>
     <string name="countProducts">Найдено %d товара(ов)</string>
     <string name="sort">Сортировать</string>
-
     <string name="analyzeTitleContentDescriptionHome">Анализы и диагностика</string>
     <string name="attachment_image">Изображение</string>
     <string name="attachment_product">Продукт</string>
@@ -118,7 +101,12 @@
     <string name="month_title">Месяц</string>
     <string name="recommendation_holder">%d 💊</string>
     <string name="opened_chats_holder">%d 💬</string>
-
     <string name="cancel">Отмена</string>
     <string name="common_permissionDialog_settingsButton">Настройки</string>
+    <string name="language">Язык</string>
+    <string name="language_en">English</string>
+    <string name="language_ru">Русский</string>
+    <string name="language_ua">Українська</string>
+    <string name="language_kz">Қазақ</string>
+    <string name="language_uz">Узбекский</string>
 </resources>

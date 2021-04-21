@@ -1,7 +1,11 @@
 package com.pulse.manager.components.main
 
+import android.content.Context
 import android.content.Intent
+import androidx.annotation.IdRes
+import androidx.annotation.NavigationRes
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.NavDestination
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -12,8 +16,13 @@ import com.pulse.manager.core.extensions.observe
 import com.pulse.manager.core.extensions.setTopRoundCornerBackground
 import com.pulse.manager.core.extensions.translateYDown
 import com.pulse.manager.core.extensions.translateYUp
+import com.pulse.manager.core.locale.ILocaleManager
 import com.pulse.manager.databinding.ActivityMainBinding
 import com.pulse.manager.widget.SelectableBottomNavView
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.map
+import org.koin.android.ext.android.inject
 import org.koin.core.component.KoinApiExtension
 import timber.log.Timber
 
@@ -21,7 +30,7 @@ import timber.log.Timber
 class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, MainViewModel::class) {
 
     private val binding by viewBinding(ActivityMainBinding::bind, R.id.cl_container)
-
+    private val localeManager by inject<ILocaleManager>()
     private val topLevelDestinations = intArrayOf(R.id.nav_home, R.id.nav_categories, R.id.nav_chat_list, R.id.nav_profile) // TODO add destinations
     private val NavDestination.isTopLevelDestination
         get() = topLevelDestinations.contains(id)
@@ -46,6 +55,11 @@ class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, Mai
                 )
             }
         }
+        observe(localeManager.appLocaleFlow
+            .distinctUntilChanged()
+            .drop(1)
+            .map { R.navigation.graph_profile to R.id.nav_language }
+        ) { notifyContextChanged(it.first, it.second) }
     }
 
     private fun checkIntentChatId(intent: Intent?) {
@@ -59,6 +73,8 @@ class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, Mai
         super.onNewIntent(intent)
         checkIntentChatId(intent)
     }
+
+    override fun attachBaseContext(newBase: Context) = super.attachBaseContext(localeManager.createLocalisedContext(newBase))
 
     private fun setupNavigation() = with(binding.bottomNavigation) {
         setTopRoundCornerBackground()
@@ -89,5 +105,13 @@ class MainActivity : BaseMVVMActivity<MainViewModel>(R.layout.activity_main, Mai
                 else -> super.onBackPressed()
             }
         } ?: super.onBackPressed()
+    }
+
+    private fun notifyContextChanged(@NavigationRes navGraphId: Int, @IdRes destId: Int) {
+        NavDeepLinkBuilder(this)
+            .setGraph(navGraphId)
+            .setDestination(destId)
+            .createTaskStackBuilder()
+            .startActivities()
     }
 }

@@ -7,6 +7,7 @@ import com.pulse.manager.R
 import com.pulse.manager.components.mercureService.MercureEventListenerService
 import com.pulse.manager.components.profile.ProfileFragmentDirections.Companion.actionFromProfileToSplash
 import com.pulse.manager.components.profile.ProfileFragmentDirections.Companion.fromProfileToAboutApp
+import com.pulse.manager.components.profile.ProfileFragmentDirections.Companion.fromProfileToLanguage
 import com.pulse.manager.components.profile.ProfileFragmentDirections.Companion.fromProfileToNeedHelp
 import com.pulse.manager.components.profile.ProfileFragmentDirections.Companion.fromProfileToNotifications
 import com.pulse.manager.components.profile.ProfileFragmentDirections.Companion.fromProfileToStatistic
@@ -25,6 +26,7 @@ class ProfileFragment : BaseMVVMFragment<ProfileViewModel>(R.layout.fragment_pro
 
     override fun initUI() = with(binding) {
         itemStatistics.setOnClick { navController.navigate(fromProfileToStatistic()) }
+        itemLanguage.setOnClick { navController.navigate(fromProfileToLanguage()) }
         itemNotifications.setOnClick { navController.navigate(fromProfileToNotifications()) }
         itemAboutApp.setOnClick { navController.navigate(fromProfileToAboutApp()) }
         itemHelp.setOnClick { navController.navigate(fromProfileToNeedHelp()) }

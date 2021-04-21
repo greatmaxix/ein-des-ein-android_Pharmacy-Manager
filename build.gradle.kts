@@ -1,7 +1,7 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
-    id("com.github.ben-manes.versions") version "0.36.0"
+    id("com.github.ben-manes.versions") version "0.38.0"
 }
 
 buildscript {
@@ -17,7 +17,7 @@ buildscript {
         classpath("com.google.gms:google-services:4.3.5")
         classpath("org.koin:koin-gradle-plugin:${Versions.koin}")
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.5.2")
-        classpath("com.google.firebase:firebase-appdistribution-gradle:2.1.0")
+        classpath("com.google.firebase:firebase-appdistribution-gradle:2.1.1")
     }
 }
 
