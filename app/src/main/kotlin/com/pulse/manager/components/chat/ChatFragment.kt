@@ -31,7 +31,10 @@ import com.pulse.manager.components.chat_list.model.chat.ChatItem
 import com.pulse.manager.core.base.fragment.BaseToolbarFragment
 import com.pulse.manager.core.extensions.*
 import com.pulse.manager.databinding.FragmentChatBinding
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.parameter.parametersOf
@@ -179,6 +182,7 @@ class ChatFragment : BaseToolbarFragment<ChatViewModel>(R.layout.fragment_chat, 
     }
 
     private fun showChatEndDialog() {
+        hideKeyboard()
         showAlertRes(getString(R.string.chatEndedMessage)) {
             cancelable = false
             title = R.string.chatEndedTitle
@@ -195,7 +199,6 @@ class ChatFragment : BaseToolbarFragment<ChatViewModel>(R.layout.fragment_chat, 
         scrollerJob?.cancel()
         if (chatAdapter.itemCount != 0) {
             scrollerJob = viewLifecycleOwner.lifecycleScope.launch {
-                delay(500)
                 binding.rvMessages.smoothScrollToPosition(0)
             }
         }

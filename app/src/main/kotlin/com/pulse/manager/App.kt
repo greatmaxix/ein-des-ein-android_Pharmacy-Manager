@@ -9,6 +9,7 @@ import com.pulse.manager.components.category.categoriesModule
 import com.pulse.manager.components.chat.chatModule
 import com.pulse.manager.components.chat_list.chatListModule
 import com.pulse.manager.components.home.homeModule
+import com.pulse.manager.components.language.languageModule
 import com.pulse.manager.components.main.mainModule
 import com.pulse.manager.components.mercureService.mercureModule
 import com.pulse.manager.components.needHelp.needHelpModule
@@ -22,10 +23,12 @@ import com.pulse.manager.components.splash.splashModule
 import com.pulse.manager.components.statistic.statisticModule
 import com.pulse.manager.components.textInfo.textInfoModule
 import com.pulse.manager.core.extensions.dataStore
+import com.pulse.manager.core.locale.LocaleManager
 import com.pulse.manager.data.local.DBManager
 import com.pulse.manager.data.rest.restModule
 import com.pulse.manager.util.CrashlyticsCrashReportingTree
 import com.pulse.manager.util.HyperlinkedDebugTree
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -38,11 +41,12 @@ import org.koin.dsl.module
 import timber.log.Timber
 import java.util.*
 
+@ExperimentalCoroutinesApi
+@KoinExperimentalAPI
+@ExperimentalPagingApi
+@FlowPreview
 class App : Application() {
 
-    @KoinExperimentalAPI
-    @ExperimentalPagingApi
-    @FlowPreview
     override fun onCreate() {
         super.onCreate()
 
@@ -62,9 +66,6 @@ class App : Application() {
         )
     }
 
-    @KoinExperimentalAPI
-    @ExperimentalPagingApi
-    @FlowPreview
     private fun initKoin() {
         startKoin {
             androidLogger(Level.ERROR)
@@ -89,7 +90,8 @@ class App : Application() {
                 productCardModule,
                 categoriesModule,
                 mercureModule,
-                statisticModule
+                statisticModule,
+                languageModule
             )
         }
     }
@@ -98,6 +100,7 @@ class App : Application() {
         single { androidContext().dataStore }
         single { DBManager(androidApplication()) }
         single { WorkManager.getInstance(androidApplication()) }
+        single { LocaleManager.getInstance(get()) }
     }
 
     //TODO Find better solution to get country name from ISO3

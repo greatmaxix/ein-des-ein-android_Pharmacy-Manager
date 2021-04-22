@@ -125,10 +125,10 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar", "*.jar"))))
 
     implementation("com.jakewharton.timber:timber:4.7.1")
-    implementation("com.github.fondesa:kpermissions:3.1.3")
+    implementation("com.github.fondesa:kpermissions:3.2.1")
     implementation("com.budiyev.android:code-scanner:2.1.0")
     // Google
-    implementation(platform("com.google.firebase:firebase-bom:26.4.0"))
+    implementation(platform("com.google.firebase:firebase-bom:27.1.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.android.gms:play-services-maps:17.0.0")
@@ -147,7 +147,7 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.3.2")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     implementation("androidx.paging:paging-runtime-ktx:3.0.0-beta03")
-    implementation("androidx.recyclerview:recyclerview:1.2.0-rc01")
+    implementation("androidx.recyclerview:recyclerview:1.2.0")
     implementation("androidx.datastore:datastore-preferences:1.0.0-alpha08")
     // Koin
     implementation("org.koin:koin-androidx-scope:${Versions.koin}")
@@ -164,7 +164,7 @@ dependencies {
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.1"))
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")
-    implementation("com.github.ihsanbal:LoggingInterceptor:3.1.0") //TODO check is need
+    implementation("com.github.ihsanbal:LoggingInterceptor:3.1.0")
     // Navigation
     implementation("androidx.navigation:navigation-ui-ktx:${Versions.navigation}")
     implementation("androidx.navigation:navigation-runtime-ktx:${Versions.navigation}")
