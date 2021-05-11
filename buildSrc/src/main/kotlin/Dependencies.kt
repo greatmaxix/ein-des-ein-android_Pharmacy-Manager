@@ -1,6 +1,6 @@
 object Versions {
 
-    const val kotlin = "1.4.30"
+    const val kotlin = "1.5.0"
     const val coroutines = "1.4.3"
 
     const val sdp = "1.0.6"
@@ -8,9 +8,9 @@ object Versions {
     const val glide = "4.12.0"
     const val retrofit = "2.9.0"
 
-    const val lifecycle = "2.3.1-rc01"
+    const val lifecycle = "2.3.1"
     const val navigation = "2.3.5"
-    const val room = "2.3.0-rc01"
+    const val room = "2.3.0"
 
     const val oksse = "0.9.0"
     const val notificationsDsl = "0.1.0"

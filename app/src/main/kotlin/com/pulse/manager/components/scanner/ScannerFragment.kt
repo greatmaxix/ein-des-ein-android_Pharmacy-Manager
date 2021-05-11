@@ -50,7 +50,7 @@ class ScannerFragment : BaseProductFragment<ScannerViewModel>(R.layout.fragment_
         super.onBindStates()
         with(lifecycleScope) {
             observe(viewModel.descriptionVisibilityState) { binding.groupCodeScannerInstruction.animateVisibleOrGoneIfNot(it) }
-            observe(viewModel.searchResultState) {
+            observe(viewModel.searchResultEvent.events) {
                 if (it.size == 1) {
                     performProductInfoRequest(it.first().globalProductId)
                 } else {
