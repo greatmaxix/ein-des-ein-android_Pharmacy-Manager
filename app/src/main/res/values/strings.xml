@@ -109,4 +109,5 @@
     <string name="language_ua">Українська</string>
     <string name="language_kz">Қазақ</string>
     <string name="language_uz">Узбекский</string>
+    <string name="tryAgain">Попробовать снова</string>
 </resources>

@@ -19,4 +19,16 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_product_search" />
 
+    <com.pulse.manager.widget.EmptyContainerView
+        android:id="@+id/view_empty_products"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorGlobalWhite"
+        android:visibility="gone"
+        app:buttonTextEmpty="@string/tryAgain"
+        app:isButtonVisible="true"
+        app:layout_constraintTop_toBottomOf="@+id/ll_toolbar"
+        app:subtitleEmpty="@string/noGoodsFoundSubtitle"
+        app:titleEmpty="@string/noGoodsFoundTitle" />
+
 </LinearLayout>

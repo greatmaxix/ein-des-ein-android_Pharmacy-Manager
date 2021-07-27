@@ -6,6 +6,8 @@ import com.pulse.manager.R
 import com.pulse.manager.components.product.BaseProductFragment
 import com.pulse.manager.components.product.ProductViewModel
 import com.pulse.manager.components.scanner.adapter.ProductListScannerAdapter
+import com.pulse.manager.core.extensions.gone
+import com.pulse.manager.core.extensions.visible
 import com.pulse.manager.databinding.FragmentScannerResultBinding
 import org.koin.core.component.KoinApiExtension
 
@@ -19,6 +21,12 @@ class ScannerListFragment : BaseProductFragment<ProductViewModel>(R.layout.fragm
 
     override fun initUI() = with(binding) {
         showBackButton()
+
+        if (args.products.isEmpty()) {
+            viewEmptyProducts.visible()
+            viewEmptyProducts.setButtonAction { navigationBack() }
+            rvProducts.gone()
+        }
         rvProducts.adapter = adapter
     }
 }
