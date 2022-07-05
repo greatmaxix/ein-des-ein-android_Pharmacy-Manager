@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_products"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/_8sdp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_product_search" />
+
+    <com.pulse.manager.widget.EmptyContainerView
+        android:id="@+id/view_empty_products"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorGlobalWhite"
+        android:visibility="gone"
+        app:buttonTextEmpty="@string/tryAgain"
+        app:isButtonVisible="true"
+        app:layout_constraintTop_toBottomOf="@+id/ll_toolbar"
+        app:subtitleEmpty="@string/noGoodsFoundSubtitle"
+        app:titleEmpty="@string/noGoodsFoundTitle" />
+
+</LinearLayout>

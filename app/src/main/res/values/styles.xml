@@ -1,10 +1,104 @@
-<resources>
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorControlHighlight</item>
+
+        <item name="android:windowBackground">@drawable/background_startup</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+
+        <item name="textAppearanceHeadline4">@style/TextAppearance.MaterialComponents.Headline4.H1</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.MaterialComponents.Headline5.H2</item>
+        <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button.Button</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.MaterialComponents.Subtitle1.Subhead18</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.MaterialComponents.Subtitle2.Subhead14</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.MaterialComponents.Body1.Body</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.MaterialComponents.Body2.SmallBody</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.MaterialComponents.Caption.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline.ExtraSmall</item>
     </style>
 
+    <!-- Theme for android layout preview with main background color -->
+    <style name="PreviewTheme" parent="AppTheme" tools:ignore="UnusedResources">
+        <item name="android:windowBackground">@drawable/background_main</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+
+    <style name="ProgressContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:elevation">100dp</item>
+        <item name="android:background">@color/colorProgressBackground</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/background_bottom_sheet_corners</item>
+    </style>
+
+    <style name="AppToolbarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textAppearance">?attr/textAppearanceButton</item>
+        <item name="android:background">@drawable/background_bottom_corners</item>
+    </style>
+
+    <style name="Logo">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@drawable/ic_logo</item>
+    </style>
+
+    <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/_48sdp</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/_20sdp</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/_20sdp</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/_20sdp</item>
+        <item name="boxCornerRadiusTopStart">@dimen/_20sdp</item>
+        <item name="boxStrokeColor">@color/primaryBlue</item>
+    </style>
+
+    <style name="TextInputAuthStyle" parent="TextInputStyle">
+        <item name="android:layout_marginHorizontal">@dimen/_16sdp</item>
+        <item name="android:textAppearance">?attr/textAppearanceBody2</item>
+    </style>
+
+    <style name="AuthSearchView" parent="AppTheme">
+        <item name="colorAccent">@color/colorSearch</item>
+        <item name="android:textColorPrimary">@color/colorSearch</item>
+    </style>
+
+    <style name="NotificationSwitch">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/darkBlue</item>
+        <item name="android:textAppearance">?attr/textAppearanceBody1</item>
+        <item name="android:layout_marginStart">@dimen/_16sdp</item>
+        <item name="android:layout_marginEnd">@dimen/_16sdp</item>
+    </style>
+
+    <style name="TextDirectionLocale" parent="TextAppearance.AppCompat">
+        <item name="android:textDirection">locale</item>
+    </style>
+
+    <style name="Recycler">
+        <item name="android:scrollbars">none</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:splitMotionEvents">false</item>
+    </style>
+
+    <style name="InactiveText">
+        <item name="android:textAppearance">?attr/textAppearanceOverline</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="ActiveText">
+        <item name="android:textAppearance">?attr/textAppearanceOverline</item>
+        <item name="android:textColor">@color/primaryBlue</item>
+    </style>
 </resources>

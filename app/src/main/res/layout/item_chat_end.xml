@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:orientation="horizontal"
+    android:padding="@dimen/_16sdp">
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:gravity="center"
+        android:paddingVertical="@dimen/_7sdp"
+        android:text="@string/endChatMessage"
+        android:textAllCaps="false"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/red"
+        app:backgroundTint="@color/colorGlobalWhite"
+        app:cornerRadius="@dimen/_8sdp"
+        app:elevation="@dimen/_4sdp"
+        app:strokeColor="@color/red"
+        app:strokeWidth="@dimen/_1sdp" />
+
+</LinearLayout>

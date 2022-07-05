@@ -1,0 +1,224 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/graph_main"
+    app:startDestination="@id/nav_splash">
+
+    <include app:graph="@navigation/graph_profile" />
+
+    <action
+        android:id="@+id/globalToHome"
+        app:destination="@id/nav_home"
+        app:enterAnim="@anim/nav_enter_anim"
+        app:exitAnim="@anim/nav_exit_anim"
+        app:popEnterAnim="@anim/nav_enter_pop_anim"
+        app:popExitAnim="@anim/nav_exit_pop_anim"
+        app:popUpTo="@id/graph_main"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/globalToProductCard"
+        app:destination="@id/nav_product"
+        app:enterAnim="@anim/nav_enter_anim"
+        app:exitAnim="@anim/nav_exit_anim"
+        app:popEnterAnim="@anim/nav_enter_pop_anim"
+        app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+    <action
+        android:id="@+id/globalToChat"
+        app:destination="@id/nav_chat"
+        app:enterAnim="@anim/nav_enter_anim"
+        app:exitAnim="@anim/nav_exit_anim"
+        app:popEnterAnim="@anim/nav_enter_pop_anim"
+        app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+    <fragment
+        android:id="@+id/nav_splash"
+        android:name="com.pulse.manager.components.splash.SplashFragment"
+        android:label="Splash"
+        tools:layout="@layout/fragment_splash">
+
+        <action
+            android:id="@+id/fromSplashToSignIn"
+            app:destination="@id/nav_sign_in"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim"
+            app:popUpTo="@id/nav_splash"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_sign_in"
+        android:name="com.pulse.manager.components.signIn.SignInFragment"
+        android:label="Sign In"
+        tools:layout="@layout/fragment_sign_in" />
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.pulse.manager.components.home.HomeFragment"
+        android:label="@null"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/fromHomeToSearch"
+            app:destination="@id/nav_search"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+        <action
+            android:id="@+id/fromHomeToScanner"
+            app:destination="@id/nav_scanner"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+        <action
+            android:id="@+id/fromHomeToChat"
+            app:destination="@id/nav_chat"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_scanner"
+        android:name="com.pulse.manager.components.scanner.ScannerFragment"
+        android:label="@string/qrCodeLabel"
+        tools:layout="@layout/fragment_qr_code_scanner">
+
+        <action
+            android:id="@+id/fromScannerToListResult"
+            app:destination="@id/nav_scanner_list"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_scanner_list"
+        android:name="com.pulse.manager.components.scanner.ScannerListFragment"
+        android:label="@string/qrCodeLabel"
+        tools:layout="@layout/fragment_scanner_result">
+
+        <argument
+            android:name="products"
+            app:argType="com.pulse.manager.components.product.model.ProductLite[]" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_product"
+        android:name="com.pulse.manager.components.product.ProductFragment"
+        android:label="@null"
+        tools:layout="@layout/fragment_product">
+
+        <argument
+            android:name="product"
+            app:argType="com.pulse.manager.components.product.model.Product" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.pulse.manager.components.search.SearchFragment"
+        android:label="@null"
+        tools:layout="@layout/fragment_search">
+
+        <argument
+            android:name="category"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
+        <action
+            android:id="@+id/fromSearchToScanner"
+            app:destination="@id/nav_scanner"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+        <action
+            android:id="@+id/fromSearchToProduct"
+            app:destination="@id/nav_product"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_chat_list"
+        android:name="com.pulse.manager.components.chat_list.ChatListFragment"
+        android:label="Chat List"
+        tools:layout="@layout/fragment_chat_list">
+
+        <action
+            android:id="@+id/fromChatListToChat"
+            app:destination="@id/nav_chat"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_chat"
+        android:name="com.pulse.manager.components.chat.ChatFragment"
+        android:label="Chat"
+        tools:layout="@layout/fragment_chat">
+
+        <argument
+            android:name="chat"
+            app:argType="com.pulse.manager.components.chat_list.model.chat.ChatItem" />
+
+        <action
+            android:id="@+id/fromChatToSendImageBottomSheet"
+            app:destination="@id/nav_send_image"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+    </fragment>
+
+    <dialog
+        android:id="@+id/nav_send_image"
+        android:name="com.pulse.manager.components.chat.dialog.SendBottomSheetDialogFragment"
+        android:label="SendBottomSheet"
+        tools:layout="@layout/dialog_send_photo_bottom_sheet" />
+
+    <fragment
+        android:id="@+id/nav_categories"
+        android:name="com.pulse.manager.components.category.CategoriesFragment"
+        android:label="Категории"
+        tools:layout="@layout/fragment_categories">
+
+        <action
+            android:id="@+id/fromCategoryToSearch"
+            app:destination="@id/nav_search"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+        <argument
+            android:name="category"
+            android:defaultValue="@null"
+            app:argType="com.pulse.manager.components.category.model.Category"
+            app:nullable="true" />
+
+    </fragment>
+</navigation>

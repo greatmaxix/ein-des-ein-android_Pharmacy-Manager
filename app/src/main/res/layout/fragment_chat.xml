@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/greyLight"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipChildren="true">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_messages"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/_12sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:reverseLayout="true" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_message_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorGlobalWhite"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/_12sdp"
+        android:paddingTop="@dimen/_8sdp"
+        android:paddingEnd="@dimen/_20sdp"
+        android:paddingBottom="@dimen/_8sdp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_product_attachment"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/background_default_ripple_selector_circle"
+            android:padding="@dimen/_6sdp"
+            android:src="@drawable/ic_grid"
+            app:tint="@color/selector_attachment_button" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_file_attachment"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/background_default_ripple_selector_circle"
+            android:padding="@dimen/_6sdp"
+            android:src="@drawable/ic_attachment" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_34sdp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_message"
+                style="@style/TextInputStyle"
+                android:layout_height="@dimen/_34sdp"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:gravity="center_vertical"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|center_vertical"
+                    android:hint="@string/chatMessageFieldHint"
+                    android:imeOptions="actionSend"
+                    android:inputType="textCapSentences"
+                    android:maxLines="10"
+                    android:paddingEnd="@dimen/_40sdp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2.SmallBody"
+                    tools:ignore="RtlSymmetry" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_button_send"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:background="@drawable/background_default_ripple_selector_circle"
+                android:padding="@dimen/_6sdp"
+                android:src="@drawable/ic_send"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_product_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_240sdp"
+        android:background="@color/lightGrey"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <com.pulse.manager.widget.AppSearchView
+            android:id="@+id/view_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_16sdp"
+            app:cardCornerRadius="@dimen/_16sdp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_product"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2" />
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,6 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">@color/primaryBlue</color>
+    <color name="colorPrimaryDark">@color/primaryBlue</color>
+    <color name="colorAccent">#29D986</color>
+
+    <color name="transparent">#00FFFFFF</color>
+    <color name="colorMainStart">@color/colorAccent</color>
+
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorGlobalWhite">#ffffffff</color>
+    <color name="colorGlobalWhite50">#80FFFFFF</color>
+    <color name="colorGlobalBlack">#ff000000</color>
+    <color name="colorGlobalDisable">#3f4048</color>
+    <color name="colorGlobalHint">#9b9b9b</color>
+    <color name="colorTransparent">#00000000</color>
+    <color name="mainMenuColor">@color/grey</color>
+
+    <color name="darkBlue">#000A63</color>
+    <color name="primaryBlue">#2566F9</color>
+    <color name="blueLight">#1A2566F9</color>
+    <color name="primaryBlue20">#0D2566F9</color>
+    <color name="searchBackgroundBlue">#809CB7FB</color>
+
+    <color name="primaryBlueLight20">#CCDAFA</color>
+    <color name="greyText">#64738C</color>
+    <color name="grey">#A5B4CC</color>
+    <color name="grey20">#33A5B4CC</color>
+    <color name="greyLight">#F6F8FA</color>
+    <color name="mediumGrey">#DBE1EB</color>
+    <color name="mediumGrey50">#80DBE1EB</color>
+    <color name="lightGrey">#F6F8FA</color>
+    <color name="green">#29D986</color>
+    <color name="purple">#6E7DF1</color>
+    <color name="orange">#FD8A02</color>
+    <color name="red">#FF0000</color>
+    <color name="yellow">#F9F125</color>
+    <color name="colorRippleBlue">#492566F9</color>
+    <color name="colorRippleWhiteSemiTransparent">#50FFFFFF</color>
+    <color name="colorControlHighlight">@color/colorRippleBlue</color>
+    <color name="colorProgressBackground">#a0000000</color>
+    <color name="colorSearchHint">#80333333</color>
+    <color name="colorSearch">@color/darkBlue</color>
+    <color name="profileIconBackground">#EDEFF5</color>
+    <color name="profileIconBackgroundRed">#33FF0000</color>
+    <color name="qrCodeScannerMask">#668492B7</color>
+    <color name="qrCodeDescriptionBackground">#8492B7</color>
+    <color name="colorSearchBackground">#F3F6F9</color>
+    <color name="rippleSearch">#25393b4b</color>
+
 </resources>

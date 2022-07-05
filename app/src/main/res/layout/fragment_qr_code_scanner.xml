@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <com.budiyev.android.codescanner.CodeScannerView
+        android:id="@+id/view_code_scanner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:autoFocusButtonVisible="false"
+        app:flashButtonVisible="false"
+        app:frameAspectRatioHeight="1"
+        app:frameAspectRatioWidth="2.33"
+        app:frameColor="@color/primaryBlue"
+        app:frameCornersSize="35dp"
+        app:frameSize="0.75"
+        app:frameThickness="@dimen/_2sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:maskColor="@color/qrCodeScannerMask" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_2sdp"
+        android:background="@color/primaryBlue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_7sdp"
+        android:background="@drawable/shadow_qr_code_scanner"
+        app:layout_constraintBottom_toTopOf="@+id/fl_scanner_tooltip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/fl_scanner_tooltip"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/qrCodeDescriptionBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.38"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingStart="@dimen/_24sdp"
+            android:paddingEnd="@dimen/_24sdp"
+            android:text="@string/qrCodeDescription"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="@color/colorGlobalWhite" />
+
+    </FrameLayout>
+
+    <View
+        android:id="@+id/view_code_scanner_instruction_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/darkBlue" />
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        android:layoutDirection="locale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/mtv_code_description_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:text="@string/pointToBarcode"
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        android:textColor="@color/colorGlobalWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_code_description_top_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_24sdp"
+        android:contentDescription="@string/cameraIconContentDescription"
+        android:src="@drawable/ic_camera"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mtv_code_description_top" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_curved_top_icon"
+        android:layout_width="@dimen/_54sdp"
+        android:layout_height="@dimen/_54sdp"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:rotation="270"
+        android:scaleY="-1"
+        android:src="@drawable/ic_curved_arrow"
+        app:layout_constraintEnd_toEndOf="@id/iv_code_description_top_icon"
+        app:layout_constraintHorizontal_bias=".1"
+        app:layout_constraintStart_toStartOf="@id/iv_code_description_top_icon"
+        app:layout_constraintTop_toBottomOf="@id/iv_code_description_top_icon" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/mtv_code_description_top"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_48sdp"
+        android:layout_marginEnd="@dimen/_32sdp"
+        android:text="@string/qrCodeDescriptionTop"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/colorGlobalWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_code_description_top_icon"
+        app:layout_constraintTop_toBottomOf="@+id/mtv_code_description_title" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_code_description_bottom_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_24sdp"
+        android:contentDescription="@string/cameraIconContentDescription"
+        android:src="@drawable/ic_barcode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mtv_code_description_bottom" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_curved_bottom_icon"
+        android:layout_width="@dimen/_54sdp"
+        android:layout_height="@dimen/_54sdp"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:src="@drawable/ic_curved_arrow"
+        app:layout_constraintEnd_toEndOf="@id/iv_code_description_bottom_icon"
+        app:layout_constraintHorizontal_bias=".1"
+        app:layout_constraintStart_toStartOf="@id/iv_code_description_bottom_icon"
+        app:layout_constraintTop_toBottomOf="@id/iv_code_description_bottom_icon" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/mtv_code_description_bottom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_64sdp"
+        android:layout_marginEnd="@dimen/_32sdp"
+        android:text="@string/qrCodeDescriptionBottom"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/colorGlobalWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_code_description_bottom_icon"
+        app:layout_constraintTop_toBottomOf="@+id/mtv_code_description_top" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mb_go_to_scan"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_48sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:layout_marginBottom="@dimen/_60sdp"
+        android:backgroundTint="@color/primaryBlue"
+        android:gravity="center"
+        android:text="@string/understandScan"
+        android:textAllCaps="false"
+        android:textAppearance="?attr/textAppearanceButton"
+        android:textColor="@color/colorGlobalWhite"
+        app:cornerRadius="@dimen/_24sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_code_scanner_instruction"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:constraint_referenced_ids="view_code_scanner_instruction_background,mb_go_to_scan,mtv_code_description_title,iv_code_description_top_icon,mtv_code_description_top,iv_code_description_bottom_icon,mtv_code_description_bottom, iv_curved_bottom_icon, iv_curved_top_icon" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

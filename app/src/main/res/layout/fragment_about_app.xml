@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGrey">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="@dimen/_64sdp"
+        android:layout_height="@dimen/_64sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:src="@drawable/ic_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/mtv_version"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:textAppearance="?attr/textAppearanceSubtitle2"
+        android:textColor="@color/darkBlue"
+        app:layout_constraintBottom_toTopOf="@+id/mtv_address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_logo"
+        app:layout_constraintTop_toTopOf="@+id/iv_logo"
+        tools:text="Версия 1.1.24" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/mtv_address"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:layout_marginBottom="@dimen/_4sdp"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textColor="@color/darkBlue"
+        app:layout_constraintBottom_toTopOf="@+id/mtv_site"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_logo"
+        app:layout_constraintTop_toBottomOf="@+id/mtv_version"
+        tools:text="1208742, г. Астана, ул. Бейбитшилик, 33, подьезд 6, этаж 5, помещение 730" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/mtv_site"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:autoLink="web"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textColor="@color/darkBlue"
+        android:textColorLink="@color/primaryBlue"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_logo"
+        app:layout_constraintTop_toBottomOf="@+id/mtv_address"
+        tools:text="kzpharamcy.com" />
+
+    <com.pulse.manager.widget.ProfileItemView
+        android:id="@+id/item_agreement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        app:arrowVisibilityProfile="true"
+        app:iconProfile="@drawable/ic_user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mtv_site"
+        app:titleProfile="@string/userAgreement" />
+
+    <com.pulse.manager.widget.ProfileItemView
+        android:id="@+id/item_privacy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        app:arrowVisibilityProfile="true"
+        app:iconProfile="@drawable/ic_locked"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_agreement"
+        app:titleProfile="@string/privacyPolicy" />
+
+    <com.pulse.manager.widget.ProfileItemView
+        android:id="@+id/item_terms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        app:arrowVisibilityProfile="true"
+        app:iconProfile="@drawable/ic_shield"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_privacy"
+        app:titleProfile="@string/termsAndConditions" />
+
+    <com.pulse.manager.widget.ProfileItemView
+        android:id="@+id/item_cashback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        app:arrowVisibilityProfile="true"
+        app:iconProfile="@drawable/ic_dollar_sign"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_terms"
+        app:titleProfile="@string/cashback" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

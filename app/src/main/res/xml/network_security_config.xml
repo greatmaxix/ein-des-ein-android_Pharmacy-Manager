@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config>
+        <domain includeSubdomains="true">api.pharmacies.release.fmc-dev.com</domain>
+        <trust-anchors>
+            <certificates src="@raw/cert" />
+        </trust-anchors>
+    </domain-config>
+    <domain-config>
+        <domain includeSubdomains="true">api.pharmacies.fmc-dev.com</domain>
+        <trust-anchors>
+            <certificates src="@raw/cert_debug" />
+        </trust-anchors>
+    </domain-config>
+</network-security-config>

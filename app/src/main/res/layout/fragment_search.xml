@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSearchBackground">
+
+    <com.pulse.manager.widget.EmptyContainerView
+        android:id="@+id/ll_drugs_not_found_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorGlobalWhite"
+        android:visibility="gone"
+        app:isButtonVisible="false"
+        app:layout_constraintTop_toBottomOf="@+id/ll_toolbar"
+        app:subtitleEmpty="@string/noGoodsFoundSubtitle"
+        app:titleEmpty="@string/noGoodsFoundTitle" />
+
+    <LinearLayout
+        android:id="@+id/ll_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/background_bottom_corners"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.pulse.manager.widget.AppSearchView
+            android:id="@+id/view_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/_16sdp"
+            app:withBackButton="true" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mcv_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:backgroundTint="@color/green"
+            app:cardCornerRadius="@dimen/_8sdp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="@color/colorRippleWhiteSemiTransparent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/scanDrugsContentDescription"
+                android:padding="@dimen/_6sdp"
+                android:src="@drawable/ic_barcode" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/mtv_search_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:paddingTop="@dimen/_15sdp"
+        android:paddingBottom="@dimen/_15sdp"
+        android:textAppearance="?attr/textAppearanceBody2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_toolbar"
+        tools:text="@string/countProducts" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/mtv_sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:text="@string/sort"
+        android:textAppearance="?attr/textAppearanceBody2"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_sort"
+        app:layout_constraintEnd_toStartOf="@+id/iv_sort"
+        app:layout_constraintTop_toTopOf="@+id/iv_sort" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:src="@drawable/ic_sort"
+        app:layout_constraintBottom_toBottomOf="@+id/mtv_search_result"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mtv_search_result" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_products"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/_8sdp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mtv_search_result"
+        tools:listitem="@layout/item_product_search" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

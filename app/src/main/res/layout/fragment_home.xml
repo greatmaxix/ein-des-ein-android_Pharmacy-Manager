@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/greyLight"
+    android:paddingBottom="@dimen/bottomNavHeight">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_bottom_corners"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background_home_toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mcv_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_12sdp"
+            android:backgroundTint="@color/searchBackgroundBlue"
+            app:cardCornerRadius="@dimen/_16sdp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/mcv_scan"
+            app:layout_constraintEnd_toStartOf="@id/mcv_scan"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/mcv_scan"
+            app:rippleColor="@color/colorRippleWhiteSemiTransparent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_marginBottom="@dimen/_6sdp"
+                android:drawableStart="@drawable/ic_search"
+                android:drawablePadding="@dimen/_8sdp"
+                android:text="@string/seach"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:textColor="@color/colorGlobalWhite" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mcv_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:backgroundTint="@color/green"
+            app:cardCornerRadius="@dimen/_8sdp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:rippleColor="@color/colorRippleWhiteSemiTransparent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/mcv_search"
+                android:layout_alignBottom="@id/mcv_search"
+                android:padding="@dimen/_6sdp"
+                android:src="@drawable/ic_barcode" />
+
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/match_constraint"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/_12sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_toolbar_container">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mcv_chat_requests"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                app:cardBackgroundColor="@color/mediumGrey"
+                app:cardElevation="@dimen/_3sdp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="@dimen/_8sdp"
+                app:layout_constraintEnd_toStartOf="@+id/mcv_soon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|top">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_avatar_4"
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/ic_avatar_placeholder" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_avatar_3"
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_marginEnd="@dimen/_12sdp"
+                        app:layout_constraintEnd_toEndOf="@+id/iv_avatar_4"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/ic_avatar_placeholder" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_avatar_2"
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_marginEnd="@dimen/_12sdp"
+                        app:layout_constraintEnd_toEndOf="@+id/iv_avatar_3"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/ic_avatar_placeholder" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_avatar_1"
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_marginEnd="@dimen/_12sdp"
+                        app:layout_constraintEnd_toEndOf="@+id/iv_avatar_2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/ic_avatar_placeholder" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/mtv_chat_requests_counter"
+                    android:layout_width="wrap_content"
+                    android:text="0"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="@dimen/_24sdp"
+                    android:textAppearance="?attr/textAppearanceHeadline4"
+                    android:textColor="@color/colorGlobalWhite"
+                    tools:text="64" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:text="@string/newRequests"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption.Caption2"
+                    android:textColor="@color/colorGlobalWhite" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mcv_soon"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                app:cardBackgroundColor="@color/mediumGrey"
+                app:cardElevation="@dimen/_3sdp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="@dimen/_8sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/mcv_chat_requests"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/mtv_soon_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="@dimen/_24sdp"
+                    android:textAppearance="?attr/textAppearanceHeadline4"
+                    android:textColor="@color/colorGlobalWhite"
+                    android:textSize="@dimen/_28ssp"
+                    tools:text="64" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:text="@string/willBeSoon"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption.Caption2"
+                    android:textColor="@color/colorGlobalWhite" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_chat_list"
+                style="@style/Recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mcv_soon" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mtv_recommended"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:text="@string/recentlyRecommended"
+                android:textAppearance="?attr/textAppearanceButton"
+                android:textColor="@color/darkBlue"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_chat_list" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_products"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/_12sdp"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mtv_recommended"
+                app:spanCount="2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

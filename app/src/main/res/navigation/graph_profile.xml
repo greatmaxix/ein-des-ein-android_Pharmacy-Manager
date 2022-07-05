@@ -1,0 +1,119 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/graph_profile"
+    app:startDestination="@+id/nav_profile"
+    tools:ignore="UnusedNavigation">
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.pulse.manager.components.profile.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile">
+
+        <action
+            android:id="@+id/fromProfileToNotifications"
+            app:destination="@id/nav_notifications"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+        <action
+            android:id="@+id/fromProfileToAboutApp"
+            app:destination="@id/nav_about_app"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+        <action
+            android:id="@+id/fromProfileToNeedHelp"
+            app:destination="@id/nav_need_help"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+        <action
+            android:id="@+id/actionFromProfileToSplash"
+            app:destination="@id/nav_splash"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim"
+            app:popUpTo="@id/graph_main"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/fromProfileToStatistic"
+            app:destination="@id/nav_statistic"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+        <action
+            android:id="@+id/fromProfileToLanguage"
+            app:destination="@id/nav_language"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_notifications"
+        android:name="com.pulse.manager.components.notifications.NotificationsFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/nav_about_app"
+        android:name="com.pulse.manager.components.about.AboutAppFragment"
+        android:label="About App"
+        tools:layout="@layout/fragment_about_app">
+
+        <action
+            android:id="@+id/fromAboutAppToTextInfo"
+            app:destination="@id/nav_text_info"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_enter_pop_anim"
+            app:popExitAnim="@anim/nav_exit_pop_anim" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_language"
+        android:name="com.pulse.manager.components.language.LanguageFragment"
+        android:label="@string/language"
+        tools:layout="@layout/fragment_language" />
+
+    <fragment
+        android:id="@+id/nav_text_info"
+        android:name="com.pulse.manager.components.textInfo.TextInfoFragment"
+        android:label="Text Info"
+        tools:layout="@layout/fragment_text_info">
+
+        <argument
+            android:name="infoType"
+            app:argType="integer" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_need_help"
+        android:name="com.pulse.manager.components.needHelp.NeedHelpFragment"
+        android:label="@null"
+        tools:layout="@layout/fragment_need_help" />
+
+    <fragment
+        android:id="@+id/nav_statistic"
+        android:name="com.pulse.manager.components.statistic.StatisticFragment"
+        android:label="@string/statisticTitle"
+        tools:layout="@layout/fragment_statistic" />
+
+</navigation>
