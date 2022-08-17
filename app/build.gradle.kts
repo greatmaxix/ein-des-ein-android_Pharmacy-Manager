@@ -25,7 +25,8 @@ android {
         consumerProguardFile(File(buildDir, NAVARGS_PROGUARD_RULES_PATH))
 
         with(DefaultConfig) {
-            val buildCode = "git rev-list --count remotes/origin/master remotes/origin/develop".execute.toInt()
+            //val buildCode = "git rev-list --count remotes/origin/master remotes/origin/develop".execute.toInt()
+            val buildCode = 2022081700
             minSdkVersion(minSdk)
             targetSdkVersion(targetSdk)
             versionCode(buildCode)
